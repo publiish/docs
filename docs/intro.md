@@ -2,15 +2,17 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Tutorial
 
 Let's discover **Publiish - PantherStorage IPFS Network in less than 5 minutes**.
 
-## Getting Started
+## Introduction
 
-Get started by **creating a new site**.
+In a world where data sovereignty matters, PantherStorage IPFS Network delivers a trustless, decentralized, and censorship-resistant storage solution, ensuring your data remains accessible without reliance on centralized entities.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Unlike traditional cloud providers, PantherStorage leverages IPFS (InterPlanetary File System) to distribute and store data across a resilient peer-to-peer network. Whether you're a developer, creator, or enterprise, PantherStorage ensures your files are easily retrievable and globally available.
+
+Join the next generation of storage, where your data is truly yours.
 
 ### What you'll need
 
