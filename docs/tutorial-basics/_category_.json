@@ -1,8 +1,8 @@
 {
-  "label": "Tutorial - Basics",
+  "label": "Publiish API",
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "5 minutes to learn the most important publiish concepts."
+    "description": "Takes 5 minutes to learn the Publiish concepts."
   }
 }

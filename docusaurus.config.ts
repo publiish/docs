@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Publiish docs',
-  tagline: 'PantherStorage IPFS Network',
+  title: 'PantherStorage IPFS Network',
+  tagline: 'Publiish offers IPFS pinning, dedicated gateways, and IPNS to power seamless decentralized applications.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here

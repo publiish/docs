@@ -2,54 +2,144 @@
 sidebar_position: 1
 ---
 
-# Manage Docs Versions
+# Docker file for Private IPFS Cluster
 
-Docusaurus can manage multiple versions of your docs.
-
-## Create a docs version
-
-Release a version 1.0 of your project:
 
 ```bash
-npm run docusaurus docs:version 1.0
+version: '3.4'
+
+# This is an example docker-compose file to quickly test an IPFS Cluster
+# with multiple peers on a contained environment.
+
+# It runs 3 cluster peers (cluster0, cluster1...) attached to go-ipfs daemons
+# (ipfs0, ipfs1...) using the CRDT consensus component. Cluster peers
+# autodiscover themselves using mDNS on the docker internal network.
+#
+# To interact with the cluster use "ipfs-cluster-ctl" (the cluster0 API port is
+# exposed to the locahost. You can also "docker exec -ti cluster0 sh" and run
+# it from the container. "ipfs-cluster-ctl peers ls" should show all 3 peers a few
+# seconds after start.
+#
+# For persistance, a "data" folder is created and used to store configurations
+# and states. This can be used to edit configurations in subsequent runs. It looks
+# as follows:
+#
+# data/
+# |-- cluster0
+# |-- cluster1
+# |-- ...
+# |-- ipfs0
+# |-- ipfs1
+# |-- ...
+#
+# During the first start, default configurations are created for all peers.
+
+services:
+
+  # cluster peer0
+
+  ipfs0:
+    container_name: ipfs0
+    image: ipfs/kubo:v0.15.0
+    ports:
+      - "4001:4001" # ipfs swarm - expose if needed/wanted
+      - "5001:5001" # ipfs api - expose if needed/wanted
+      - "8080:8080" # ipfs gateway - expose if needed/wanted
+    environment:
+      SWARM_KEY:
+
+    volumes:
+      - ./data/ipfs0:/data/ipfs
+
+  cluster0:
+    container_name: cluster0
+    image: ipfs/ipfs-cluster:latest
+    depends_on:
+      - ipfs0
+    environment:
+      CLUSTER_PEERNAME: cluster0
+      CLUSTER_SECRET: ${CLUSTER_SECRET} # From shell variable if set
+      CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs0/tcp/5001
+      CLUSTER_CRDT_TRUSTEDPEERS: '*' # Trust all peers in Cluster
+      CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9094 # Expose API
+      CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+    ports:
+          # Open API port (allows ipfs-cluster-ctl usage on host)
+          - "9094:9094"
+          # The cluster swarm port would need  to be exposed if this container
+          # was to connect to cluster peers on other hosts.
+          # But this is just a testing cluster.
+          # - "9096:9096" # Cluster IPFS Proxy endpoint
+    volumes:
+      - ./data/cluster0:/data/ipfs-cluster
+
+
+  # cluster peer1
+
+  ipfs1:
+    container_name: ipfs1
+    image: ipfs/kubo:v0.15.0
+    volumes:
+      - ./data/ipfs1:/data/ipfs
+    environment:
+      SWARM_KEY:
+
+  cluster1:
+    container_name: cluster1
+    image: ipfs/ipfs-cluster:latest
+    depends_on:
+      - ipfs1
+    environment:
+      CLUSTER_PEERNAME: cluster1
+      CLUSTER_SECRET: ${CLUSTER_SECRET}
+      CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs1/tcp/5001
+      CLUSTER_CRDT_TRUSTEDPEERS: '*'
+      CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+    volumes:
+      - ./data/cluster1:/data/ipfs-cluster
+
+
+  # cluster peer2
+
+  ipfs2:
+    container_name: ipfs2
+    image: ipfs/kubo:v0.15.0
+    volumes:
+      - ./data/ipfs2:/data/ipfs
+    environment:
+      SWARM_KEY:
+
+  cluster2:
+    container_name: cluster2
+    image: ipfs/ipfs-cluster:latest
+    depends_on:
+      - ipfs2
+    environment:
+      CLUSTER_PEERNAME: cluster2
+      CLUSTER_SECRET: ${CLUSTER_SECRET}
+      CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs2/tcp/5001
+      CLUSTER_CRDT_TRUSTEDPEERS: '*'
+      CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+    volumes:
+      - ./data/cluster2:/data/ipfs-cluster
+
+  db:
+    container_name: database
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: publiish_local
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:
 ```
-
-The `docs` folder is copied into `versioned_docs/version-1.0` and `versions.json` is created.
-
-Your docs now have 2 versions:
-
-- `1.0` at `http://localhost:3000/docs/` for the version 1.0 docs
-- `current` at `http://localhost:3000/docs/next/` for the **upcoming, unreleased docs**
-
-## Add a Version Dropdown
-
-To navigate seamlessly across versions, add a version dropdown.
-
-Modify the `docusaurus.config.js` file:
-
-```js title="docusaurus.config.js"
-export default {
-  themeConfig: {
-    navbar: {
-      items: [
-        // highlight-start
-        {
-          type: 'docsVersionDropdown',
-        },
-        // highlight-end
-      ],
-    },
-  },
-};
-```
-
-The docs version dropdown appears in your navbar:
-
-![Docs Version Dropdown](./img/docsVersionDropdown.png)
-
-## Update an existing version
-
-It is possible to edit versioned docs in their respective folder:
-
-- `versioned_docs/version-1.0/hello.md` updates `http://localhost:3000/docs/hello`
-- `docs/hello.md` updates `http://localhost:3000/docs/next/hello`
