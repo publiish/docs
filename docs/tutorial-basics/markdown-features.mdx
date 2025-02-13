@@ -2,151 +2,89 @@
 sidebar_position: 4
 ---
 
-# Markdown Features
+# Publiish IPNS
 
-Docusaurus supports **[Markdown](https://daringfireball.net/projects/markdown/syntax)** and a few **additional features**.
+# IPFS/IPNS NestJS API
 
-## Front Matter
+## Overview
+This API provides endpoints for managing IPNS keys, publishing IPNS records, and resolving IPNS names using IPFS. The implementation leverages NestJS, IPFS HTTP client, and Helia.
 
-Markdown documents have metadata at the top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
+## Endpoints
 
-```text title="my-doc.md"
-// highlight-start
----
-id: my-doc-id
-title: My document title
-description: My document description
-slug: /my-custom-url
----
-// highlight-end
+### 1. IPNS Key Management
 
-## Markdown heading
+#### Create a Key
+**Endpoint:** `POST /ipns/keys`
 
-Markdown text with [links](./hello.md)
-```
+**Description:**
+Creates a new IPNS key using Ed25519.
 
-## Links
+**Authentication:** Requires API key guard.
 
-Regular Markdown links are supported, using url paths or relative file paths.
-
-```md
-Let's see how to [Create a page](/create-a-page).
-```
-
-```md
-Let's see how to [Create a page](./create-a-page.md).
-```
-
-**Result:** Let's see how to [Create a page](./create-a-page.md).
-
-## Images
-
-Regular Markdown images are supported.
-
-You can use absolute paths to reference images in the static directory (`static/img/docusaurus.png`):
-
-```md
-![Docusaurus logo](/img/docusaurus.png)
-```
-
-![Docusaurus logo](/img/docusaurus.png)
-
-You can reference images relative to the current file as well. This is particularly useful to colocate images close to the Markdown files using them:
-
-```md
-![Docusaurus logo](./img/docusaurus.png)
-```
-
-## Code Blocks
-
-Markdown code blocks are supported with Syntax highlighting.
-
-````md
-```jsx title="src/components/HelloDocusaurus.js"
-function HelloDocusaurus() {
-  return <h1>Hello, Docusaurus!</h1>;
-}
-```
-````
-
-```jsx title="src/components/HelloDocusaurus.js"
-function HelloDocusaurus() {
-  return <h1>Hello, Docusaurus!</h1>;
+**Request Body:**
+```json
+{
+  "keyName": "your-key-name"
 }
 ```
 
-## Admonitions
-
-Docusaurus has a special syntax to create admonitions and callouts:
-
-```md
-:::tip My tip
-
-Use this awesome feature option
-
-:::
-
-:::danger Take care
-
-This action is dangerous
-
-:::
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "data": {
+    "name": "your-key-name",
+    "id": "Qm..."
+  }
+}
 ```
 
-:::tip My tip
+### 2. IPNS Publishing
 
-Use this awesome feature option
+#### Publish a CID to IPNS
+**Endpoint:** `POST /ipns/publish/:keyName/:cid`
 
-:::
+**Description:**
+Publishes a CID under a specific IPNS key.
 
-:::danger Take care
+**Authentication:** Requires API key guard.
 
-This action is dangerous
+**Parameters:**
+- `keyName` (string): The name of the IPNS key.
+- `cid` (string): The CID of the IPFS content to publish.
 
-:::
-
-## MDX and React Components
-
-[MDX](https://mdxjs.com/) can make your documentation more **interactive** and allows using any **React components inside Markdown**:
-
-```jsx
-export const Highlight = ({children, color}) => (
-  <span
-    style={{
-      backgroundColor: color,
-      borderRadius: '20px',
-      color: '#fff',
-      padding: '10px',
-      cursor: 'pointer',
-    }}
-    onClick={() => {
-      alert(`You clicked the color ${color} with label ${children}`)
-    }}>
-    {children}
-  </span>
-);
-
-This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
-
-This is <Highlight color="#1877F2">Facebook blue</Highlight> !
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "data": {
+    "sequence": "1",
+    "path": "/ipfs/Qm...",
+    "cid": "Qm..."
+  }
+}
 ```
 
-export const Highlight = ({children, color}) => (
-  <span
-    style={{
-      backgroundColor: color,
-      borderRadius: '20px',
-      color: '#fff',
-      padding: '10px',
-      cursor: 'pointer',
-    }}
-    onClick={() => {
-      alert(`You clicked the color ${color} with label ${children}`);
-    }}>
-    {children}
-  </span>
-);
+### 3. IPNS Resolution
 
-This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
+#### Resolve an IPNS Name
+**Endpoint:** `GET /ipns/:ipnsname`
 
-This is <Highlight color="#1877F2">Facebook blue</Highlight> !
+**Description:**
+Resolves an IPNS name to its latest CID.
+
+**Parameters:**
+- `ipnsname` (string): The IPNS name to resolve.
+
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "data": {
+    "path": "/ipfs/Qm..."
+  }
+}
+```

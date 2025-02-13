@@ -2,42 +2,96 @@
 sidebar_position: 1
 ---
 
-# Create a Page
+# File Storage API v1
 
-Add **Markdown or React** files to `src/pages` to create a **standalone page**:
+## 1. Upload File
+**Endpoint:** `POST /file_add_update`
 
-- `src/pages/index.js` → `localhost:3000/`
-- `src/pages/foo.md` → `localhost:3000/foo`
-- `src/pages/foo/bar.js` → `localhost:3000/foo/bar`
+**Description:** Uploads a file to the IPFS cluster and stores its metadata in the database.
 
-## Create your first React Page
+**Request Parameters (Query):**
+- `brand_id` (number, required): The brand identifier.
+- `auth_user_id` (number, required): The authenticated user identifier.
 
-Create a file at `src/pages/my-react-page.js`:
+**Headers:**
+- `Content-Type: multipart/form-data`
 
-```jsx title="src/pages/my-react-page.js"
-import React from 'react';
-import Layout from '@theme/Layout';
+**Request Body:**
+- A file uploaded as `multipart/form-data`.
 
-export default function MyReactPage() {
-  return (
-    <Layout>
-      <h1>My React page</h1>
-      <p>This is a React page</p>
-    </Layout>
-  );
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "data": [
+    {
+      "cid": "<file_cid>",
+      "filename": "<file_name>"
+    }
+  ]
 }
 ```
 
-A new page is now available at [http://localhost:3000/my-react-page](http://localhost:3000/my-react-page).
+**Errors:**
+- `403 FORBIDDEN`: If `brand_id` does not match the logged-in user.
+- `500 INTERNAL SERVER ERROR`: If the file upload fails.
 
-## Create your first Markdown Page
+---
 
-Create a file at `src/pages/my-markdown-page.md`:
+## 2. Delete File
+**Endpoint:** `DELETE /file_delete`
 
-```mdx title="src/pages/my-markdown-page.md"
-# My Markdown page
+**Description:** Marks a file as deleted in the database.
 
-This is a Markdown page
+**Request Parameters (Query):**
+- `brand_id` (number, required)
+- `auth_user_id` (number, required)
+- `cid` (string, required): The content identifier of the file in IPFS.
+
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "status_code": 200,
+  "data": "File has been deleted successfully"
+}
 ```
 
-A new page is now available at [http://localhost:3000/my-markdown-page](http://localhost:3000/my-markdown-page).
+**Errors:**
+- `404 NOT FOUND`: If the file does not exist.
+- `500 INTERNAL SERVER ERROR`: If deletion fails.
+
+---
+
+## 3. Get File Publish Link
+**Endpoint:** `GET /publish-link/:cid`
+
+**Description:** Generates a link to access the file on the IPFS network.
+
+**Request Parameters:**
+- `cid` (string, required): The content identifier of the file.
+- `filename` (string, optional): The name of the file.
+
+**Response:**
+```json
+{
+  "status": true,
+  "link": "{IPFS_URL}/ipfs/<cid>?filename=<filename>"
+}
+```
+
+---
+
+## 4. Download File
+**Endpoint:** `GET /download/:cid`
+
+**Description:** Provides a direct download link for the file from the IPFS network.
+
+**Request Parameters:**
+- `cid` (string, required)
+- `filename` (string, optional)
+
+**Response:**
+Redirects to `{IPFS_URL}/ipfs/<cid>?filename=<filename>&download=true`
