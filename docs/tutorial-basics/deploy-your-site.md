@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Publiish UCAN
 
-This project defines a specification for delegated authorization of decentralized storage services using User Controlled Authorization Networks [UCAN].
+This package defines a specification for delegated authorization of decentralized storage services using User Controlled Authorization Networks [UCAN].
 
 publiish.ucan was designed to be used with [Node Publiish Storage](https://publiish.io/), which provides storage services backed by the [Filecoin](https://filecoin.io) network, with content retrieval via the [InterPlanetary File System (IPFS)](https://ipfs.io).
 
@@ -493,7 +493,6 @@ Send a `GET` request to `https://node.publiish/api/did`, which should return a J
 
 The `value` field contains the service DID, which is used when [creating request tokens](#creating-a-request-token-to-upload-content).
 
-[spec]: ./spec.md
 [ucan-intro]: https://ucan.xyz/
 [ucan-data-structure]: https://ucan.xyz/#the-ucan-data-structure
 [did-overview]: https://www.w3.org/TR/did-core/
