@@ -6,10 +6,10 @@ sidebar_position: 3
 
 Authentication methods may change in the near future.
 
-## Overview
+### Overview
 This document outlines the API endpoints and database schema related to managing brand permissions in the system.
 
-## Database Schema
+### Database Schema
 The `Brand` entity represents organizations registered in the system. The permissions determine what actions a brand can perform.
 
 ### **Brand Entity**
@@ -47,7 +47,7 @@ export class Brand {
 }
 ```
 
-## Authentication
+### Authentication
 
 ### **1. Sign Up**
 **Endpoint:**
@@ -177,10 +177,10 @@ GET /brands/stats/:id
 
 ---
 
-## Enhancements
+### Enhancements
 Add more granular permissions. Implement role-based access control (RBAC) for managing permissions at a higher level.
 
-## Error Message Reference
+### Error Message Reference
 
 | Error Code | Message |
 |------------|----------------------------------|
