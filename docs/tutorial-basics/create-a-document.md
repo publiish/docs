@@ -2,148 +2,93 @@
 sidebar_position: 2
 ---
 
-# Error Codes
 
-The `ErrorCode` enum defines various error codes used to standardize error handling.
+# Brand Operations
 
-#### Enum Values:
+This module handles brand related operations, including profile management, DID registration, and statistics retrieval.
 
-- `USER_ALREADY_EXIST`: User with that email already exists.
-- `USERNAME_TAKEN`: Username already taken.
-- `INVALID_PAYLOAD`: Invalid payload.
-- `EMAIL_ALREADY_VERIFIED`: Email has already been verified.
-- `UNKNOWN`: Unknown error.
-- `FAILURE`: Generic failure error.
-- `USER_DOES_NOT_EXIST`: User with this email does not exist.
-- `USER_NOT_FOUND`: User could not be found.
-- `INCORRECT_CREDENTIALS`: Incorrect credentials provided.
-- `INVALID_PASSWORD`: Password must contain at least one lowercase, uppercase, number, and special character.
-- `INVALID_USERNAME_LENGTH`: Username must be between 3 and 50 characters long.
-- `INVALID_PASSWORD_RESET_CODE`: Invalid password reset code.
-- `NOT_AUTHORIZED`: Not authorized.
-- `USERNAME_NOT_SET`: Username not set.
-- `APP_NOT_FOUND`: Application not found.
-- `AUTHENTICATION_NOT_FOUND`: Authentication not found.
-- `FILE_NOT_FOUND`: File could not be found.
-- `FILE_NOT_UPLOADED`: File not uploaded due to an error.
-- `FILE_NOT_DELETED`: File not deleted due to an error.
-- `BRAND_ALREADY_EXISTS`: Brand already exists.
-- `BRAND_DOES_NOT_EXIST`: Brand does not exist.
-- `BRAND_OR_EMAIL_ALREADY_EXISTS`: Brand or email already exists.
-- `ACCESS_TOKEN_DENIED`: Access token denied.
-- `BRAND_ID_DOES_NOT_MATCH`: Brand ID does not match.
-- `IPNS_NOT_PUBLISHED`: IPNS not published due to an error.
+### 1. Brand Entity
 
----
+The Brand entity represents the structure of a brand in the database. It includes fields such as brand name, URL, email, permissions, and relationships with other entities.
 
-### Error Messages
+#### Fields:
+- `id`: Unique identifier for the brand.
+- `magic_link_id`: The ID used for Magic Link authentication.
+- `did`: The Decentralized Identifier (DID) associated with the brand.
+- `public_address`: The public address associated with the brand.
+- `brand_name`: The name of the brand.
+- `brand_url`: The URL of the brand.
+- `dao_id`: The ID of the DAO associated with the brand.
+- ``email`: The email address of the brand.
+- `password`: The hashed password for the brand.
+- `sub_domain`: The subdomain associated with the brand.
+- `write_permission`: Indicates if the brand has write permissions.
+- `delete_permission`: Indicates if the brand has delete permissions.
+- `apikeys`: Relationship with the Apikey entity.
 
-The `ERROR_MESSAGE` object maps error codes to user friendly error messages.
+#### Methods:
+- `toJSON()`: Converts the entity instance to a plain object, excluding sensitive data.
 
-#### Example Mapping:
+### 2. Brand Service
 
-```typescript
-export const ERROR_MESSAGE = {
-  [ErrorCode.USER_ALREADY_EXIST]: {
-    summary: 'User with that email already exists',
-    code: ErrorCode.USER_ALREADY_EXIST,
-  },
-  [ErrorCode.USERNAME_TAKEN]: {
-    summary: 'Username already taken',
-    code: ErrorCode.USERNAME_TAKEN,
-  },
-  [ErrorCode.INVALID_PAYLOAD]: {
-    summary: 'Invalid payload',
-    code: ErrorCode.INVALID_PAYLOAD,
-  },
-  [ErrorCode.UNKNOWN]: {
-    summary: 'Unknown error',
-    code: ErrorCode.UNKNOWN,
-  },
-  [ErrorCode.FAILURE]: {
-    summary: 'Something went wrong',
-    code: ErrorCode.FAILURE,
-  },
-  [ErrorCode.USER_DOES_NOT_EXIST]: {
-    summary: 'User with this email does not exist',
-    code: ErrorCode.USER_DOES_NOT_EXIST,
-  },
-  [ErrorCode.USER_NOT_FOUND]: {
-    summary: 'User could not be found',
-    code: ErrorCode.USER_NOT_FOUND,
-  },
-  [ErrorCode.INCORRECT_CREDENTIALS]: {
-    summary: 'Incorrect credentials provided',
-    code: ErrorCode.INCORRECT_CREDENTIALS,
-  },
-  [ErrorCode.INVALID_PASSWORD]: {
-    summary:
-      'Password must contain at least one lowercase, uppercase, number and special character',
-    code: ErrorCode.INVALID_PASSWORD,
-  },
-  [ErrorCode.INVALID_USERNAME_LENGTH]: {
-    summary: 'Username must be between 3 and 50 characters long',
-    code: ErrorCode.INVALID_USERNAME_LENGTH,
-  },
-  [ErrorCode.NOT_AUTHORIZED]: {
-    summary: 'Not authorized.',
-    code: ErrorCode.NOT_AUTHORIZED,
-  },
-  [ErrorCode.AUTHENTICATION_NOT_FOUND]: {
-    summary: 'Authentication not found',
-    code: ErrorCode.AUTHENTICATION_NOT_FOUND,
-  },
-  [ErrorCode.FILE_NOT_FOUND]: {
-    summary: 'File could not be found',
-    code: ErrorCode.FILE_NOT_FOUND,
-  },
-  [ErrorCode.FILE_NOT_UPLOADED]: {
-    summary: 'File not uploaded, something went wrong',
-    code: ErrorCode.FILE_NOT_UPLOADED,
-  },
-  [ErrorCode.FILE_NOT_DELETED]: {
-    summary: 'File not deleted, something went wrong',
-    code: ErrorCode.FILE_NOT_DELETED,
-  },
-  [ErrorCode.IPNS_NOT_PUBLISHED]: {
-    summary: 'IPNS not published, something went wrong',
-    code: ErrorCode.IPNS_NOT_PUBLISHED,
-  },
-  [ErrorCode.BRAND_ALREADY_EXISTS]: {
-    summary: 'Brand already exists',
-    code: ErrorCode.BRAND_ALREADY_EXISTS,
-  },
-  [ErrorCode.BRAND_DOES_NOT_EXIST]: {
-    summary: 'Brand does not exist',
-    code: ErrorCode.BRAND_DOES_NOT_EXIST,
-  },
-  [ErrorCode.BRAND_OR_EMAIL_ALREADY_EXISTS]: {
-    summary: 'Brand or email already exists',
-    code: ErrorCode.BRAND_OR_EMAIL_ALREADY_EXISTS,
-  },
-  [ErrorCode.ACCESS_TOKEN_DENIED]: {
-    summary: 'Access token denied',
-    code: ErrorCode.ACCESS_TOKEN_DENIED,
-  },
-  [ErrorCode.BRAND_ID_DOES_NOT_MATCH]: {
-    summary: 'Brand ID does not match',
-    code: ErrorCode.BRAND_ID_DOES_NOT_MATCH,
-  },
-};
-```
+The BrandService handles the business logic for brand related operations, including profile updates, DID registration, and statistics retrieval.
 
-#### Usage Example:
+#### Methods:
+- **getStats(id)**: Retrieves statistics for a brand.
+  - **Parameters**:
+    - `id`: The ID of the brand.
+  - **Returns**: Statistics including the number of files uploaded and total bytes uploaded.
 
-```typescript
-import { ErrorCode, ERROR_MESSAGE } from './errorCodes';
+- **updateBrandProfile(args)**: Updates the profile of a brand.
+  - **Parameters**:
+    - `id`: The ID of the brand.
+    - `brandName`: The new name of the brand.
+    - `brandUrl`: The new URL of the brand.
+    - `subDomain`: The new subdomain of the brand.
+    - `daoId`: The new DAO ID associated with the brand.
+  - **Returns**: A success message.
 
-function throwErrorExample(error: ErrorCode) {
-  throw new Error(ERROR_MESSAGE[error].summary);
-}
+- **registerDID(args)**: Registers a DID for a brand.
+  - **Parameters**:
+    - `id`: The ID of the brand.
+    - `did`: The DID to register.
+  - **Returns**: A success message.
 
-try {
-  throwErrorExample(ErrorCode.USER_ALREADY_EXIST);
-} catch (error) {
-  console.error(error.message); 
-}
-```
+### 3. Brand Controller
+
+The BrandController exposes endpoints for brand related operations.
+
+#### Endpoints:
+- **GET /brands/stats/:id**: Retrieves statistics for a brand.
+  - **Parameters**:
+    - `id`: The ID of the brand.
+  - **Returns**: Statistics including the number of files uploaded and total bytes uploaded.
+
+- **POST /brands**: Updates the profile of a brand.
+  - **Body**: `ProfileDto` containing `brand_name`, `brand_url`, `dao_id`, and `sub_domain`.
+  - **Returns**: A success message.
+
+- **POST /brands/did**: Registers a DID for a brand.
+  - **Body**: `DIDDto` containing `did`.
+  - **Returns**: A success message.
+
+#### Imports:
+- `TypeOrmModule.forFeature([Brand, File])`: Registers the Brand and File entities with TypeORM.
+
+### 4. Brand DTOs
+
+The DTOs define the structure of the data required for brand related operations and the `types.ts` file defines the response structures.
+
+#### DTOs:
+- **ProfileDto**: Contains `brand_name`, `brand_url`, `dao_id`, and `sub_domain`.
+- **DIDDto**: Contains `did`.
+
+#### Interfaces:
+- **StatsResponse**: Extends `CoreApiResponse` and includes statistics for a brand.
+
+### 5. Integration
+
+The brand module integrates with the following modules:
+
+- **AuthModule**: Ensures that only authenticated users can perform brand related operations.
+- **FileModule**: Retrieves file related statistics for brands.

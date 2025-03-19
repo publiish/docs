@@ -76,37 +76,7 @@ The IPNS module integrates with the following modules:
 - `ApikeyGuard`: Ensures that only authenticated users can perform IPNS-related operations.
 - `BrandModule`: Associates IPNS operations with specific brands.
 
-### 5. Usage Example
-
-#### Creating an IPNS Key:
-```typescript
-const createKeyDto = {
-  name: 'example-key',
-};
-
-const response = await this.ipnsService.createKey(createKeyDto);
-```
-
-#### Publishing a CID to an IPNS Key:
-```typescript
-const publishArgs = {
-  keyName: 'example-key',
-  cid: 'QmExampleCID',
-};
-
-const response = await this.ipnsService.publishIpns(publishArgs);
-```
-
-#### Resolving an IPNS Name:
-```typescript
-const resolveArgs = {
-  cid: 'example-ipns-name',
-};
-
-const response = await this.ipnsService.resolveIpns(resolveArgs);
-```
-
-### Publiish IPNS
+### 5. Publiish IPNS
 
 This API provides endpoints for managing IPNS keys, publishing IPNS records, and resolving IPNS names using IPFS. The implementation leverages NestJS, IPFS HTTP client, and Helia.
 
