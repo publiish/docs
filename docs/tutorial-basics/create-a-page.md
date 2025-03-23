@@ -2,229 +2,143 @@
 sidebar_position: 1
 ---
 
-# File Storage API
+# UCAN Basics
 
-This module handles file related operations, including file uploads, chunked uploads, file deletion, and generating publish/download links.
+UCAN stands for User Controlled Authorization Networks. UCAN redefines how identity and permissions work in a decentralized world. Unlike conventional web systems, UCAN puts you in charge of your digital identity and access rights. Curious about what sets UCAN apart? Let’s explore.
 
-### 1. File Entity
+## UCAN - Empowering Decentralized Access
 
-The File entity represents the structure of a file in the database. It includes fields such as filename, CID (Content Identifier), file size, and relationships with other entities.
+It’s a framework designed to shift the relationship between users and service providers, giving end users greater control over their identity and permissions.
 
-#### Fields:
-- `id`: Unique identifier for the file.
-- `filename`: The name of the file.
-- `new_filename`: The new name of the file (if renamed).
-- `file_type`: The MIME type of the file.
-- `cid`: The CID (Content Identifier) of the file in IPFS.
-- `file_size`: The size of the file in bytes.
-- `brand_id`: The ID of the brand associated with the file.
-- `consumer_id`: The ID of the consumer who uploaded the file.
-- `created_by`: The ID of the user who created the file.
-- `updated_by`: The ID of the user who last updated the file.
-- `delete_flag`: Indicates if the file is marked for deletion.
-- `created_at`: Timestamp for when the file was created.
-- `updated_at`: Timestamp for when the file was last updated.
+At its core, UCAN handles two key questions:
 
-#### Methods:
-- `toJSON()`: Converts the entity instance to a plain object, excluding sensitive data.
+- **Who are you?** (Authentication)
+- **What can you do?** (Authorization)
 
-### 2. File Service
+Instead of relying on a service to dictate your identity or permissions, UCAN lets you define and prove both using cryptographic tools. This makes it perfect for peer-to-peer networks where trust and flexibility are paramount.
 
-The `FileService` handles the business logic for file related operations, including file uploads, chunked uploads, file deletion, and generating publish/download links.
+## How UCAN Operates
 
-#### Methods:
-- `getHello()`: Retrieves all files from the database (used for testing).
-- `postFile(req, brand_id, auth_user_id)`: Handles file uploads to IPFS and saves file metadata to the database.
-- `postChunkFile(req, brand_id, auth_user_id, res)`: Handles chunked file uploads, reassembles the chunks, and uploads the file to IPFS.
-- `uploadFile2IPFS(args)`: Uploads a file to IPFS and saves the metadata to the database.
-- `deleteFile(brand_id, auth_user_id, cid)`: Marks a file for deletion in the database.
-- `getPublishLink(cid, filename)`: Generates a publish link for a file.
+### Your Identity, Your Keys
 
-### 3. File Controller
+With UCAN, you create your own identity using a public-private key pair. No more usernames or passwords managed by a third party. When you interact with a service, it checks your public key against your signed requests to confirm you’re the real deal. This self sovereign approach boosts privacy and portability across platforms.
 
-The `FileController` exposes endpoints for file related operations.
+### Tokens of Power
 
-#### Endpoints:
-- `GET /files`: Retrieves all files (used for testing).
-- `POST /files/file_add_update`: Handles file uploads.
-- `POST /files/file_chunk_add`: Handles chunked file uploads.
-- `DELETE /files/file_delete`: Marks a file for deletion.
-- `GET /files/publish-link/:cid`: Generates a publish link for a file.
-- `GET /files/download/:cid`: Generates a download link for a file.
+Forget centralized permission lists. UCAN uses tokens to grant access. Each token is like a keycard, detailing:
 
-#### Imports:
-- `TypeOrmModule.forFeature([File, Brand])`: Registers the File and Brand entities with TypeORM.
-- `MulterModule.register()`: Configures Multer for handling file uploads.
-- `JwtModule.register()`: Configures JWT for authentication.
+- **What you can do** (e.g., upload, delete).
+- **Where you can do it** (e.g., a specific IPFS file).
 
-### 4. File DTOs
+These tokens are self contained, so services don’t need to ping a database they just verify the token. It’s fast, secure, and works offline or across distributed systems.
 
-The DTOs define the structure of the data required for file related operations and the `types.ts` file defines the response structures.
+### Trust Through Provenance
 
-#### DTOs:
-- `UploadFileDto`: Contains `auth_user_id`.
-- `DeleteFileDto`: Contains `auth_user_id` and `cid`.
+Every UCAN token carries a proof chain, a trail of signed tokens showing who granted your access. A simple chain might start with the resource owner giving you permission directly. The service checks the signatures to ensure it’s legit no middleman required.
 
-#### Interfaces:
-- `PostFileResponse`: Extends `CoreApiResponse` and includes the uploaded file details.
-- `DeleteFileResponse`: Extends `CoreApiResponse` and includes a success message.
-- `ClusterFile`: Represents a file in the IPFS cluster, including name, CID, size, and allocations.
+### Sharing Made Simple
 
-### 6. Helper Functions
+Need to grant access to someone else? UCAN’s delegation lets you pass along your permissions without handing over your private key. You issue a new token, linking it to the original, creating a chain of trust. For example:
 
-#### `streamToBuffer.ts`
-- `streamToBuffer(stream)`: Converts a readable stream to a buffer.
+- An IPFS file owner gives you write access.
+- You delegate read access to a collaborator.
+- They use the token, and the chain proves it’s valid.
 
-#### `parseClusterStringResponse.ts`
-- `parseClusterStringResponse(ipfsData)`: Parses a string response from the IPFS cluster into an array of `ClusterFile` objects.
+This delegation superpower makes UCAN a great option for collaboration in decentralized setups.
 
-### 7. Integration
+## Why Choose UCAN?
 
-The file module integrates with the following modules:
-- `AuthModule`: Ensures that only authenticated users can perform file-related operations.
-- `BrandModule`: Associates files with specific brands.
-- `MulterModule`: Handles file uploads.
+- **Control**: You own your identity and permissions no service can lock you out.
+- **Decentralized**: Works seamlessly in systems without a central authority.
+- **Efficient**: Tokens cut out the need for constant server checks.
+- **Secure**: Cryptography ensures tamper-proof access.
 
-### 8. File Storage API
+Imagine UCAN as a backstage pass: it gets you in, and you can share it with a friend, all without asking the venue.
 
-#### 1. Upload File
-#### `POST /files/file_add_update`
-#### Description:
-Uploads a file to IPFS and associates it with a brand and user.
-#### Request Parameters:
-- **Query Parameters:**
-  - `auth_user_id` (number, required): The ID of the authenticated user.
-- **Headers:**
-  - `Authorization`: Bearer token for authentication.
-- **Request Body:**
-  - Multipart file upload.
-#### Response:
-- **Success (200):**
-  ```json
-  {
-    "success": "Y",
-    "status": 200,
-    "data": [
-      {
-        "cid": "<IPFS CID>",
-        "filename": "<Filename>"
-      }
-    ]
-  }
-  ```
-- **Error (500):**
-  ```json
-  { "message": "File not uploaded." }
-  ```
+## Publiish.UCAN
 
----
+This project integrates UCAN with IPFS to enable secure, user driven authorization for decentralized storage and sharing. Want to see it in action? Dig into the code or try the examples below.
 
-#### 2. Upload File in Chunks
-#### `POST /files/file_chunk_add`
-#### Description:
-Uploads a large file in chunks and stores it in a temporary directory before sending it to IPFS.
-#### Request Parameters:
-- **Query Parameters:**
-  - `auth_user_id` (number, required): The ID of the authenticated user.
-- **Headers:**
-  - `Authorization`: Bearer token for authentication.
-- **Request Body:**
-  - Multipart file chunks.
-#### Response:
-- **Success (200):**
-  ```json
-  {
-    "success": "Y",
-    "status": 200,
-    "data": {
-      "cid": "<IPFS CID>",
-      "filename": "<Filename>"
-    }
-  }
-  ```
-- **Error (400, 413, 410, 500):**
-  ```json
-  { "message": "Error message based on failure." }
-  ```
+## UCAN Module Overview
 
----
+This module provides tools for creating and managing UCAN tokens in your IPFS workflows.
 
-#### 3. Delete File
-#### `DELETE /files/file_delete`
-#### Description:
-Marks a file as deleted in the database.
-#### Request Parameters:
-- **Query Parameters:**
-  - `auth_user_id` (number, required): The ID of the authenticated user.
-  - `cid` (string, required): The IPFS CID of the file to delete.
-- **Headers:**
-  - `Authorization`: Bearer token for authentication.
-#### Response:
-- **Success (200):**
-  ```json
-  {
-    "success": "Y",
-    "status": 200,
-    "data": "File has been deleted successfully"
-  }
-  ```
-- **Error (404, 500):**
-  ```json
-  { "message": "File not found or could not be deleted." }
-  ```
+### 1. UCAN Manager
 
----
+The `UcanManager` handles token creation and updates via simple API endpoints.
 
-#### 4. Get Public File Link
-#### `GET /files/publish-link/:cid`
-#### Description:
-Retrieves a public IPFS URL for a file.
-#### Request Parameters:
-- **Path Parameters:**
-  - `cid` (string, required): The IPFS CID of the file.
-- **Query Parameters:**
-  - `filename` (string, optional): Suggested filename for download.
-#### Response:
-- **Redirects to IPFS URL:**
-  ```text
-  http://localhost:8080/ipfs/<CID>?filename=<Filename>
-  ```
+#### API Routes:
 
----
+- **POST** `/ucan/create`: Issues a new UCAN token.
+  - **Input**: User details and optional existing token.
+  - **Output**: A fresh UCAN token.
 
-#### 5. Download File
-#### `GET /files/download/:cid`
-#### Description:
-Provides a direct download link for a file stored in IPFS.
-#### Request Parameters:
-- **Path Parameters:**
-  - `cid` (string, required): The IPFS CID of the file.
-- **Query Parameters:**
-  - `filename` (string, optional): Suggested filename for download.
-#### Response:
-- **Redirects to IPFS download URL:**
-  ```text
-  http://localhost:8080/ipfs/<CID>?filename=<Filename>&download=true
-  ```
+### 2. UCAN Logic
 
----
+The `UcanLogic` class powers the token operations.
 
-#### 6. Get All Stored Files
-#### `GET /files`
-#### Description:
-Retrieves all stored files in the database.
-#### Response:
-- **Success (200):**
-  ```json
-  [
-    {
-      "id": 1,
-      "brand_id": 123,
-      "cid": "<IPFS CID>",
-      "filename": "<Filename>",
-      "file_size": 1024,
-      "file_type": "image/png",
-      "delete_flag": false
-    }
-  ]
-  ```
+#### Functions:
+
+- **`generateUcan(user, type, token?)`**:
+  - **Inputs**:
+    - `user`: The requesting user.
+    - `type`: Authentication method (key or UCAN).
+    - `token`: Optional existing UCAN for refresh.
+  - **Output**: A new or updated UCAN token.
+
+#### Dependencies:
+
+- `TypeOrmModule.forFeature([Entity])`: Links to your data entities (e.g., Brand).
+
+### 3. Connections
+
+The module ties into:
+
+- **AuthCheck**: Restricts UCAN actions to verified users.
+- **EntityModule**: Ties tokens to specific resources or brands.
+
+## Setup and Usage
+
+### Installation
+
+Install the `publiish-ucan` package:
+
+```bash
+npm install publiish-ucan
+```
+
+### Using UCANs with Node Publiish
+
+[Publiish Web3 Storage](https://publiish.io/) is a free service for storing data on the decentralized [Filecoin](https://filecoin.io) storage network, with content retrieval via [IPFS](https://ipfs.io).
+
+Node Publiish is the first service to support UCAN based authorization using the `publiish-ucan` library.
+
+To integrate UCAN auth for free, decentralized storage without requiring users to sign up for a Node Publiish account:
+
+- Register your DID.
+- Obtain a root UCAN token.
+- Use the UCAN API endpoints.
+
+### Registering your DID
+
+To register your DID, send a `POST` request to:
+
+```bash
+curl -X POST -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' --data '{"did": "$DID"}' https://node.publiish/api/brands/did
+```
+
+### Obtaining a Root UCAN Token
+
+Request a root UCAN token from the Node Publiish API:
+
+```bash
+curl -X POST -H "Authorization: Bearer $TOKEN" https://node.publiish/api/ucan/token
+```
+
+### Obtaining the Service DID
+
+Retrieve the Node Publiish service DID:
+
+```bash
+curl -X GET https://node.publiish/api/did
+```
