@@ -43,6 +43,12 @@
 .navbar {
   background-color: rgba(0, 0, 0, 0.6);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 @supports (backdrop-filter: blur(16px)) {
@@ -54,8 +60,13 @@
 
 @media (max-width: 768px) {
   .navbar {
-    backdrop-filter: none; 
+    backdrop-filter: none;
     background-color: rgba(0, 0, 0, 0.6);
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
   }
 }
 

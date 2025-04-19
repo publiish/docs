@@ -22,6 +22,8 @@ A common method for handling private offchain storage is relying on conventional
 
 To effectively address the challenge of private off-chain storage, Private IPFS is essential. While it may seem contradictory given IPFS's nature as a public peer-to-peer network, that’s not entirely the case.
 
+Kademlia is a robust DHT that efficiently locates nodes and stores (key, value) pairs using an XOR-based metric. However, it lacks a native mechanism for fine grained access control or user-driven authorization. UCAN, with its cryptographic token based authorization and delegation, can address this gap by allowing users to control who can access or modify data stored in the Kademlia network. This integration would create a decentralized system where users manage their own identities and permissions, and nodes enforce access based on UCAN tokens
+
 ## Why Public IPFS Falls Short for Privacy
 Public IPFS operates as a distributed network where nodes freely share and retrieve content. While this ensures redundancy and censorship resistance, it lacks built-in privacy controls. Some of the key limitations include:
 
