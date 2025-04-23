@@ -3,9 +3,34 @@
   align-items: center;
   padding: 2rem 0;
   width: 100%;
+  background-color: var(--ifm-background-color);
+  position: relative;
+}
+
+/* Add subtle pattern to background */
+.features::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%237240ce' fill-opacity='0.05'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 20.83l2.83-2.83 1.41 1.41L1.41 22.24H0v-1.41zM0 3.07l2.83-2.83 1.41 1.41L1.41 4.48H0V3.07zm20 0l2.83-2.83 1.41 1.41L21.41 4.48H20V3.07zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41zM0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 20.83l2.83-2.83 1.41 1.41L1.41 22.24H0v-1.41zM0 3.07l2.83-2.83 1.41 1.41L1.41 4.48H0V3.07zm20 0l2.83-2.83 1.41 1.41L21.41 4.48H20V3.07zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: 0;
 }
 
 .featureSvg {
   height: 200px;
   width: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(114, 64, 206, 0.1), rgba(0, 161, 228, 0.1));
+  padding: 1.5rem;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }

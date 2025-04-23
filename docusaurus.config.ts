@@ -47,7 +47,9 @@ const config: Config = {
           onUntruncatedBlogPosts: 'warn',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+          ],
         },
       } satisfies Preset.Options,
     ],
@@ -108,8 +110,27 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ['bash', 'json', 'yaml', 'markdown', 'typescript'],
+    },
+    // Add animations for page transitions
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
+        hideable: true,
+      },
     },
   } satisfies Preset.ThemeConfig,
+  
+  // Add plugins to enhance the documentation
+  plugins: [],
+  
+  // Tailwind CSS will process these files
+  stylesheets: [
+    {
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
+      type: 'text/css',
+    },
+  ],
 };
 
 export default config;

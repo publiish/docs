@@ -1,3 +1,4 @@
+/* Custom Variables - Keep Docusaurus styling variables */
 :root {
   --ifm-color-primary: #00A1E4;
   --ifm-color-primary-dark: #0086C0;
@@ -15,66 +16,108 @@
   --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.05);
 }
 
-.hero__title {
-  color: #ffffff;
-  text-shadow: 0 4px 16px rgba(128, 0, 128, 0.75);
-  font-weight: 800;
-  font-size: 3.2rem;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.hero__subtitle {
-  color: #e0e0e0;
-  font-weight: 600;
-  font-size: 1.2rem;
-}
-
+/* Animation Definitions */
 @keyframes fadeInUp {
   0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* .navbar {
-  backdrop-filter: blur(16px);
-  background-color: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-} */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
+/* Custom Styles */
+.hero__title {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-shadow: 0 4px 16px rgba(128, 0, 128, 0.75);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@media (min-width: 1024px) {
+  .hero__title {
+    font-size: 3.5rem;
+  }
+}
+
+.hero__subtitle {
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@media (min-width: 1024px) {
+  .hero__subtitle {
+    font-size: 1.5rem;
+  }
+}
+
+/* Button Styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.button--secondary {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.button--secondary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Card Styles */
+.card {
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s;
+  overflow: hidden;
+  border: 1px solid #f1f1f1;
+}
+
+[data-theme='dark'] .card {
+  background-color: #1e293b;
+  border-color: #2d3748;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Navbar & Footer Styles */
 .navbar {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+[data-theme='dark'] .navbar {
   background-color: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-@supports (backdrop-filter: blur(16px)) {
-  .navbar {
-    backdrop-filter: blur(16px);
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-}
-
-@media (max-width: 768px) {
-  .navbar {
-    backdrop-filter: none;
-    background-color: rgba(0, 0, 0, 0.6);
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-  }
 }
 
 .navbar__title {
-  color: #ffffff;
-  text-shadow: 0 2px 8px #800080;
-  font-weight: bold;
-  font-size: 1.2rem;
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-shadow: 0 2px 8px rgba(128, 0, 128, 0.3);
+}
+
+[data-theme='dark'] .navbar__title {
+  color: white;
 }
 
 .footer {
@@ -83,27 +126,49 @@
 }
 
 .footer a {
-  color: #ffffff;
-  transition: color 0.2s ease-in-out;
+  color: white;
+  transition: color 0.2s;
 }
 
 .footer a:hover {
   color: #ffd700;
+  text-decoration: none;
 }
 
-.token.comment {
-  font-style: italic;
-  color: #999;
+/* Feature styles */
+.featureSvg {
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, rgba(114, 64, 206, 0.1), rgba(0, 161, 228, 0.1));
+  padding: 1.5rem;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.token.keyword {
-  font-weight: 600;
+/* Feature Section Headings */
+.features h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #1a202c;
 }
 
-button, a {
-  transition: all 0.3s ease;
+[data-theme='dark'] .features h3 {
+  color: #f7fafc;
 }
 
-a:hover {
-  text-decoration: underline;
+.features p {
+  color: #4a5568;
+  line-height: 1.625;
+}
+
+[data-theme='dark'] .features p {
+  color: #cbd5e0;
 }
