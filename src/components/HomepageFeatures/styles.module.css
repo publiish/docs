@@ -20,6 +20,29 @@
   z-index: 0;
 }
 
+/* Responsive adjustments for feature section */
+@media (max-width: 996px) {
+  .features {
+    padding: 2rem 0;
+  }
+}
+
+/* Make features display nicely in columns on mobile */
+.featuresSection {
+  position: relative;
+  z-index: 1;
+}
+
+.featureCol {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 996px) {
+  .featureCol:last-child {
+    margin-bottom: 0;
+  }
+}
+
 .featureSvg {
   height: 200px;
   width: 200px;

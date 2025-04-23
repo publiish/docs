@@ -25,9 +25,17 @@
   z-index: 0;
 }
 
+/* Mobile responsiveness */
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
+  }
+}
+
+/* Make even smaller padding for very small screens */
+@media screen and (max-width: 480px) {
+  .heroBanner {
+    padding: 2rem 1rem;
   }
 }
 
@@ -38,6 +46,18 @@
   margin-top: 2rem;
   z-index: 1;
   position: relative;
+}
+
+/* Adjust button size on mobile */
+@media screen and (max-width: 480px) {
+  .buttons {
+    margin-top: 1.5rem;
+  }
+  
+  .buttons .button {
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+  }
 }
 
 @media (prefers-reduced-motion) {

@@ -35,17 +35,17 @@ const config: Config = {
           sidebarPath: require.resolve('./sidebars.ts'),
           editUrl: 'https://github.com/publiish/docs/edit/main/',
         },
-        blog: {
-          showReadingTime: true,
-          editUrl: 'https://github.com/publiish/docs/edit/main/',
-          feedOptions: {
-            type: ['rss', 'atom'],
-            copyright: `Copyright © ${new Date().getFullYear()} Publiish`,
-          },
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
+        // blog: {
+        //   showReadingTime: true,
+        //   editUrl: 'https://github.com/publiish/docs/edit/main/',
+        //   feedOptions: {
+        //     type: ['rss', 'atom'],
+        //     copyright: `Copyright © ${new Date().getFullYear()} Publiish`,
+        //   },
+        //   onInlineTags: 'warn',
+        //   onInlineAuthors: 'warn',
+        //   onUntruncatedBlogPosts: 'warn',
+        // },
         theme: {
           customCss: [
             require.resolve('./src/css/custom.css'),
@@ -75,7 +75,7 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        // {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/publiish',
           label: 'GitHub',
@@ -100,7 +100,7 @@ const config: Config = {
         {
           title: 'More',
           items: [
-            {label: 'Blog', to: '/blog'},
+            // {label: 'Blog', to: '/blog'},
             {label: 'GitHub', href: 'https://github.com/publiish'},
           ],
         },

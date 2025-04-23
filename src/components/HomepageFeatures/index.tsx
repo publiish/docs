@@ -94,7 +94,7 @@ const imageVariants = {
 function Feature({title, imgSrc, description}: FeatureItem) {
   return (
     <motion.div 
-      className="col col--4"
+      className={clsx("col col--4", styles.featureCol)}
       variants={featureVariants}
       whileHover="hover"
     >
@@ -118,7 +118,7 @@ export default function HomepageFeatures(): ReactNode {
     <section className={styles.features}>
       <div className="container">
         <motion.div 
-          className="row"
+          className={clsx("row", styles.featuresSection)}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"

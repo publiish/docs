@@ -10,15 +10,18 @@ const styles: Record<string, CSSProperties> = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '2.5rem',
-    height: '2.5rem',
+    width: '2.25rem',
+    height: '2.25rem',
     borderRadius: '9999px',
     backgroundColor: 'var(--ifm-color-emphasis-200)',
     color: 'var(--ifm-color-emphasis-700)',
     transition: 'background-color 0.2s',
     cursor: 'pointer',
     border: 'none',
-    outline: 'none'
+    outline: 'none',
+    padding: 0,
+    margin: 0,
+    zIndex: 10,
   },
   buttonDark: {
     backgroundColor: 'var(--ifm-color-emphasis-800)',
@@ -27,6 +30,15 @@ const styles: Record<string, CSSProperties> = {
   svg: {
     width: '1.25rem',
     height: '1.25rem',
+  },
+  // Mobile responsive styles
+  mobileButton: {
+    width: '2rem',
+    height: '2rem',
+  },
+  mobileSvg: {
+    width: '1rem',
+    height: '1rem',
   }
 };
 
@@ -34,10 +46,25 @@ const ThemeToggle: React.FC = () => {
   const { colorMode, setColorMode } = useColorMode();
   const isDarkTheme = colorMode === 'dark';
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Handle hydration issues
   useEffect(() => {
     setIsMounted(true);
+    
+    // Check if mobile
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add listener
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
   const toggleTheme = () => {
@@ -64,14 +91,22 @@ const ThemeToggle: React.FC = () => {
 
   if (!isMounted) return null;
 
+  // Combine styles based on theme and device
+  const buttonStyle = {
+    ...styles.button,
+    ...(isDarkTheme ? styles.buttonDark : {}),
+    ...(isMobile ? styles.mobileButton : {})
+  } as CSSProperties;
+
+  const iconStyle = {
+    ...styles.svg,
+    ...(isMobile ? styles.mobileSvg : {})
+  } as CSSProperties;
+
   return (
     <motion.button
       aria-label={`Switch to ${isDarkTheme ? 'light' : 'dark'} mode`}
-      style={
-        isDarkTheme 
-          ? {...styles.button, ...styles.buttonDark} as CSSProperties
-          : styles.button
-      }
+      style={buttonStyle}
       onClick={toggleTheme}
       initial="initial"
       animate="animate"
@@ -82,7 +117,7 @@ const ThemeToggle: React.FC = () => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          style={styles.svg}
+          style={iconStyle}
           initial="initial"
           animate="animate"
           whileTap="whileTap"
@@ -95,7 +130,7 @@ const ThemeToggle: React.FC = () => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          style={styles.svg}
+          style={iconStyle}
           initial="initial"
           animate="animate"
           whileTap="whileTap"
