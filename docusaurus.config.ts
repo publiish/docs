@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'PantherStorage IPFS Network',
+  title: 'Publiish IPFS Network',
   tagline: 'Powering decentralized apps with IPFS pinning, dedicated gateways, and IPNS.',
   favicon: 'img/favicon.ico',
   // Set the production url of your site here

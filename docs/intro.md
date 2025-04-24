@@ -4,13 +4,13 @@ sidebar_position: 1
 
 # Tutorial
 
-Let's discover **Publiish - PantherStorage IPFS Network in less than 5 minutes**.
+Let's discover **Publiish IPFS Network in less than 5 minutes**.
 
 ## Introduction
 
-In a world where data sovereignty matters, PantherStorage IPFS Network delivers a trustless, decentralized, and censorship-resistant storage solution, ensuring your data remains accessible without reliance on centralized entities.
+In a world where data sovereignty matters, Publiish IPFS Network delivers a trustless, decentralized, and censorship-resistant storage solution, ensuring your data remains accessible without reliance on centralized entities.
 
-Unlike traditional cloud providers, PantherStorage leverages IPFS (InterPlanetary File System) to distribute and store data across a resilient peer-to-peer network. Whether you're a developer, creator, or enterprise, PantherStorage ensures your files are easily retrievable and globally available.
+Unlike traditional cloud providers, Publiish leverages IPFS (InterPlanetary File System) to distribute and store data across a resilient peer-to-peer network. Whether you're a developer, creator, or enterprise, Publiish ensures your files are easily retrievable and globally available.
 
 Join the next generation of storage, where your data is truly yours.
 
@@ -41,17 +41,17 @@ Private IPFS builds upon the core principles of IPFS while introducing access co
 3. **Private Gateways:** Access to stored content is restricted via private gateways that authenticate requests and serve data only to approved users.
 4. **Content Addressing with Permissions:** CIDs remain verifiable on the blockchain, but access is regulated based on ownership and authentication protocols.
 
-## Private IPFS in Publiish - PantherStorage
-Publiish - PantherStorage Network leverages Private IPFS to offer:
+## Private IPFS in Publiish - Publiish
+Publiish - Publiish Network leverages Private IPFS to offer:
 - **Secure file storage for any data**
 - **Decentralized storage without exposure to public nodes**
 - **Fully encrypted storage with custom access policies**
 
-By implementing Private IPFS, **Publiish - PantherStorage** provides a next-generation, privacy-focused decentralized storage solution tailored for creators, businesses, and web3 powered applications.
+By implementing Private IPFS, **Publiish** provides a next generation, privacy focused decentralized storage solution tailored for creators, businesses, and web3 powered applications.
 
 ### IPFS Cluster Network Setup Guide
 
-This guide outlines the steps to add a new IPFS node and cluster node to an existing PantherStorage IPFS cluster network.
+This guide outlines the steps to add a new IPFS node and cluster node to an existing Publiish IPFS cluster network.
 
 ### 1. Install Docker Compose on Ubuntu (Debian-based Linux OS)
 
@@ -68,16 +68,13 @@ sudo usermod -a -G docker $USER
 ### 1.3 Restart Terminal
 Restart the terminal to apply the new user group settings.
 
-# Requesting Access Keys for PantherStorage IPFS Network
+# Requesting Access Keys for Publiish IPFS Network
 
-To join an existing cluster, you will need two essential security keys provided by the PantherStorage team. Follow the steps below to request and configure these keys.
+To join an existing cluster, you will need two essential security keys provided by the Publiish team. Follow the steps below to request and configure these keys.
 
 ## 1.4 Request the Access Keys
 
-To obtain the required security keys, contact the PantherStorage support team via the following channels:
-
-- **Email**: support@pantherstorage.io  
-- **Official Website Contact Form**: [https://pantherstorage.io/contact](https://pantherstorage.io/contact)  
+To obtain the required security keys, contact the Publiish support team via the following channels:
 - **Community Support (Discord/Telegram)**: Join our community channels and request assistance from an admin.
 
 When reaching out, provide the following details:
@@ -86,7 +83,7 @@ When reaching out, provide the following details:
 
 Once approved, you will receive the following keys:
 - **SWARM_KEY**: Used for securing the IPFS network
-- **CLUSTER_SECRET**: Required for joining the PantherStorage IPFS cluster
+- **CLUSTER_SECRET**: Required for joining the Publiish IPFS cluster
 
 ## 2. Configure Environment Variables
 
@@ -169,5 +166,5 @@ Expected output for a cluster with two nodes:
 
 ---
 
-This document provides steps to integrate a new IPFS node into an existing PantherStorage IPFS Network cluster securely.
+This document provides steps to integrate a new IPFS node into an existing Publiish IPFS Network cluster securely.
 
