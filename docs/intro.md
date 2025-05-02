@@ -3,168 +3,160 @@ sidebar_position: 1
 ---
 
 # Tutorial
+> **TL;DR:** Publiish IPFS Network is a decentralized storage solution with privacy controls built on IPFS technology, giving you full ownership of your data with enhanced security, accessibility, and censorship resistance.
 
-Let's discover **Publiish IPFS Network in less than 5 minutes**.
+## 🚀 Get Started in 5 Minutes
 
-## Introduction
+Welcome to the world of truly decentralized storage! This guide will help you understand how Publiish works and how to start using it right away.
 
-In a world where data sovereignty matters, Publiish IPFS Network delivers a trustless, decentralized, and censorship-resistant storage solution, ensuring your data remains accessible without reliance on centralized entities.
+:::tip What you'll learn
+- What makes Publiish IPFS Network unique
+- How Private IPFS solves critical data privacy challenges
+- How to set up and connect to the Publiish network
+:::
 
-Unlike traditional cloud providers, Publiish leverages IPFS (InterPlanetary File System) to distribute and store data across a resilient peer-to-peer network. Whether you're a developer, creator, or enterprise, Publiish ensures your files are easily retrievable and globally available.
+## What is Publiish?
 
-Join the next generation of storage, where your data is truly yours.
+Publiish IPFS Network is a **privacy-focused decentralized storage solution** built on IPFS technology. Unlike traditional cloud providers, Publiish distributes your data across a resilient peer-to-peer network while maintaining privacy controls.
 
-# What is Private IPFS?
+### Key Benefits
 
-InterPlanetary File System (IPFS) is a decentralized protocol designed for peer-to-peer file sharing with content addressing and immutability. While IPFS provides a powerful infrastructure for decentralized storage, its default nature is public, meaning that anyone with a Content Identifier (CID) can access stored data. This raises concerns when sensitive, proprietary, or gated content needs to be stored securely without exposing it to unauthorized access. To combat the issue of content authenticity and availability, another popular approach is encrypting the data before uploading it to IPFS **Private IPFS** solves this challenge by enabling access-controlled data storage while retaining IPFS's key advantages.
+- **🔒 Full Data Sovereignty** — Your data remains accessible without reliance on centralized entities
+- **🌐 Global Availability** — Content is distributed across a resilient peer-to-peer network
+- **🛡️ Enhanced Privacy** — Access controls for sensitive or proprietary content
+- **⚡ High Performance** — Fast retrieval through optimized network topology
 
-A common method for handling private offchain storage is relying on conventional file storage services such as AWS S3. With a service like S3, the bucket owner has the ability to modify file contents without changing the filename or even remove the file entirely.
+Whether you're a developer integrating storage solutions, a creator protecting digital assets, or an enterprise seeking secure data infrastructure, Publiish ensures your files are securely stored and easily retrievable.
 
-To effectively address the challenge of private off-chain storage, Private IPFS is essential. While it may seem contradictory given IPFS's nature as a public peer-to-peer network, that’s not entirely the case.
+## Understanding Private IPFS
 
-Kademlia is a robust DHT that efficiently locates nodes and stores (key, value) pairs using an XOR-based metric. However, it lacks a native mechanism for fine grained access control or user-driven authorization. UCAN, with its cryptographic token based authorization and delegation, can address this gap by allowing users to control who can access or modify data stored in the Kademlia network. This integration would create a decentralized system where users manage their own identities and permissions, and nodes enforce access based on UCAN tokens
+### The Privacy Challenge
 
-## Why Public IPFS Falls Short for Privacy
-Public IPFS operates as a distributed network where nodes freely share and retrieve content. While this ensures redundancy and censorship resistance, it lacks built-in privacy controls. Some of the key limitations include:
+The standard InterPlanetary File System (IPFS) is a revolutionary decentralized storage protocol with **content addressing** and **immutability**. However, its public nature creates privacy challenges:
 
-- **Open Accessibility:** Any file uploaded to a public IPFS network can be accessed by anyone who has its CID.
-- **Immutable but Unprotected:** Once uploaded, content remains in the network indefinitely if pinned, making unauthorized access a persistent risk.
-- **Limited Content Control:** Traditional IPFS does not offer a mechanism to manage user permissions or restrict access to specific parties.
+:::warning ⚠️ Public IPFS Limitations
+- Anyone with a Content Identifier (CID) can access stored data
+- Once pinned, content remains accessible indefinitely
+- No built-in permission mechanisms to restrict access
+:::
 
-These constraints make **Private IPFS** a necessary solution for enterprises, content creators, and projects requiring restricted access to digital assets.
+These limitations make public IPFS unsuitable for sensitive data, proprietary content, or applications requiring access control.
 
-## Private IPFS Model
-Private IPFS builds upon the core principles of IPFS while introducing access control mechanisms to enforce security. The essential features include:
+### How Private IPFS Works
 
-1. **Controlled Peer-to-Peer Connections:** Instead of an open network, Private IPFS operates within a closed cluster where only authorized nodes can communicate.
-2. **Encryption-Based Access Management:** Files are encrypted before being uploaded, ensuring that only users with the decryption key can access the content.
-3. **Private Gateways:** Access to stored content is restricted via private gateways that authenticate requests and serve data only to approved users.
-4. **Content Addressing with Permissions:** CIDs remain verifiable on the blockchain, but access is regulated based on ownership and authentication protocols.
+Private IPFS solves these challenges by integrating access control mechanisms while preserving IPFS's core benefits:
 
-## Private IPFS in Publiish - Publiish
-Publiish - Publiish Network leverages Private IPFS to offer:
-- **Secure file storage for any data**
-- **Decentralized storage without exposure to public nodes**
-- **Fully encrypted storage with custom access policies**
+| Feature | Description |
+|---------|-------------|
+| **Controlled P2P Network** | Closed cluster where only authorized nodes can participate |
+| **Encryption Layer** | Content is encrypted before storage, requiring keys for access |
+| **Access Gateways** | Private gateways authenticate requests before serving content |
+| **Permission System** | UCAN-based cryptographic tokens control who can access or modify data |
 
-By implementing Private IPFS, **Publiish** provides a next generation, privacy focused decentralized storage solution tailored for creators, businesses, and web3 powered applications.
+## The Publiish Advantage
 
-### IPFS Cluster Network Setup Guide
+Publiish Network implements Private IPFS with additional features:
 
-This guide outlines the steps to add a new IPFS node and cluster node to an existing Publiish IPFS cluster network.
+- **Secure file storage** for all data types
+- **Decentralized architecture** without public exposure
+- **Customizable access policies** for fine-grained control
 
-### 1. Install Docker Compose on Ubuntu (Debian-based Linux OS)
+This combination creates a next-generation storage solution perfect for Web3 applications, content creators, and privacy-conscious organizations.
 
-### 1.1 Install Docker Compose
-```sh
-sudo apt install -y docker-compose
-```
+## Setting Up Your Publiish Node
 
-### 1.2 Add User to Docker Group
-```sh
-sudo usermod -a -G docker $USER
-```
+This section guides you through adding a new node to an existing Publiish IPFS cluster network.
 
-### 1.3 Restart Terminal
-Restart the terminal to apply the new user group settings.
+### Prerequisites
 
-# Requesting Access Keys for Publiish IPFS Network
+- A Linux-based system (Ubuntu/Debian recommended)
+- Docker and Docker Compose installed
+- Network connectivity to other cluster nodes
+- Access keys from the Publiish team
 
-To join an existing cluster, you will need two essential security keys provided by the Publiish team. Follow the steps below to request and configure these keys.
+### Installation Steps
 
-## 1.4 Request the Access Keys
+1. **Install Docker Compose**
 
-To obtain the required security keys, contact the Publiish support team via the following channels:
-- **Community Support (Discord/Telegram)**: Join our community channels and request assistance from an admin.
+   ```bash
+   sudo apt install -y docker-compose
+   sudo usermod -a -G docker $USER
+   # Restart your terminal to apply changes
+   ```
 
-When reaching out, provide the following details:
-- Your organization or project name
-- Your IPFS node purpose (e.g., storage provider, retrieval node, testing)
+2. **Request Security Keys**
 
-Once approved, you will receive the following keys:
-- **SWARM_KEY**: Used for securing the IPFS network
-- **CLUSTER_SECRET**: Required for joining the Publiish IPFS cluster
+   Contact Publiish support via:
+   - [Discord Community](https://discord.gg/publiish)
+   - Email: support@publiish.network
 
-## 2. Configure Environment Variables
+   You'll need to provide:
+   - Your organization/project name
+   - Your node's intended purpose
+   
+   You'll receive two essential keys:
+   - `SWARM_KEY` for IPFS network security
+   - `CLUSTER_SECRET` for IPFS cluster authentication
 
-- **SWARM_KEY**: Used for IPFS network security.
-- **CLUSTER_SECRET**: Used for IPFS cluster security.
+3. **Configure Your Environment**
 
-Update `docker-compose.yml` with these keys before starting the node.
+   Update your `docker-compose.yml` file with the security keys:
 
-After receiving your keys, update your `docker-compose.yml` file to include them before starting your node.
+   ```yaml
+   version: '3.7'
+   services:
+     ipfs:
+       environment:
+         - SWARM_KEY=your-received-swarm-key
+     cluster:
+       environment:
+         - CLUSTER_SECRET=your-received-cluster-secret
+   ```
 
-### Example Configuration:
+4. **Launch Your Node**
 
-```yaml
-version: '3.7'
-services:
-  ipfs:
-    environment:
-      - SWARM_KEY=your-received-swarm-key
-  cluster:
-    environment:
-      - CLUSTER_SECRET=your-received-cluster-secret
-```
+   ```bash
+   # Start the services
+   docker-compose up -d --build
+   
+   # Verify cluster connection
+   docker container exec cluster0 ipfs-cluster-ctl peers ls
+   ```
 
-## 3. Start the New IPFS and Cluster Node
-Run the following command to build and start the new node:
-```sh
-docker-compose up -d --build
-```
+### Configuration Locations
 
-This will:
-- Build Docker images for IPFS and IPFS Cluster.
-- Start the services in the background.
+Your configuration will be stored in:
+- IPFS config: `/home/$USER/.compose/ipfs0`
+- Cluster config: `/home/$USER/.compose/cluster0`
 
-To stop the containers:
-```sh
-docker-compose down
-```
-To restart:
-```sh
-docker-compose up -d
-```
+### Troubleshooting
 
-### Configuration Paths
-- IPFS configuration files: `/home/$USER/.compose/ipfs0`
-- Cluster configuration files: `/home/$USER/.compose/cluster0`
+<details>
+<summary><strong>Cluster node not visible?</strong></summary>
 
-## 4. Verify Cluster Status
-Check if the new node is connected to the cluster:
-```sh
-docker container exec cluster0 ipfs-cluster-ctl peers ls
-```
+- Verify your `SWARM_KEY` and `CLUSTER_SECRET` are correct
+- Restart containers with `docker-compose restart`
+- Check logs with `docker logs cluster0`
 
-Expected output for a cluster with two nodes:
-```
-12D3KooWJrFYdHcjLCGCgqZaCFV2wyopFfYbj5CYr6X7v8sLgQZt | cluster0 | Sees 1 other peer
-  > Addresses:
-    - /ip4/127.0.0.1/tcp/9096/p2p/12D3KooW...
-    - /ip4/192.168.240.4/tcp/9096/p2p/12D3KooW...
-  > IPFS: 12D3KooWD9...
-    - /ip4/127.0.0.1/tcp/4001/p2p/12D3KooWD9...
+</details>
 
-12D3KooWJv96qg3... | cluster1 | Sees 1 other peer
-  > Addresses:
-    - /ip4/127.0.0.1/tcp/9096/p2p/12D3KooWJv96qg3...
-    - /ip4/192.168.240.5/tcp/9096/p2p/12D3KooWJv96qg3...
-  > IPFS: 12D3KooWBMT...
-    - /ip4/127.0.0.1/tcp/4001/p2p/12D3KooWBMT...
-    - /ip4/192.168.240.3/tcp/4001/p2p/12D3KooWBMT...
-```
+<details>
+<summary><strong>IPFS not connecting?</strong></summary>
 
-## Troubleshooting
-- **Cluster node not visible?**
-  - Ensure `SWARM_KEY` and `CLUSTER_SECRET` are correctly set.
-  - Restart containers: `docker-compose restart`
-  - Check logs: `docker logs cluster0`
+- Check network connectivity between nodes
+- Run `ipfs swarm peers` in the container to verify connections
 
-- **IPFS not connecting?**
-  - Verify network connectivity between nodes.
-  - Run `ipfs swarm peers` inside the container to check connections.
+</details>
+
+## Next Steps
+
+Now that you understand the basics of Publiish IPFS Network, you're ready to:
+
+- [Explore the API →](/docs/tutorial-basics/create-a-page)
+- [Understand UCAN Authorization →](/docs/tutorial-basics/deploy-your-site)
+- [Configure IPNS for Mutable Content →](/docs/tutorial-basics/ipns)
 
 ---
 
-This document provides steps to integrate a new IPFS node into an existing Publiish IPFS Network cluster securely.
+**Need help?** Join our [community Discord](https://discord.gg/publiish) or [contact support](mailto:support@publiish.network).
 

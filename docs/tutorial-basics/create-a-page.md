@@ -2,143 +2,238 @@
 sidebar_position: 1
 ---
 
-# UCAN Basics
+# UCAN Authorization
 
-UCAN stands for User Controlled Authorization Networks. UCAN redefines how identity and permissions work in a decentralized world. Unlike conventional web systems, UCAN puts you in charge of your digital identity and access rights. Curious about what sets UCAN apart? Let’s explore.
+**User Controlled Authorization Networks**
 
-## UCAN - Empowering Decentralized Access
+*Decentralized identity and permissions for Web3*
 
-It’s a framework designed to shift the relationship between users and service providers, giving end users greater control over their identity and permissions.
+:::info TL;DR
+UCAN is a decentralized authorization framework that puts you in control of your digital identity. Unlike traditional auth systems, UCAN uses cryptographic keys and tokens to verify who you are and what you can access—no central server needed.
+:::
 
-At its core, UCAN handles two key questions:
+## Why UCAN Matters
 
-- **Who are you?** (Authentication)
-- **What can you do?** (Authorization)
+Traditional web services require you to create accounts they control. With UCAN, **you own your identity** and decide what permissions to grant. This fundamental shift makes UCAN perfect for decentralized systems like Publiish IPFS Network.
 
-Instead of relying on a service to dictate your identity or permissions, UCAN lets you define and prove both using cryptographic tools. This makes it perfect for peer-to-peer networks where trust and flexibility are paramount.
+### Key Features
 
-## How UCAN Operates
+- **🔐 Self-Sovereign Identity** - Create and control your digital identity using your own cryptographic keys.
+- **🔄 Delegated Permissions** - Share specific access rights without sharing your private keys.
+- **⚡ Offline Verification** - Tokens can be verified without connecting to a central server.
+- **🔗 Chain of Trust** - Built-in provenance lets you trace who granted what permissions.
 
-### Your Identity, Your Keys
+## UCAN Fundamentals
 
-With UCAN, you create your own identity using a public-private key pair. No more usernames or passwords managed by a third party. When you interact with a service, it checks your public key against your signed requests to confirm you’re the real deal. This self sovereign approach boosts privacy and portability across platforms.
+UCAN handles two critical security questions:
 
-### Tokens of Power
+1. **Who are you?** (Authentication)
+2. **What can you do?** (Authorization)
 
-Forget centralized permission lists. UCAN uses tokens to grant access. Each token is like a keycard, detailing:
+Let's explore how UCAN reimagines these concepts for a decentralized world:
 
-- **What you can do** (e.g., upload, delete).
-- **Where you can do it** (e.g., a specific IPFS file).
+### Identity Through Cryptography
 
-These tokens are self contained, so services don’t need to ping a database they just verify the token. It’s fast, secure, and works offline or across distributed systems.
+```mermaid
+graph LR
+    A[User] -->|Generates| B[Key Pair]
+    B -->|Public Key| C[DID - Decentralized ID]
+    B -->|Private Key| D[Signatures]
+    C -->|Identifies| A
+    D -->|Proves Ownership| C
+```
 
-### Trust Through Provenance
+With UCAN:
 
-Every UCAN token carries a proof chain, a trail of signed tokens showing who granted your access. A simple chain might start with the resource owner giving you permission directly. The service checks the signatures to ensure it’s legit no middleman required.
+- You generate a cryptographic key pair
+- Your **public key** becomes your decentralized identifier (DID)
+- Your **private key** signs messages to prove your identity
+- No central identity provider needed
 
-### Sharing Made Simple
+:::success 💡 The Power of DIDs
+Decentralized Identifiers (DIDs) let you prove who you are across any platform or service without creating separate accounts. Your DID travels with you!
+:::
 
-Need to grant access to someone else? UCAN’s delegation lets you pass along your permissions without handing over your private key. You issue a new token, linking it to the original, creating a chain of trust. For example:
+### Token-Based Permissions
 
-- An IPFS file owner gives you write access.
-- You delegate read access to a collaborator.
-- They use the token, and the chain proves it’s valid.
+UCANs are encoded as JSON Web Tokens (JWTs) containing:
 
-This delegation superpower makes UCAN a great option for collaboration in decentralized setups.
+```json
+{
+  "iss": "did:key:user123", // Who issued this token
+  "aud": "did:key:service456", // Who can use this token
+  "nbf": 1618099138, // Not valid before (timestamp)
+  "exp": 1618185538, // Expiration (timestamp)
+  "att": [
+    {
+      "with": "storage://did:key:user123",
+      "can": "upload/*"
+    }
+  ], // Capabilities (what you can do)
+  "prf": [] // Proof chain (where did these permissions come from)
+}
+```
 
-## Why Choose UCAN?
+These elements combine to create a powerful, self-contained authorization system.
 
-- **Control**: You own your identity and permissions no service can lock you out.
-- **Decentralized**: Works seamlessly in systems without a central authority.
-- **Efficient**: Tokens cut out the need for constant server checks.
-- **Secure**: Cryptography ensures tamper-proof access.
+### Delegation in Action
 
-Imagine UCAN as a backstage pass: it gets you in, and you can share it with a friend, all without asking the venue.
+Here's how delegation works in practice:
 
-## Publiish.UCAN
+**Step 1: Resource owner creates a root token**  
+Resource creators generate tokens with full permissions over their content.
 
-This project integrates UCAN with IPFS to enable secure, user driven authorization for decentralized storage and sharing. Want to see it in action? Dig into the code or try the examples below.
+**Step 2: Owner delegates specific access to others**  
+Using their root token, they can create more limited tokens for collaborators.
 
-## UCAN Module Overview
+**Step 3: Collaborators use delegated tokens**  
+These tokens contain a cryptographic chain proving they were authorized by the owner.
 
-This module provides tools for creating and managing UCAN tokens in your IPFS workflows.
+**Step 4: Services verify the token chain**  
+Any service can verify permissions without contacting a central server.
 
-### 1. UCAN Manager
+## Publiish.UCAN Implementation
 
-The `UcanManager` handles token creation and updates via simple API endpoints.
+Publiish IPFS Network implements UCAN for a seamless, decentralized storage authorization experience.
 
-#### API Routes:
+### Getting Started with UCAN
 
-- **POST** `/ucan/create`: Issues a new UCAN token.
-  - **Input**: User details and optional existing token.
-  - **Output**: A fresh UCAN token.
-
-### 2. UCAN Logic
-
-The `UcanLogic` class powers the token operations.
-
-#### Functions:
-
-- **`generateUcan(user, type, token?)`**:
-  - **Inputs**:
-    - `user`: The requesting user.
-    - `type`: Authentication method (key or UCAN).
-    - `token`: Optional existing UCAN for refresh.
-  - **Output**: A new or updated UCAN token.
-
-#### Dependencies:
-
-- `TypeOrmModule.forFeature([Entity])`: Links to your data entities (e.g., Brand).
-
-### 3. Connections
-
-The module ties into:
-
-- **AuthCheck**: Restricts UCAN actions to verified users.
-- **EntityModule**: Ties tokens to specific resources or brands.
-
-## Setup and Usage
-
-### Installation
-
-Install the `publiish-ucan` package:
+#### Installation
 
 ```bash
 npm install publiish-ucan
 ```
 
-### Using UCANs with Node Publiish
+#### Basic Usage
 
-[Publiish Web3 Storage](https://publiish.io/) is a free service for storing data on the decentralized [Filecoin](https://filecoin.io) storage network, with content retrieval via [IPFS](https://ipfs.io).
+```javascript
+import { build, validate } from 'publiish-ucan/ucan-storage'
+import { KeyPair } from 'publiish-ucan/keypair'
 
-Node Publiish is the first service to support UCAN based authorization using the `publiish-ucan` library.
+// Generate a new keypair
+const myKeypair = await KeyPair.create()
 
-To integrate UCAN auth for free, decentralized storage without requiring users to sign up for a Node Publiish account:
+// Create a UCAN token
+const token = await build({
+  issuer: myKeypair,              // Who's issuing this token
+  audience: serviceDid,           // Who the token is for
+  capabilities: [{                // What permissions to grant
+    with: 'storage://did:key:user123',
+    can: 'upload/*'
+  }],
+  lifetimeInSeconds: 60 * 60 * 24 // Valid for 24 hours
+})
 
-- Register your DID.
-- Obtain a root UCAN token.
-- Use the UCAN API endpoints.
-
-### Registering your DID
-
-To register your DID, send a `POST` request to:
-
-```bash
-curl -X POST -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' --data '{"did": "$DID"}' https://node.publiish/api/brands/did
+// Use the token in API requests
+const response = await fetch('https://node.publiish/api/upload', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${token}`
+  },
+  body: formData
+})
 ```
 
-### Obtaining a Root UCAN Token
+### API Integration
 
-Request a root UCAN token from the Node Publiish API:
+The Publiish UCAN module provides several endpoints for managing tokens:
 
-```bash
-curl -X POST -H "Authorization: Bearer $TOKEN" https://node.publiish/api/ucan/token
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/ucan/token` | POST | Get a root token for your DID |
+| `/api/did` | GET | Get the service DID |
+| `/api/brands/did` | POST | Register your DID with the service |
+
+:::warning ⚠️ Security Best Practice
+Never share your private keys or root tokens. Use delegation to create more limited tokens for specific purposes or users.
+:::
+
+### Step-by-Step Setup
+
+1. **Register your DID with Publiish**:
+
+   ```bash
+   curl -X POST \
+     -H "Authorization: Bearer $API_TOKEN" \
+     -H 'Content-Type: application/json' \
+     --data '{"did": "did:key:YOUR_PUBLIC_KEY"}' \
+     https://node.publiish/api/brands/did
+   ```
+
+2. **Get a root UCAN token**:
+
+   ```bash
+   curl -X POST \
+     -H "Authorization: Bearer $API_TOKEN" \
+     https://node.publiish/api/ucan/token
+   ```
+
+3. **Retrieve the service DID**:
+
+   ```bash
+   curl -X GET https://node.publiish/api/did
+   ```
+
+4. **Use these credentials to build and delegate tokens** in your application.
+
+## Advanced Usage
+
+<details>
+<summary><strong>Token Delegation Examples</strong></summary>
+
+```javascript
+// Creating a delegated token with limited permissions
+const childToken = await build({
+  issuer: myKeypair,
+  audience: collaboratorDid,
+  capabilities: [{
+    with: 'storage://did:key:user123/project1',
+    can: 'upload/jpeg'  // Limited to uploading JPEG files
+  }],
+  proofs: [parentToken],  // Link to the parent token
+  lifetimeInSeconds: 3600  // Only valid for 1 hour
+})
 ```
 
-### Obtaining the Service DID
+</details>
 
-Retrieve the Node Publiish service DID:
+<details>
+<summary><strong>Token Validation</strong></summary>
 
-```bash
-curl -X GET https://node.publiish/api/did
+```javascript
+// Validate a token before using it
+try {
+  const result = await validate({
+    token: incomingToken,
+    audience: myServiceDid,
+    requiredCapabilities: [{
+      with: 'storage://did:key:user123',
+      can: 'upload/*'
+    }]
+  })
+  
+  if (result.ok) {
+    // Token is valid and has required capabilities
+    console.log('Valid token from:', result.ucan.issuer)
+  }
+} catch (error) {
+  console.error('Invalid token:', error.message)
+}
 ```
+
+</details>
+
+## Next Steps
+
+Now that you understand UCAN basics, you're ready to:
+
+- [Integrate UCAN Authentication](/docs/tutorial-basics/integrate-ucan)
+- [Build Delegation Workflows](/docs/tutorial-basics/delegation-patterns)
+- [Implement Storage Permissions](/docs/tutorial-basics/storage-permissions)
+
+---
+
+**Related Resources:**
+- [UCAN Specification](https://ucan.xyz)
+- [DID Method Specification](https://w3c-ccg.github.io/did-method-key/)
+- [JSON Web Token Standards](https://jwt.io)

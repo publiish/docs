@@ -1,101 +1,67 @@
-# Publiish IPNS
+---
+sidebar_position: 3
+---
 
-This module handles IPNS key creation, IPNS publishing, and IPNS resolution.
+# InterPlanetary Name System (IPNS)
 
-### 1. IPNS Controller
+:::tip TL;DR
+IPNS enables mutable references to IPFS content, solving the problem of sharing updated content without distributing new CIDs. The Publiish IPNS API makes it easy to create named keys, publish content, and resolve IPNS names.
+:::
 
-The `IpnsController` exposes endpoints for IPNS related operations.
+## Understanding IPNS
 
-#### Endpoints:
+### The Challenge with IPFS Content
 
-- **POST /ipns/keys**: Creates a new IPNS key.
+IPFS provides **content-addressed storage** where every file is referenced by its unique Content Identifier (CID). While this ensures immutability and data integrity, it creates a challenge: **when content changes, its CID changes too**.
 
-  - **Body**: `CreateKeyDto` containing `keyName`.
-  - **Returns**: The created IPNS key details, including name and ID.
+This means for updatable content like websites, documents, or apps, you'd need to distribute a new CID every time you make changes.
 
-- **POST /ipns/publish/:keyName/:cid**: Publishes a CID to an IPNS key.
+### How IPNS Solves This
 
-  - **Parameters**:
-    - `keyName`: The name of the IPNS key.
-    - `cid`: The CID to publish.
-  - **Returns**: The IPNS publish details, including the sequence, path, and CID.
+IPNS creates a persistent, updateable name that can point to different CIDs over time. Think of it as:
 
-- **GET /ipns/:ipnsname**: Resolves an IPNS name to its corresponding CID.
+**Traditional Web:** Domain name → IP address  
+**IPFS/IPNS:** IPNS name → Content hash (CID)
 
-  - **Parameters**:
-    - `ipnsname`: The IPNS name to resolve.
-  - **Returns**: The resolved IPNS path.
+With IPNS, you can:
+- Share a consistent name that never changes
+- Update what content that name points to
+- Maintain cryptographic verification of content ownership
 
-### 2. IPNS Service
+## Publiish IPNS API
 
-The `IpnsService` handles the business logic for IPNS-related operations, including key creation, IPNS publishing, and IPNS resolution.
+The Publiish IPNS API makes working with IPNS straightforward. Here's how to use it in your applications:
 
-#### Methods:
+### Key Concepts
 
-- **createKey(args)**: Creates a new IPNS key.
-  
-  - **Parameters**:
-    - `name`: The name of the IPNS key.
-  - **Returns**: The created IPNS key details, including name and ID.
+| Term | Description |
+|------|-------------|
+| **IPNS Key** | A cryptographic key pair used to sign and verify IPNS records |
+| **IPNS Name** | A public identifier (derived from the key) that others can use to fetch your content |
+| **IPNS Record** | A signed statement linking an IPNS name to a specific CID |
+| **TTL** | Time-to-live for IPNS records in the network (24 hours by default) |
 
-- **publishIpns(args)**: Publishes a CID to an IPNS key.
-  
-  - **Parameters**:
-    - `keyName`: The name of the IPNS key.
-    - `cid`: The CID to publish.
-  - **Returns**: The IPNS publish details, including the sequence, path, and CID.
+### Authentication
 
-- **resolveIpns(args)**: Resolves an IPNS name to its corresponding CID.
-  
-  - **Parameters**:
-    - `cid`: The IPNS name to resolve.
-  - **Returns**: The resolved IPNS path.
+All IPNS API endpoints require authentication using your Publiish API key:
 
-#### Imports:
+```http
+Authorization: Bearer your-api-key-here
+```
 
-- `TypeOrmModule.forFeature([Brand])`: Registers the `Brand` entity with TypeORM.
+### Core IPNS Operations
 
-### 3. IPNS DTOs 
+#### 1. Create an IPNS Key
 
-The DTOs define the structure of the data required for IPNS related operations and the `types.ts` file defines the response structures.
+First, create a named key to publish with:
 
-#### DTOs:
+**Request:**
+```http
+POST /ipns/keys
+Content-Type: application/json
 
-- `CreateKeyDto`: Contains `name` for creating an IPNS key.
-
-#### Interfaces:
-
-- `IpnsPublishResponse`: Extends `CoreApiResponse` and includes the IPNS publish details.
-- `IpnsResolveResponse`: Extends `CoreApiResponse` and includes the resolved IPNS path.
-- `IpnsKeyResponse`: Extends `CoreApiResponse` and includes the created IPNS key details.
-
-### 4. Integration
-
-The IPNS module integrates with the following modules:
-
-- `ApikeyGuard`: Ensures that only authenticated users can perform IPNS-related operations.
-- `BrandModule`: Associates IPNS operations with specific brands.
-
-### 5. Publiish IPNS
-
-This API provides endpoints for managing IPNS keys, publishing IPNS records, and resolving IPNS names using IPFS. The implementation leverages NestJS, IPFS HTTP client, and Helia.
-
-### Endpoints
-
-#### 1. IPNS Key Management
-
-#### Create a Key
-**Endpoint:** `POST /ipns/keys`
-
-**Description:**
-Creates a new IPNS key using Ed25519.
-
-**Authentication:** Requires API key guard.
-
-**Request Body:**
-```json
 {
-  "keyName": "your-key-name"
+  "keyName": "my-website"
 }
 ```
 
@@ -105,25 +71,20 @@ Creates a new IPNS key using Ed25519.
   "success": "Y",
   "status": 200,
   "data": {
-    "name": "your-key-name",
-    "id": "Qm..."
+    "name": "my-website",
+    "id": "k51qzi5uqu5dkgmf8wn...(truncated)"
   }
 }
 ```
 
-#### 2. IPNS Publishing
+#### 2. Publish Content to IPNS
 
-#### Publish a CID to IPNS
-**Endpoint:** `POST /ipns/publish/:keyName/:cid`
+Point your IPNS name to a specific CID:
 
-**Description:**
-Publishes a CID under a specific IPNS key.
-
-**Authentication:** Requires API key guard.
-
-**Parameters:**
-- `keyName` (string): The name of the IPNS key.
-- `cid` (string): The CID of the IPFS content to publish.
+**Request:**
+```http
+POST /ipns/publish/my-website/QmXzd4mLH8k...
+```
 
 **Response:**
 ```json
@@ -132,22 +93,20 @@ Publishes a CID under a specific IPNS key.
   "status": 200,
   "data": {
     "sequence": "1",
-    "path": "/ipfs/Qm...",
-    "cid": "Qm..."
+    "path": "/ipfs/QmXzd4mLH8k...",
+    "cid": "QmXzd4mLH8k..."
   }
 }
 ```
 
-#### 3. IPNS Resolution
+#### 3. Resolve an IPNS Name
 
-#### Resolve an IPNS Name
-**Endpoint:** `GET /ipns/:ipnsname`
+Find what content an IPNS name points to:
 
-**Description:**
-Resolves an IPNS name to its latest CID.
-
-**Parameters:**
-- `ipnsname` (string): The IPNS name to resolve.
+**Request:**
+```http
+GET /ipns/k51qzi5uqu5dkgmf8wn...
+```
 
 **Response:**
 ```json
@@ -155,7 +114,121 @@ Resolves an IPNS name to its latest CID.
   "success": "Y",
   "status": 200,
   "data": {
-    "path": "/ipfs/Qm..."
+    "path": "/ipfs/QmXzd4mLH8k..."
   }
 }
 ```
+
+## Practical Examples
+
+### Building a Website with IPNS
+
+Follow these steps to publish and update a website with IPNS:
+
+1. **Upload your website to IPFS**
+   
+   Use the Publiish API to upload your static website files and get a CID:
+   ```javascript
+   const cid = await publiish.upload(websiteFiles);
+   // cid: QmXzd4mLH8k...
+   ```
+
+2. **Create an IPNS key (one-time step)**
+   
+   Create a named key for your website:
+   ```javascript
+   await publiish.ipns.createKey("my-website");
+   // Returns key details including the IPNS name
+   ```
+
+3. **Publish your website to IPNS**
+   
+   Link your IPNS name to your website's CID:
+   ```javascript
+   await publiish.ipns.publish("my-website", cid);
+   ```
+
+4. **Share your IPNS address**
+   
+   Distribute your IPNS address instead of the CID:
+   ```
+   ipns://k51qzi5uqu5dkgmf8wn...
+   // or via gateway: https://ipfs.io/ipns/k51qzi5uqu5dkgmf8wn...
+   ```
+
+5. **Update your website**
+   
+   When you change your content, upload again and republish:
+   ```javascript
+   const newCid = await publiish.upload(updatedWebsiteFiles);
+   await publiish.ipns.publish("my-website", newCid);
+   // Same IPNS address, but now points to new content!
+   ```
+
+### Integrating IPNS in Applications
+
+```javascript
+// Node.js example with fetch
+const publishToIPNS = async (apiKey, keyName, cid) => {
+  const response = await fetch(
+    `https://node.publiish/api/ipns/publish/${keyName}/${cid}`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  
+  return await response.json();
+};
+
+// Usage
+const result = await publishToIPNS(
+  'your-api-key',
+  'my-app-config',
+  'QmXzd4mLH8k...'
+);
+
+console.log(`Published to IPNS with sequence: ${result.data.sequence}`);
+```
+
+## Best Practices
+
+:::info 📌 Tips for Effective IPNS Usage
+- **Name your keys meaningfully** to identify their purpose (e.g., "company-website" or "user-profile-12345")
+- **Cache IPNS resolutions** in your applications to reduce latency
+- **Republish regularly** (at least every 24 hours) for critical content to ensure records stay fresh in the network
+- **Back up your IPNS keys** — if you lose access to a key, you'll need to distribute a new IPNS name
+:::
+
+:::warning ⚠️ Limitations to Be Aware Of
+- IPNS resolution is slower than direct CID access
+- Records have a limited lifetime in the network (default TTL is 24 hours)
+- You can only publish to keys you own/create
+:::
+
+## Implementation Details
+
+For developers interested in the technical implementation, the Publiish IPNS module consists of:
+
+| Component | Description |
+|-----------|-------------|
+| **IpnsController** | Handles HTTP requests and routes to appropriate service methods |
+| **IpnsService** | Implements the business logic for key creation, publishing, and resolution |
+| **ApikeyGuard** | Ensures requests are authenticated with valid API keys |
+
+The service uses Ed25519 keys for IPNS to ensure fast verification and compact signatures.
+
+## Next Steps
+
+Now that you understand IPNS, you might want to:
+
+- [Build a Dynamic Website with IPFS and IPNS](/docs/tutorial-extras/dynamic-websites)
+- [Implement Content Versioning with IPNS](/docs/tutorial-extras/content-versioning)
+- [Integrate IPNS with Traditional DNS](/docs/tutorial-extras/ipns-dns-integration)
+
+---
+
+**Questions?** Join our [developer community](https://discord.gg/publiish) for support and discussions about IPNS implementations.
