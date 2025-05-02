@@ -71,24 +71,26 @@ const buttonVariants = {
 };
 
 // Decorative floating elements
-const FloatingElement = ({ children, initialX = 0, initialY = 0, delay = 0 }) => {
+const FloatingElement = ({ children, initialX = 0, initialY = 0, delay = 0, duration = 8, scale = 1 }) => {
   return (
     <motion.div
-      initial={{ x: initialX, y: initialY, opacity: 0 }}
+      initial={{ x: initialX, y: initialY, opacity: 0, scale }}
       animate={{ 
-        opacity: [0, 0.7, 0.5],
-        y: [initialY, initialY - 20, initialY],
-        x: [initialX, initialX + 10, initialX],
+        opacity: [0, 0.8, 0.6],
+        y: [initialY, initialY - 30, initialY - 10],
+        x: [initialX, initialX + 15, initialX + 5],
+        scale: [scale, scale * 1.05, scale],
       }}
       transition={{ 
-        duration: 8,
-        delay: delay,
+        duration,
+        delay,
         repeat: Infinity,
-        repeatType: "reverse"
+        repeatType: "reverse",
+        ease: "easeInOut"
       }}
       style={{
         position: 'absolute',
-        zIndex: 0,
+        zIndex: 1,
         pointerEvents: 'none'
       }}
     >
@@ -104,30 +106,49 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container relative">
         {/* Decorative floating elements */}
-        <FloatingElement initialX={-150} initialY={-50} delay={0.5}>
+        <FloatingElement initialX={-150} initialY={-50} delay={0.5} scale={1.2}>
           <div className={styles.floatingCircle} style={{ 
-            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(139, 92, 246, 0) 70%)',
+            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, rgba(139, 92, 246, 0) 70%)',
             width: '200px', 
             height: '200px',
             borderRadius: '50%'
           }} />
         </FloatingElement>
         
-        <FloatingElement initialX={150} initialY={100} delay={1.2}>
+        <FloatingElement initialX={150} initialY={100} delay={1.2} duration={10}>
           <div className={styles.floatingCircle} style={{ 
-            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, rgba(6, 182, 212, 0) 70%)',
-            width: '120px', 
-            height: '120px',
+            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(6, 182, 212, 0) 70%)',
+            width: '150px', 
+            height: '150px',
             borderRadius: '50%'
           }} />
         </FloatingElement>
         
-        <FloatingElement initialX={-100} initialY={150} delay={0.8}>
+        <FloatingElement initialX={-100} initialY={150} delay={0.8} duration={9} scale={0.9}>
           <div className={styles.floatingShape} style={{ 
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%)',
-            width: '80px', 
-            height: '80px',
+            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%)',
+            width: '100px', 
+            height: '100px',
             borderRadius: '24% 76% 35% 65% / 27% 36% 64% 73%'
+          }} />
+        </FloatingElement>
+        
+        {/* Add extra decorative elements */}
+        <FloatingElement initialX={200} initialY={-70} delay={1.5} duration={11} scale={0.7}>
+          <div className={styles.floatingShape} style={{ 
+            background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)',
+            width: '70px', 
+            height: '70px',
+            borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%'
+          }} />
+        </FloatingElement>
+        
+        <FloatingElement initialX={-180} initialY={200} delay={2} duration={7} scale={0.8}>
+          <div className={styles.floatingCircle} style={{ 
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%)',
+            width: '120px', 
+            height: '120px',
+            borderRadius: '50%'
           }} />
         </FloatingElement>
 
@@ -140,7 +161,7 @@ function HomepageHeader() {
             flexDirection: 'column', 
             alignItems: 'center',
             position: 'relative',
-            zIndex: 1
+            zIndex: 2
           }}
         >
           <motion.div variants={titleVariants}>
@@ -186,7 +207,8 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="Powering decentralized apps with IPFS pinning, dedicated gateways, and IPNS.">
+      description="Powering decentralized apps with IPFS pinning, dedicated gateways, and IPNS."
+      wrapperClassName="homepage">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

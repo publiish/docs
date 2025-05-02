@@ -26,6 +26,7 @@
   --ifm-global-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --ifm-global-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   scroll-behavior: smooth;
+  --navbar-height: 60px;
 }
 
 [data-theme='dark'] {
@@ -74,6 +75,12 @@
   100% { background-position: 0% 50%; }
 }
 
+@keyframes footerGlowPulse {
+  0% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+  100% { opacity: 0.7; transform: scale(1); }
+}
+
 /* Custom Styles */
 .hero__title {
   background: linear-gradient(to right, #8b5cf6, #3b82f6, #06b6d4);
@@ -82,42 +89,65 @@
   color: transparent;
   font-size: 3.5rem;
   font-weight: 800;
-  text-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+  text-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
   animation: fadeInUp 0.8s ease-out;
   margin-bottom: 0.5rem;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 1;
+}
+
+.hero__title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, var(--ifm-color-primary-light), var(--ifm-color-primary));
+  transform: translateX(-50%);
+  border-radius: 3px;
+  z-index: -1;
 }
 
 .hero__subtitle {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.25rem;
   font-weight: 500;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   animation: fadeIn 1s ease-out;
   padding: 0 1rem;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Typography */
 @media (min-width: 768px) {
   .hero__title {
-    font-size: 4rem;
+    font-size: 4.5rem;
     margin-bottom: 1rem;
   }
   
   .hero__subtitle {
     font-size: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .hero__title::after {
+    width: 80px;
+    height: 4px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero__title {
-    font-size: 5rem;
+    font-size: 5.5rem;
   }
   
   .hero__subtitle {
@@ -130,7 +160,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.875rem 2rem;
+  padding: 0.875rem 2.25rem;
   border-radius: 9999px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
@@ -138,6 +168,7 @@
   position: relative;
   overflow: hidden;
   border: none;
+  transform-origin: center;
 }
 
 .button--secondary {
@@ -152,7 +183,13 @@
   background-size: 200% 200%;
   color: white;
   box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.4), 0 10px 10px -5px rgba(139, 92, 246, 0.3);
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.button--secondary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.3), 0 2px 4px -1px rgba(139, 92, 246, 0.2);
+  transition-duration: 0.1s;
 }
 
 .button--secondary:after {
@@ -227,23 +264,24 @@
   left: 0;
   right: 0;
   z-index: 100;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 /* Dark theme navbar */
 [data-theme='dark'] .navbar {
-  background-color: rgba(15, 23, 42, 0.9);
+  background-color: rgba(15, 23, 42, 0.8);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @supports (backdrop-filter: blur(10px)) {
   .navbar {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
   }
   
   [data-theme='dark'] .navbar {
-    background-color: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(12px);
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(15px);
   }
 }
 
@@ -367,11 +405,54 @@
   opacity: 0.9;
 }
 
+/* General footer styles */
 .footer {
   --ifm-footer-padding-vertical: 3rem;
   background: linear-gradient(180deg, var(--ifm-background-color), rgba(15, 23, 42, 1));
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 2rem;
+}
+
+html:not([data-theme='dark']) .footer {
+  background: linear-gradient(180deg, var(--ifm-background-color) 0%, rgba(59, 130, 246, 0.3) 80%, rgba(59, 130, 246, 0.5) 100%);
+  border-top: 1px solid rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle pattern overlay to light mode footer */
+html:not([data-theme='dark']) .footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.6;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Add subtle glow effect to light mode footer */
+html:not([data-theme='dark']) .footer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80%;
+  background: radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+  animation: footerGlowPulse 8s ease-in-out infinite;
+}
+
+.footer__links,
+.footer__bottom {
+  position: relative;
+  z-index: 1;
 }
 
 .footer__links {
@@ -423,6 +504,49 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+html:not([data-theme='dark']) .footer__title {
+  color: var(--ifm-color-primary-darkest);
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+html:not([data-theme='dark']) .footer__link-item {
+  color: var(--ifm-color-primary-darkest);
+  font-weight: 500;
+}
+
+html:not([data-theme='dark']) .footer__link-item:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+html:not([data-theme='dark']) .footer__copyright {
+  color: var(--ifm-color-primary-darker);
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+html:not([data-theme='dark']) .footer__bottom {
+  border-top: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+html:not([data-theme='dark']) .footer__col:not(:last-child) {
+  border-right: 1px solid rgba(59, 130, 246, 0.1);
+  padding-right: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+@media (max-width: 996px) {
+  html:not([data-theme='dark']) .footer__col:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-right: 0;
+    margin-right: 0;
+  }
+}
+
 /* Design System Elements */
 .container {
   max-width: 1200px;
@@ -449,12 +573,12 @@
 }
 
 .main-wrapper {
-  margin-top: 60px;
+  margin-top: 0;
 }
 
 @media (max-width: 996px) {
   .main-wrapper {
-    margin-top: 50px;
+    margin-top: 0;
   }
 }
 
@@ -627,5 +751,57 @@ div[class^='announcementBarContent_'] a {
 
 div[class^='announcementBarContent_'] a:hover {
   color: var(--ifm-color-primary-lightest);
+}
+
+/* Fix navbar overlapping in docs pages */
+:root {
+  --navbar-height: 60px;
+}
+
+/* Ensure docs pages have proper spacing for fixed navbar */
+html .navbar--fixed-top {
+  position: fixed;
+  z-index: 200;
+}
+
+/* Add padding to doc pages but not to homepage */
+.main-wrapper:not(.homepage) {
+  padding-top: var(--navbar-height);
+}
+
+/* Fix for doc sidebar positioning with fixed navbar */
+.navbar-sidebar {
+  top: 0;
+}
+
+.theme-doc-sidebar-menu {
+  top: calc(var(--navbar-height) + 1rem);
+  position: sticky;
+  padding-top: 0.5rem;
+  height: calc(100vh - var(--navbar-height) - 1.5rem);
+  overflow-y: auto;
+}
+
+/* Fix table of contents positioning */
+.table-of-contents__wrapper {
+  position: sticky;
+  top: calc(var(--navbar-height) + 1rem);
+  max-height: calc(100vh - var(--navbar-height) - 2rem);
+}
+
+.theme-doc-toc-desktop {
+  position: sticky;
+  top: calc(var(--navbar-height) + 1rem);
+  max-height: calc(100vh - var(--navbar-height) - 2rem);
+}
+
+/* Fix breadcrumbs spacing */
+.theme-doc-breadcrumbs {
+  margin-top: 1rem;
+}
+
+/* Ensure main home page content doesn't have padding */
+.homepage .main-wrapper {
+  margin-top: 0;
 }
 
