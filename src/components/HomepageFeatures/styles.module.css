@@ -1,10 +1,11 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: 4rem 0;
   width: 100%;
   background-color: var(--ifm-background-color);
   position: relative;
+  overflow: hidden;
 }
 
 /* Add subtle pattern to background */
@@ -15,7 +16,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%237240ce' fill-opacity='0.05'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 20.83l2.83-2.83 1.41 1.41L1.41 22.24H0v-1.41zM0 3.07l2.83-2.83 1.41 1.41L1.41 4.48H0V3.07zm20 0l2.83-2.83 1.41 1.41L21.41 4.48H20V3.07zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41zM0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 20.83l2.83-2.83 1.41 1.41L1.41 22.24H0v-1.41zM0 3.07l2.83-2.83 1.41 1.41L1.41 4.48H0V3.07zm20 0l2.83-2.83 1.41 1.41L21.41 4.48H20V3.07zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41zm0 17.76l2.83-2.83 1.41 1.41-2.83 2.83H20v-1.41z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238b5cf6' fill-opacity='0.05'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   opacity: 0.5;
   z-index: 0;
 }
@@ -23,7 +24,7 @@
 /* Responsive adjustments for feature section */
 @media (max-width: 996px) {
   .features {
-    padding: 2rem 0;
+    padding: 3rem 0;
   }
 }
 
@@ -34,7 +35,12 @@
 }
 
 .featureCol {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featureCol:hover {
+  transform: translateY(-10px);
 }
 
 @media (max-width: 996px) {
@@ -44,16 +50,86 @@
 }
 
 .featureSvg {
-  height: 200px;
-  width: 200px;
+  height: 220px;
+  width: 220px;
   object-fit: contain;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  margin-bottom: 1rem;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(114, 64, 206, 0.1), rgba(0, 161, 228, 0.1));
-  padding: 1.5rem;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 1.5rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.05) 0%, 
+    rgba(59, 130, 246, 0.05) 50%, 
+    rgba(6, 182, 212, 0.05) 100%);
+  padding: 2rem;
   box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-    0 2px 4px -1px rgba(0, 0, 0, 0.06),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 10px 25px -5px rgba(0, 0, 0, 0.15), 
+    0 8px 10px -6px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .featureSvg {
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.1) 0%, 
+    rgba(59, 130, 246, 0.1) 50%, 
+    rgba(6, 182, 212, 0.1) 100%);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.25), 
+    0 8px 10px -6px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.featureSvg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  transform: scale(0);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.featureCol:hover .featureSvg::before {
+  transform: scale(1);
+}
+
+.featureSvg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--ifm-color-primary), var(--ifm-color-secondary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.featureCol:hover .featureSvg::after {
+  transform: scaleX(1);
+}
+
+.featuresSection h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(to right, var(--ifm-color-primary), var(--ifm-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: all 0.3s ease;
+}
+
+.featuresSection p {
+  opacity: 0.9;
+  line-height: 1.6;
+  font-size: 1rem;
+  max-width: 90%;
+  margin: 0 auto;
 }

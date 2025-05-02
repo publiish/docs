@@ -34,6 +34,8 @@ const config: Config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.ts'),
           editUrl: 'https://github.com/publiish/docs/edit/main/',
+          showLastUpdateTime: true,
+          showLastUpdateAuthor: true,
         },
         // blog: {
         //   showReadingTime: true,
@@ -57,6 +59,11 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/social-card.png',
+    metadata: [
+      {name: 'keywords', content: 'ipfs, web3, decentralized storage, pinning, ipns'},
+      {name: 'twitter:card', content: 'summary_large_image'},
+      {name: 'theme-color', content: '#8b5cf6'},
+    ],
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,
@@ -67,6 +74,9 @@ const config: Config = {
       logo: {
         alt: 'Publiish Logo',
         src: 'img/logo.svg',
+        srcDark: 'img/logo.svg',
+        width: 32,
+        height: 32,
       },
       items: [
         {
@@ -78,10 +88,12 @@ const config: Config = {
         // {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/publiish',
-          label: 'GitHub',
           position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
+      hideOnScroll: true,
     },
     footer: {
       style: 'dark',
@@ -106,11 +118,30 @@ const config: Config = {
         },
       ],
       copyright: `© ${new Date().getFullYear()} Publiish. All rights reserved.`,
+      logo: {
+        alt: 'Publiish Logo',
+        src: 'img/logo.svg',
+        width: 80,
+        height: 32,
+      },
     },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
       additionalLanguages: ['bash', 'json', 'yaml', 'markdown', 'typescript'],
+      defaultLanguage: 'javascript',
+      magicComments: [
+        {
+          className: 'theme-code-block-highlighted-line',
+          line: 'highlight-next-line',
+          block: {start: 'highlight-start', end: 'highlight-end'},
+        },
+        {
+          className: 'code-block-error-line',
+          line: 'error-next-line',
+          block: {start: 'error-start', end: 'error-end'},
+        },
+      ],
     },
     // Add animations for page transitions
     docs: {
@@ -118,6 +149,18 @@ const config: Config = {
         autoCollapseCategories: true,
         hideable: true,
       },
+    },
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 4,
+    },
+    announcementBar: {
+      id: 'support_us',
+      content:
+        '⭐️ If you like Publiish, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/publiish">GitHub</a>',
+      backgroundColor: 'rgba(139, 92, 246, 0.2)',
+      textColor: '#fff',
+      isCloseable: true,
     },
   } satisfies Preset.ThemeConfig,
   
