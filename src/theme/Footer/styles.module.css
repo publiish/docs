@@ -1,0 +1,43 @@
+.footerLogoSection {
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerLogoWrapper {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.footerLogoWrapper:hover {
+  opacity: 0.9;
+}
+
+/* Match exact navbar logo size */
+.footerLogo {
+  height: 2rem; /* Exact same as navbar__logo */
+  width: auto;
+  margin-right: 0.5rem; /* Exact same as navbar__logo */
+  display: flex;
+  align-items: center;
+}
+
+.footerLogoText {
+  font-size: 1.25rem; /* Same as navbar title */
+  font-weight: 700; /* Same as navbar title */
+  background: linear-gradient(to right, #00A1E4, #33B4E8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
+}
+
+[data-theme='dark'] .footerLogoText {
+  background: linear-gradient(to right, var(--ifm-color-primary), var(--ifm-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+} 

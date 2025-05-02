@@ -106,7 +106,7 @@ const config: Config = {
           title: 'Community',
           items: [
             {label: 'Discord', href: 'https://discord.gg/ueqsM5q9aG'},
-            {label: 'X (Twitter)', href: 'https://x.com/publiish_ipfs'},
+            {label: 'X (Twitter)', href: 'https://x.com/PubliishIPFS'},
           ],
         },
         {
@@ -121,8 +121,6 @@ const config: Config = {
       logo: {
         alt: 'Publiish Logo',
         src: 'img/logo.svg',
-        width: 80,
-        height: 32,
       },
     },
     prism: {
