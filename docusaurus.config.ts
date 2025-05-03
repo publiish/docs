@@ -34,8 +34,9 @@ const config: Config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.ts'),
           editUrl: 'https://github.com/publiish/docs/edit/main/',
-          showLastUpdateTime: true,
-          showLastUpdateAuthor: true,
+          // showLastUpdateTime: true,
+          // showLastUpdateAuthor: true,
+          routeBasePath: 'docs',
         },
         // blog: {
         //   showReadingTime: true,

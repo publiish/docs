@@ -1139,3 +1139,185 @@ details pre {
   }
 }
 
+/* Tutorial page layout */
+.docs-doc-page .navbar {
+  display: none;
+}
+
+.docs-doc-page .main-wrapper {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Enhance Sidebar Styling */
+.theme-doc-sidebar-container {
+  background-color: var(--ifm-background-surface-color);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  border-right: 1px solid var(--ifm-toc-border-color);
+  transition: transform 0.3s ease;
+}
+
+[data-theme='dark'] .theme-doc-sidebar-container {
+  background-color: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border-right-color: rgba(255, 255, 255, 0.05);
+}
+
+.menu__link {
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+}
+
+.menu__link:hover {
+  background-color: rgba(139, 92, 246, 0.05);
+}
+
+.menu__link--active {
+  background-color: rgba(139, 92, 246, 0.1);
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.menu__list-item-collapsible {
+  border-radius: 6px;
+}
+
+.menu__list-item-collapsible:hover {
+  background-color: rgba(139, 92, 246, 0.05);
+}
+
+.menu__list-item-collapsible .menu__link {
+  padding-right: 0.75rem;
+}
+
+.menu__caret {
+  padding: 0 0.75rem;
+}
+
+/* Document Content Styling */
+.markdown h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--ifm-color-primary);
+}
+
+.markdown h2 {
+  font-size: 1.8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.markdown h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--ifm-color-primary);
+  border-radius: 3px;
+}
+
+.markdown h3 {
+  font-size: 1.35rem;
+  margin-top: 1.5rem;
+}
+
+.markdown p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.markdown blockquote {
+  border-left: 4px solid var(--ifm-color-primary-light);
+  padding: 1rem 1.5rem;
+  background-color: var(--ifm-color-emphasis-100);
+  border-radius: 6px;
+  margin: 1.5rem 0;
+}
+
+.markdown code {
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem;
+  background-color: rgba(139, 92, 246, 0.1);
+  color: var(--ifm-color-primary-dark);
+  font-weight: 500;
+}
+
+.markdown a {
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--ifm-color-primary-lightest);
+  padding-bottom: 1px;
+  transition: all 0.2s ease;
+}
+
+.markdown a:hover {
+  border-bottom: 1px solid var(--ifm-color-primary);
+}
+
+/* Enhanced Admonitions */
+.alert {
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.25rem;
+  margin: 2rem 0;
+  border: none;
+  border-left: 4px solid;
+}
+
+.alert--info {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left-color: #3b82f6;
+}
+
+.alert--success {
+  background-color: rgba(16, 185, 129, 0.1);
+  border-left-color: #10b981;
+}
+
+.alert--warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  border-left-color: #f59e0b;
+}
+
+.alert--danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left-color: #ef4444;
+}
+
+/* Code block enhancement */
+.prism-code {
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+.markdown table {
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 2rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.markdown table thead tr {
+  background-color: var(--ifm-color-primary-lightest);
+  color: var(--ifm-color-primary-darkest);
+}
+
+.markdown table th,
+.markdown table td {
+  padding: 0.75rem 1rem;
+}
+
+.markdown table tr:nth-child(even) {
+  background-color: var(--ifm-color-emphasis-100);
+}
+

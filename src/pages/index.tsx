@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
@@ -101,102 +102,67 @@ const FloatingElement = ({ children, initialX = 0, initialY = 0, delay = 0, dura
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
-  
-  return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container relative">
-        {/* Decorative floating elements */}
-        <FloatingElement initialX={-150} initialY={-50} delay={0.5} scale={1.2}>
-          <div className={styles.floatingCircle} style={{ 
-            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, rgba(139, 92, 246, 0) 70%)',
-            width: '200px', 
-            height: '200px',
-            borderRadius: '50%'
-          }} />
-        </FloatingElement>
-        
-        <FloatingElement initialX={150} initialY={100} delay={1.2} duration={10}>
-          <div className={styles.floatingCircle} style={{ 
-            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(6, 182, 212, 0) 70%)',
-            width: '150px', 
-            height: '150px',
-            borderRadius: '50%'
-          }} />
-        </FloatingElement>
-        
-        <FloatingElement initialX={-100} initialY={150} delay={0.8} duration={9} scale={0.9}>
-          <div className={styles.floatingShape} style={{ 
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%)',
-            width: '100px', 
-            height: '100px',
-            borderRadius: '24% 76% 35% 65% / 27% 36% 64% 73%'
-          }} />
-        </FloatingElement>
-        
-        {/* Add extra decorative elements */}
-        <FloatingElement initialX={200} initialY={-70} delay={1.5} duration={11} scale={0.7}>
-          <div className={styles.floatingShape} style={{ 
-            background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)',
-            width: '70px', 
-            height: '70px',
-            borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%'
-          }} />
-        </FloatingElement>
-        
-        <FloatingElement initialX={-180} initialY={200} delay={2} duration={7} scale={0.8}>
-          <div className={styles.floatingCircle} style={{ 
-            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%)',
-            width: '120px', 
-            height: '120px',
-            borderRadius: '50%'
-          }} />
-        </FloatingElement>
+  const controls = useAnimation();
 
+  useEffect(() => {
+    controls.start({ opacity: 1, y: 0 });
+  }, [controls]);
+
+  return (
+    <header className={clsx('hero', styles.heroBanner)}>
+      <div className="container">
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center',
-            position: 'relative',
-            zIndex: 2
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={controls}
+          transition={{ duration: 0.6 }}
         >
-          <motion.div variants={titleVariants}>
-            <Heading as="h1" className="hero__title">
-              {siteConfig.title}
-            </Heading>
-          </motion.div>
-          
-          <motion.div 
-            className={styles.heroTextGlow}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ 
-              delay: 0.3,
-              duration: 1.5
-            }}
-          />
-          
-          <motion.p className="hero__subtitle" variants={itemVariants}>
-            {siteConfig.tagline}
-          </motion.p>
-          
-          <motion.div 
-            className={styles.buttons}
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap="tap"
-          >
-            <Link
-              className={clsx("button button--secondary button--lg", styles.button)}
-              to="/docs/intro">
-              Publiish Tutorial - 5min ⏱️
-            </Link>
-          </motion.div>
+          <Heading as="h1" className="hero__title">
+            {siteConfig.title}
+          </Heading>
+          <p className="hero__subtitle">{siteConfig.tagline}</p>
         </motion.div>
+        
+        <motion.div 
+          className={styles.buttons}
+          initial={{ opacity: 0, y: 20 }}
+          animate={controls}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Link
+            className={clsx('button button--primary button--lg', styles.heroButton)}
+            to="/docs/intro">
+            Get Started
+          </Link>
+          <Link
+            className={clsx('button button--outline button--lg', styles.heroButton)}
+            to="https://github.com/publiish">
+            GitHub
+          </Link>
+        </motion.div>
+
+        <motion.div 
+          className={styles.statsContainer}
+          initial={{ opacity: 0, y: 20 }}
+          animate={controls}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>99.9%</span>
+            <span className={styles.statLabel}>Uptime</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>50+</span>
+            <span className={styles.statLabel}>Peer Nodes </span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>10PB+</span>
+            <span className={styles.statLabel}>Storage</span>
+          </div>
+        </motion.div>
+      </div>
+      
+      <div className={styles.heroBackground}>
+        <div className={styles.heroGlow}></div>
       </div>
     </header>
   );

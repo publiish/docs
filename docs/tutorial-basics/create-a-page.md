@@ -9,7 +9,7 @@ sidebar_position: 1
 *Decentralized identity and permissions for Web3*
 
 :::info TL;DR
-UCAN is a decentralized authorization framework that puts you in control of your digital identity. Unlike traditional auth systems, UCAN uses cryptographic keys and tokens to verify who you are and what you can access—no central server needed.
+UCAN is a decentralized authorization framework that puts you in control of your digital identity. Unlike traditional auth systems, UCAN uses cryptographic keys and tokens to verify who you are and what you can access no central server needed.
 :::
 
 ## Why UCAN Matters
