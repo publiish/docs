@@ -1,226 +1,354 @@
 # File Storage API
 
-This module handles file related operations, including file uploads, chunked uploads, file deletion, and generating publish/download links.
+The File Storage module provides comprehensive file management capabilities for the Publiish platform, including storage, retrieval, and metadata management with IPFS integration.
 
-### 1. File Entity
+## 1. File Entity Schema
 
-The File entity represents the structure of a file in the database. It includes fields such as filename, CID (Content Identifier), file size, and relationships with other entities.
+The `File` entity represents the core data structure for files stored within the system:
 
-#### Fields:
-- `id`: Unique identifier for the file.
-- `filename`: The name of the file.
-- `new_filename`: The new name of the file (if renamed).
-- `file_type`: The MIME type of the file.
-- `cid`: The CID (Content Identifier) of the file in IPFS.
-- `file_size`: The size of the file in bytes.
-- `brand_id`: The ID of the brand associated with the file.
-- `consumer_id`: The ID of the consumer who uploaded the file.
-- `created_by`: The ID of the user who created the file.
-- `updated_by`: The ID of the user who last updated the file.
-- `delete_flag`: Indicates if the file is marked for deletion.
-- `created_at`: Timestamp for when the file was created.
-- `updated_at`: Timestamp for when the file was last updated.
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | UUID | Unique identifier for the file record |
+| `filename` | String | Original name of the uploaded file |
+| `new_filename` | String | Renamed file (if applicable) |
+| `file_type` | String | MIME type of the file content |
+| `cid` | String | Content Identifier (CID) from IPFS |
+| `file_size` | Number | Size of the file in bytes |
+| `brand_id` | UUID | Reference to the brand that owns the file |
+| `consumer_id` | UUID | Reference to the consumer who uploaded the file |
+| `created_by` | UUID | Reference to the user who created the file |
+| `updated_by` | UUID | Reference to the user who last updated the file |
+| `delete_flag` | Boolean | Soft deletion marker |
+| `created_at` | Date | Creation timestamp |
+| `updated_at` | Date | Last update timestamp |
 
-#### Methods:
-- `toJSON()`: Converts the entity instance to a plain object, excluding sensitive data.
+### Methods
 
-### 2. File Service
+- **`toJSON()`**: Transforms the entity into a plain object for serialization, excluding sensitive data.
 
-The `FileService` handles the business logic for file related operations, including file uploads, chunked uploads, file deletion, and generating publish/download links.
+## 2. File Service
 
-#### Methods:
-- `getHello()`: Retrieves all files from the database (used for testing).
-- `postFile(req, brand_id, auth_user_id)`: Handles file uploads to IPFS and saves file metadata to the database.
-- `postChunkFile(req, brand_id, auth_user_id, res)`: Handles chunked file uploads, reassembles the chunks, and uploads the file to IPFS.
-- `uploadFile2IPFS(args)`: Uploads a file to IPFS and saves the metadata to the database.
-- `deleteFile(brand_id, auth_user_id, cid)`: Marks a file for deletion in the database.
-- `getPublishLink(cid, filename)`: Generates a publish link for a file.
+The `FileService` implements the core business logic for all file-related operations, providing a robust API for file management.
 
-### 3. File Controller
+### Methods
 
-The `FileController` exposes endpoints for file related operations.
+#### `getHello()`
+Retrieves all files from the database (primarily used for testing and diagnostics).
 
-#### Endpoints:
-- `GET /files`: Retrieves all files (used for testing).
-- `POST /files/file_add_update`: Handles file uploads.
-- `POST /files/file_chunk_add`: Handles chunked file uploads.
-- `DELETE /files/file_delete`: Marks a file for deletion.
-- `GET /files/publish-link/:cid`: Generates a publish link for a file.
-- `GET /files/download/:cid`: Generates a download link for a file.
+**Returns:** Array&lt;File&gt; - List of all file entities
 
-#### Imports:
-- `TypeOrmModule.forFeature([File, Brand])`: Registers the File and Brand entities with TypeORM.
-- `MulterModule.register()`: Configures Multer for handling file uploads.
-- `JwtModule.register()`: Configures JWT for authentication.
+#### `postFile(req, brand_id, auth_user_id)`
+Processes a standard file upload to IPFS.
 
-### 4. File DTOs
+**Parameters:**
+- `req`: Request - The HTTP request containing the file to upload
+- `brand_id`: UUID - The ID of the brand associated with the file
+- `auth_user_id`: UUID - The ID of the authenticated user performing the upload
 
-The DTOs define the structure of the data required for file related operations and the `types.ts` file defines the response structures.
+**Returns:** FileResponse - Contains the CID and filename of the uploaded file
 
-#### DTOs:
-- `UploadFileDto`: Contains `auth_user_id`.
-- `DeleteFileDto`: Contains `auth_user_id` and `cid`.
+**Process:**
+1. Validates the upload request and file content
+2. Uploads the file to IPFS
+3. Stores file metadata in the database
+4. Returns the file's CID and other metadata
 
-#### Interfaces:
-- `PostFileResponse`: Extends `CoreApiResponse` and includes the uploaded file details.
-- `DeleteFileResponse`: Extends `CoreApiResponse` and includes a success message.
-- `ClusterFile`: Represents a file in the IPFS cluster, including name, CID, size, and allocations.
+#### `postChunkFile(req, brand_id, auth_user_id, res)`
+Handles large file uploads using a chunked upload approach.
 
-### 6. Helper Functions
+**Parameters:**
+- `req`: Request - The HTTP request containing the file chunk
+- `brand_id`: UUID - The ID of the brand associated with the file
+- `auth_user_id`: UUID - The ID of the authenticated user performing the upload
+- `res`: Response - The HTTP response object
 
-#### `streamToBuffer.ts`
-- `streamToBuffer(stream)`: Converts a readable stream to a buffer.
+**Returns:** FileResponse - Contains the CID and filename of the uploaded file
 
-#### `parseClusterStringResponse.ts`
-- `parseClusterStringResponse(ipfsData)`: Parses a string response from the IPFS cluster into an array of `ClusterFile` objects.
+**Process:**
+1. Processes incoming file chunks
+2. Temporarily stores chunks on disk
+3. Reassembles complete file when all chunks are received
+4. Uploads the reassembled file to IPFS
+5. Stores file metadata in the database
+6. Returns the file's CID and other metadata
 
-### 7. Integration
+#### `uploadFile2IPFS(args)`
+Core method for uploading files to IPFS.
 
-The file module integrates with the following modules:
-- `AuthModule`: Ensures that only authenticated users can perform file-related operations.
-- `BrandModule`: Associates files with specific brands.
-- `MulterModule`: Handles file uploads.
+**Parameters:**
+- `args`: Object - Contains file path, brand ID, user ID, and other metadata
 
-### 8. File Storage API
+**Returns:** IPFSResponse - Contains the CID and upload confirmation
 
-#### 1. Upload File
-#### `POST /files/file_add_update`
-#### Description:
-Uploads a file to IPFS and associates it with a brand and user.
-#### Request Parameters:
-- **Query Parameters:**
-  - `auth_user_id` (number, required): The ID of the authenticated user.
-- **Headers:**
-  - `Authorization`: Bearer token for authentication.
-- **Request Body:**
-  - Multipart file upload.
-#### Response:
-- **Success (200):**
-  ```json
-  {
-    "success": "Y",
-    "status": 200,
-    "data": [
-      {
-        "cid": "<IPFS CID>",
-        "filename": "<Filename>"
-      }
-    ]
-  }
-  ```
-- **Error (500):**
-  ```json
-  { "message": "File not uploaded." }
-  ```
+#### `deleteFile(brand_id, auth_user_id, cid)`
+Marks a file for deletion in the database.
 
----
+**Parameters:**
+- `brand_id`: UUID - The ID of the brand associated with the file
+- `auth_user_id`: UUID - The ID of the authenticated user performing the deletion
+- `cid`: String - The CID of the file to delete
 
-#### 2. Upload File in Chunks
-#### `POST /files/file_chunk_add`
-#### Description:
-Uploads a large file in chunks and stores it in a temporary directory before sending it to IPFS.
-#### Request Parameters:
-- **Query Parameters:**
-  - `auth_user_id` (number, required): The ID of the authenticated user.
-- **Headers:**
-  - `Authorization`: Bearer token for authentication.
-- **Request Body:**
-  - Multipart file chunks.
-#### Response:
-- **Success (200):**
-  ```json
-  {
-    "success": "Y",
-    "status": 200,
-    "data": {
-      "cid": "<IPFS CID>",
-      "filename": "<Filename>"
-    }
-  }
-  ```
-- **Error (400, 413, 410, 500):**
-  ```json
-  { "message": "Error message based on failure." }
-  ```
+**Returns:** DeleteResponse - Contains a success confirmation message
 
----
+#### `getPublishLink(cid, filename)`
+Generates a public IPFS URL for accessing a file.
 
-#### 3. Delete File
-#### `DELETE /files/file_delete`
-#### Description:
-Marks a file as deleted in the database.
-#### Request Parameters:
-- **Query Parameters:**
-  - `auth_user_id` (number, required): The ID of the authenticated user.
-  - `cid` (string, required): The IPFS CID of the file to delete.
-- **Headers:**
-  - `Authorization`: Bearer token for authentication.
-#### Response:
-- **Success (200):**
-  ```json
-  {
-    "success": "Y",
-    "status": 200,
-    "data": "File has been deleted successfully"
-  }
-  ```
-- **Error (404, 500):**
-  ```json
-  { "message": "File not found or could not be deleted." }
-  ```
+**Parameters:**
+- `cid`: String - The CID of the file
+- `filename`: String - Optional suggested filename for the download
 
----
+**Returns:** String - The public URL for accessing the file
 
-#### 4. Get Public File Link
-#### `GET /files/publish-link/:cid`
-#### Description:
-Retrieves a public IPFS URL for a file.
-#### Request Parameters:
-- **Path Parameters:**
-  - `cid` (string, required): The IPFS CID of the file.
-- **Query Parameters:**
-  - `filename` (string, optional): Suggested filename for download.
-#### Response:
-- **Redirects to IPFS URL:**
-  ```text
-  http://localhost:8080/ipfs/<CID>?filename=<Filename>
-  ```
+## 3. File Controller
 
----
+The `FileController` exposes RESTful endpoints for file management operations.
 
-#### 5. Download File
-#### `GET /files/download/:cid`
-#### Description:
-Provides a direct download link for a file stored in IPFS.
-#### Request Parameters:
-- **Path Parameters:**
-  - `cid` (string, required): The IPFS CID of the file.
-- **Query Parameters:**
-  - `filename` (string, optional): Suggested filename for download.
-#### Response:
-- **Redirects to IPFS download URL:**
-  ```text
-  http://localhost:8080/ipfs/<CID>?filename=<Filename>&download=true
-  ```
+### Endpoints
 
----
-
-#### 6. Get All Stored Files
 #### `GET /files`
-#### Description:
-Retrieves all stored files in the database.
-#### Response:
-- **Success (200):**
-  ```json
-  [
-    {
-      "id": 1,
-      "brand_id": 123,
-      "cid": "<IPFS CID>",
-      "filename": "<Filename>",
-      "file_size": 1024,
-      "file_type": "image/png",
-      "delete_flag": false
-    }
-  ]
-  ```
+Retrieves all files in the system (diagnostic endpoint).
+
+**Response:** Array&lt;File&gt; - List of all file entities
+
+#### `POST /files/file_add_update`
+Handles file uploads to the system.
+
+**Request:**
+- Multipart form data containing the file
+- Query parameters for brand and user identification
+
+**Response:** FileResponse - Contains the CID and filename of the uploaded file
+
+#### `POST /files/file_chunk_add`
+Processes chunked file uploads for larger files.
+
+**Request:**
+- Multipart form data containing the file chunk
+- Headers specifying chunk information
+- Query parameters for brand and user identification
+
+**Response:** FileResponse - Contains the CID and filename of the uploaded file
+
+#### `DELETE /files/file_delete`
+Marks a file for deletion.
+
+**Request:**
+- Query parameters specifying the CID, brand ID, and user ID
+
+**Response:** DeleteResponse - Contains a success confirmation message
+
+#### `GET /files/publish-link/:cid`
+Generates a public IPFS URL for a file.
+
+**Path Parameters:**
+- `cid`: String - The CID of the file
+
+**Query Parameters:**
+- `filename`: String - Optional suggested filename for the download
+
+**Response:** Redirect to IPFS gateway URL
+
+#### `GET /files/download/:cid`
+Generates a download URL for a file.
+
+**Path Parameters:**
+- `cid`: String - The CID of the file
+
+**Query Parameters:**
+- `filename`: String - Optional suggested filename for the download
+
+**Response:** Redirect to IPFS gateway download URL
+
+## 4. File Data Structures
+
+### Request DTOs
+
+```typescript
+export class UploadFileDto {
+  @IsUUID()
+  @IsNotEmpty()
+  auth_user_id: string;
+}
+
+export class DeleteFileDto {
+  @IsUUID()
+  @IsNotEmpty()
+  auth_user_id: string;
+  
+  @IsString()
+  @IsNotEmpty()
+  cid: string;
+}
+```
+
+### Response Interfaces
+
+```typescript
+export interface FileResponse extends CoreApiResponse {
+  data: {
+    cid: string;
+    filename: string;
+  };
+}
+
+export interface DeleteResponse extends CoreApiResponse {
+  data: string; // Success message
+}
+
+export interface ClusterFile {
+  name: string;
+  cid: string;
+  size: number;
+  allocations: string[];
+}
+```
+
+## 5. Helper Utilities
+
+### `streamToBuffer(stream)`
+Converts a readable stream to a buffer for processing.
+
+**Parameters:**
+- `stream`: ReadableStream - The stream to convert
+
+**Returns:** Promise&lt;Buffer&gt; - The resulting buffer
+
+### `parseClusterStringResponse(ipfsData)`
+Parses IPFS cluster responses into structured data.
+
+**Parameters:**
+- `ipfsData`: String - Raw response from IPFS cluster
+
+**Returns:** Array&lt;ClusterFile&gt; - Structured file data
+
+## 6. API Reference
+
+### Upload File
+`POST /files/file_add_update`
+
+Uploads a file to IPFS and stores its metadata.
+
+**Request Parameters:**
+- **Query Parameters:**
+  - `auth_user_id` (UUID, required): The ID of the authenticated user
+- **Headers:**
+  - `Authorization`: Bearer token for authentication
+- **Body:**
+  - Multipart file upload
+
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "data": {
+    "cid": "Qm...",
+    "filename": "example.jpg"
+  }
+}
+```
+
+### Upload File in Chunks
+`POST /files/file_chunk_add`
+
+Uploads large files in manageable chunks to prevent timeout issues.
+
+**Request Parameters:**
+- **Query Parameters:**
+  - `auth_user_id` (UUID, required): The ID of the authenticated user
+- **Headers:**
+  - `Authorization`: Bearer token for authentication
+  - `X-File-Id`: Unique identifier for the chunked file
+  - `X-File-Name`: Original filename
+  - `X-File-Size`: Total file size in bytes
+  - `X-Chunk-Index`: Current chunk index (zero-based)
+  - `X-Total-Chunks`: Total number of chunks
+- **Body:**
+  - Binary chunk data
+
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "data": {
+    "cid": "Qm...",
+    "filename": "example.mp4"
+  }
+}
+```
+
+### Delete File
+`DELETE /files/file_delete`
+
+Marks a file as deleted in the database.
+
+**Request Parameters:**
+- **Query Parameters:**
+  - `auth_user_id` (UUID, required): The ID of the authenticated user
+  - `cid` (String, required): The IPFS CID of the file to delete
+- **Headers:**
+  - `Authorization`: Bearer token for authentication
+
+**Response:**
+```json
+{
+  "success": "Y",
+  "status": 200,
+  "data": "File has been deleted successfully"
+}
+```
+
+### Get Public File Link
+`GET /files/publish-link/:cid`
+
+Returns a public IPFS URL for accessing a file.
+
+**Request Parameters:**
+- **Path Parameters:**
+  - `cid` (String, required): The IPFS CID of the file
+- **Query Parameters:**
+  - `filename` (String, optional): Suggested filename for download
+
+**Response:**
+Redirects to IPFS gateway URL:
+```
+http://ipfs-gateway-url/ipfs/Qm...?filename=example.jpg
+```
+
+### Download File
+`GET /files/download/:cid`
+
+Provides a direct download link for a file stored in IPFS.
+
+**Request Parameters:**
+- **Path Parameters:**
+  - `cid` (String, required): The IPFS CID of the file
+- **Query Parameters:**
+  - `filename` (String, optional): Suggested filename for download
+
+**Response:**
+Redirects to IPFS gateway download URL:
+```
+http://ipfs-gateway-url/ipfs/Qm...?filename=example.jpg&download=true
+```
+
+## 7. Integration
+
+The File Storage API integrates with these core modules:
+
+- **AuthModule**: Enforces authentication for file operations
+- **BrandModule**: Associates files with specific brands
+- **IPFSModule**: Provides the underlying distributed storage functionality
+
+## 8. Error Handling
+
+The API implements robust error handling for various scenarios:
+
+| Error Scenario | HTTP Code | Error Response |
+|----------------|-----------|----------------|
+| File not found | 404 | `{"message": "File not found"}` |
+| Invalid CID | 400 | `{"message": "Invalid CID format"}` |
+| Upload failure | 500 | `{"message": "File upload failed: [reason]"}` |
+| Chunk assembly error | 410 | `{"message": "Chunked upload failed: [reason]"}` |
+| Unauthorized access | 403 | `{"message": "Insufficient permissions to access this file"}` |

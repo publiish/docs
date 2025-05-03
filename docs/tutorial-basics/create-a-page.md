@@ -235,5 +235,5 @@ Now that you understand UCAN basics, you're ready to:
 
 **Related Resources:**
 - [UCAN Specification](https://ucan.xyz)
-- [DID Method Specification](https://w3c-ccg.github.io/did-method-key/)
+- [DID Method Specification](https://www.w3.org/TR/did-1.1/)
 - [JSON Web Token Standards](https://jwt.io)

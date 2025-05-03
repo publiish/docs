@@ -1,103 +1,169 @@
-# API Key
+# API Key Management
 
-  The API key management system allows brands to generate, retrieve, and delete API keys, which are used to authenticate and authorize API requests.
+The API key management system provides a secure way to generate, retrieve, and delete API keys for authenticating and authorizing requests to the Publiish platform.
 
-### 1. API Key Entity
+## 1. API Key Entity Schema
 
-The `Apikey` entity represents the structure of an API key in the database. It includes fields such as the API key itself, permissions, expiration date, and relationships with the Brand entity.
+The `Apikey` entity represents the structure of an API key in the database with the following properties:
 
-#### Fields:
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | UUID | Unique identifier for the API key |
+| `apikey` | String | The actual API key string used for authentication |
+| `isActive` | Boolean | Flag indicating whether the API key is currently active |
+| `isDefault` | Boolean | Flag indicating if this is the default key for the brand |
+| `storageSize` | Number | Storage allocation for this API key in bytes |
+| `write_permission` | Boolean | Permission to perform write operations |
+| `delete_permission` | Boolean | Permission to perform delete operations |
+| `brandId` | UUID | Reference to the associated brand |
+| `brand` | Relation | Relationship to the Brand entity |
+| `expireAt` | Date | Expiration timestamp for the API key |
+| `createdAt` | Date | Creation timestamp |
+| `updatedAt` | Date | Last update timestamp |
+| `deletedAt` | Date | Soft deletion timestamp (if applicable) |
 
-- `id`: Unique identifier for the API key (UUID).
-- `apikey`: The actual API key string.
-- `isActive`: Indicates whether the API key is active.
-- `isDefault`: Indicates if the API key is the default key for the brand.
-- `storageSize`: The storage size allocated to the API key.
-- `write_permission`: Indicates if the API key has write permissions.
-- `delete_permission`: Indicates if the API key has delete permissions.
-- `brandId`: The ID of the brand associated with the API key.
-- `brand`: Relationship with the Brand entity.
-- `expireAt`: The expiration date of the API key.
-- `createdAt`, `updatedAt`, `deletedAt`: Timestamps for creation, update, and deletion.
+### Methods
 
-#### Methods:
+- **`toJSON()`**: Converts the entity instance to a plain object, excluding sensitive information for secure serialization.
 
-- `toJSON()`: Converts the entity instance to a plain object, excluding sensitive data.
+## 2. API Key Service
 
-### 2. API Key Service
+The `ApikeyService` implements the business logic for API key management with the following operations:
 
-The `ApikeyService` handles the business logic for API key management, including creation, deletion, and retrieval of API keys.
+### Methods
 
-#### Methods:
+#### `createApikey(args)`
+Creates a new API key for a brand with specified permissions.
 
-- `createApikey(args)`: Creates a new API key for a brand.
+**Parameters:**
+- `brandId`: UUID - The ID of the brand
+- `isDefault`: Boolean - Whether this is the default key
+- `storageSize`: Number - Allocated storage in bytes
+- `expireAt`: Date - Expiration timestamp
+- `writePermission`: Boolean - Write permission flag
+- `deletePermission`: Boolean - Delete permission flag
 
-  **Parameters:**
+**Returns:** String - The generated API key
+
+#### `deleteApiKey(id)`
+Deletes an API key by its unique identifier.
+
+**Parameters:**
+- `id`: UUID - The ID of the API key to delete
+
+**Returns:** Object - Result of the deletion operation
+
+#### `deleteApiKeyByBrandId(args)`
+Deletes an API key using brand ID and API key string.
+
+**Parameters:**
+- `brandId`: UUID - The ID of the brand
+- `apikey`: String - The API key string to delete
+
+**Returns:** Object - Result of the deletion operation
+
+#### `findApiKeyById(id)`
+Retrieves an API key by its unique identifier.
+
+**Parameters:**
+- `id`: UUID - The ID of the API key to retrieve
+
+**Returns:** Apikey - The retrieved API key entity
+
+#### `findApiKeysByBrandId(brandId)`
+Retrieves all API keys associated with a specific brand.
+
+**Parameters:**
+- `brandId`: UUID - The ID of the brand
+
+**Returns:** Array&lt;Apikey&gt; - List of API keys for the brand
+
+## 3. API Key Controller
+
+The `ApikeyController` exposes RESTful endpoints for API key management, secured by `AuthGuard`.
+
+### Endpoints
+
+#### `GET /apikey`
+Retrieves all API keys for the authenticated brand.
+
+**Response:** ApikeysResponse - List of API keys
+
+#### `POST /apikey`
+Creates a new API key with specified parameters.
+
+**Request Body:** ApikeyDto
+```json
+{
+  "isDefault": boolean,
+  "storageSize": number,
+  "expireAt": ISO8601 date string,
+  "writePermission": boolean,
+  "deletePermission": boolean
+}
+```
+
+**Response:** Apikey - The newly created API key
+
+#### `DELETE /apikey/:apikey`
+Deletes a specific API key.
+
+**Path Parameters:**
+- `apikey`: String - The API key to delete
+
+**Response:** SuccessResponse - Confirmation of deletion
+
+## 4. API Key Guard
+
+The `ApikeyGuard` protects routes that require API key authentication by implementing permissions verification.
+
+### Core Functionality
+
+#### `canActivate(context)`
+Verifies the API key and checks permissions for the requested route.
+
+**Verification Process:**
+1. Extracts API key from request headers
+2. Validates API key existence and activity status
+3. Checks if the brand has appropriate permissions (write/delete) for the requested route
+4. Grants or denies access based on permission validation
+
+## 5. API Key Data Structures
+
+### ApikeyDto
+Defines the structure for API key creation requests:
+
+```typescript
+export class ApikeyDto {
+  @IsBoolean()
+  isDefault: boolean;
   
-  - `brandId`: The ID of the brand.
-  - `isDefault`: Whether the key is the default key.
-  - `storageSize`: The storage size allocated.
-  - `expireAt`: The expiration date.
-  - `writePermission`: Write permissions.
-  - `deletePermission`: Delete permissions.
+  @IsNumber()
+  storageSize: number;
   
-  **Returns:** The generated API key string.
-
-- `deleteApiKey(id)`: Deletes an API key by its ID.
-- `deleteApiKeyByBrandId(args)`: Deletes an API key by brand ID and API key string.
-- `findApiKeyById(id)`: Retrieves an API key by its ID.
-- `findApiKeysByBrandId(brandId)`: Retrieves all API keys for a specific brand.
-
-### 3. API Key Controller
-
-The `ApikeyController` exposes endpoints for managing API keys. It uses the `AuthGuard` to ensure that only authenticated users can access these endpoints.
-
-#### Endpoints:
-
-- `GET /apikey`: Retrieves all API keys for the authenticated brand.
-- `POST /apikey`: Creates a new API key.
+  @IsDateString()
+  expireAt: string;
   
-  **Body:** `ApikeyDto` containing `isDefault`, `storageSize`, `expireAt`, `writePermission`, and `deletePermission`.
-
-- `DELETE /apikey/:apikey`: Deletes a specific API key.
-
-### 4. API Key Guard
-
-The `ApikeyGuard` is used to protect routes that require API key authentication. It verifies the API key and checks if the brand has the necessary permissions to perform the requested action.
-
-#### Methods:
-
-- `canActivate(context)`: Verifies the API key and checks permissions.
+  @IsBoolean()
+  writePermission: boolean;
   
-  **Checks:**
-  
-  - If the API key is valid.
-  - If the brand has the required permissions for the requested route (e.g., write or delete permissions).
+  @IsBoolean()
+  deletePermission: boolean;
+}
+```
 
-#### Imports:
+### Response Interfaces
 
-- `TypeOrmModule.forFeature([Apikey, Brand])`: Registers the `Apikey` and `Brand` entities with TypeORM.
+```typescript
+export interface ApikeysResponse extends CoreApiResponse {
+  data: Apikey[];
+}
+```
 
-### 5. API Key DTO
+## 6. Integration
 
-The `ApikeyDto` defines the structure of the data required to create a new API key and the `types.ts` file defines the response structure.
+The API key management system integrates with these core modules:
 
-#### Fields:
-
-- `isDefault`: Whether the key is the default key.
-- `storageSize`: The storage size allocated.
-- `expireAt`: The expiration date.
-- `writePermission`: Write permissions.
-- `deletePermission`: Delete permissions.
-
-#### Interfaces:
-
-- `ApikeysResponse`: Extends `CoreApiResponse` and includes an array of `Apikey` entities.
-
-### 6. Integration
-
-The API key management system integrates with the following modules:
-
-- `AuthModule`: Ensures that only authenticated users can manage API keys.
-- `BrandModule`: Associates API keys with specific brands.
-- `FileModule`: Uses API keys to authorize file uploads and deletions.
+- **AuthModule**: Enforces authentication for API key management operations
+- **BrandModule**: Associates API keys with specific brands and their permissions
+- **FileModule**: Uses API keys for authorizing file operations and enforcing permissions

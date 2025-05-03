@@ -27,24 +27,28 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'API Reference',
+      label: 'Core API Reference',
       items: [
-        'tutorial-basics/apikey',
         'tutorial-basics/auth',
-        'tutorial-basics/dids',
+        'tutorial-basics/apikey',
         'tutorial-basics/file',
         'tutorial-basics/ipns',
         'tutorial-basics/utilities',
-        'tutorial-basics/create-a-document',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'UCAN Guide',
+      items: [      
         'tutorial-basics/create-a-page',
-        'tutorial-basics/create-a-blog-post',
+        'tutorial-basics/dids',
         'tutorial-basics/deploy-your-site',
       ],
     },
     {
       type: 'category',
-      label: 'Tutorial Extras',
-      items: [
+      label: 'Tutorials Extras',
+      items: [      
         'tutorial-extras/manage-docs-versions',
       ],
     },

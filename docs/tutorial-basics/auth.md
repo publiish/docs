@@ -1,127 +1,212 @@
-# Authentication
+# Authentication System
 
-This module handles user signup, signin, and permission management for brands.
+The Authentication module provides a comprehensive system for user registration, authentication, and permission management for brands using the Publiish platform.
 
-### 1. Auth Entity
+## 1. Brand Entity Schema
 
-The `Brand` entity represents the structure of a brand in the database. It includes fields such as email, password, brand name, and permissions.
+The `Brand` entity is the core data structure representing a registered user/organization in the system with the following properties:
 
-#### Fields:
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | UUID | Unique identifier for the brand |
+| `email` | String | Email address used for authentication |
+| `password` | String | Securely hashed password |
+| `brand_name` | String | Display name of the brand or organization |
+| `magic_link_id` | String | Identifier for Magic Link authentication |
+| `public_address` | String | Blockchain/wallet address for web3 authentication |
+| `write_permission` | Boolean | Permission to perform write operations |
+| `delete_permission` | Boolean | Permission to perform delete operations |
+| `createdAt` | Date | Creation timestamp |
+| `updatedAt` | Date | Last update timestamp |
 
-- `id`: Unique identifier for the brand.
-- `email`: The email address of the brand.
-- `password`: The hashed password for the brand.
-- `brand_name`: The name of the brand.
-- `magic_link_id`: The ID used for Magic Link authentication.
-- `public_address`: The public address associated with the brand.
-- `write_permission`: Indicates if the brand has write permissions.
-- `delete_permission`: Indicates if the brand has delete permissions.
+## 2. Authentication Service
 
-### 2. Auth Service
+The `AuthService` implements core business logic for identity management and access control within the platform.
 
-The `AuthService` handles the business logic for authentication, including signup, signin, and permission management.
+### Methods
 
-#### Methods:
+#### `signup(req, brand_name)`
+Registers a new brand in the system.
 
-- `signup(req, brand_name)`: Registers a new brand.
+**Parameters:**
+- `req`: Request - The HTTP request object containing authorization token
+- `brand_name`: String - The name of the brand to register
+
+**Returns:** Brand - The newly registered brand entity
+
+**Process:**
+1. Extracts user information from authorization token
+2. Validates input data
+3. Creates new brand record with appropriate permissions
+4. Returns the created brand entity
+
+#### `signin(req)`
+Authenticates a brand and generates access credentials.
+
+**Parameters:**
+- `req`: Request - The HTTP request object containing authorization token
+
+**Returns:** Object - Contains access token for subsequent authenticated requests
+
+**Process:**
+1. Verifies credentials from authorization token
+2. Generates JWT or UCAN token based on authentication method
+3. Returns token with appropriate expiration
+
+#### `get_brands()`
+Retrieves all registered brands in the system.
+
+**Returns:** Array&lt;Brand&gt; - List of all brand entities
+
+#### `change_permission(id, column, action)`
+Updates permission settings for a specific brand.
+
+**Parameters:**
+- `id`: UUID - The ID of the brand to modify
+- `column`: String - The permission to update (`write_permission` or `delete_permission`)
+- `action`: Boolean - The new permission value (true/false)
+
+**Returns:** Object - Success confirmation message
+
+## 3. Authentication Controller
+
+The `AuthController` exposes RESTful endpoints for authentication and permission management operations.
+
+### Endpoints
+
+#### `POST /auth/signup`
+Registers a new brand in the system.
+
+**Request Body:**
+```json
+{
+  "brand_name": "Example Brand"
+}
+```
+
+**Response:** SignupResponse - Contains the registered brand details
+
+#### `POST /auth/signin`
+Authenticates a brand and provides access token.
+
+**Request Body:**
+```json
+{
+  "email": "brand@example.com",
+  "password": "secure_password"
+}
+```
+
+**Response:** SigninResponse - Contains the access token
+
+#### `POST /auth/change_permission`
+Updates permission settings for a brand.
+
+**Request Body:**
+```json
+{
+  "id": "uuid-string",
+  "column": "write_permission",
+  "action": true
+}
+```
+
+**Response:** PermissionResponse - Contains success confirmation
+
+#### `GET /auth/brands`
+Retrieves all registered brands.
+
+**Response:** BrandResponse - Contains list of all brands
+
+## 4. Authentication Guard
+
+The `AuthGuard` implements route protection to ensure only authenticated users with appropriate permissions can access specific endpoints.
+
+### Functionality
+
+#### `canActivate(context)`
+Verifies the authentication token and checks permission requirements.
+
+**Verification Process:**
+1. Extracts JWT or UCAN token from request headers
+2. Validates token signature and expiration
+3. Checks if the brand has required permissions for the requested route
+4. Attaches brand identity to request for downstream handlers
+5. Grants or denies access based on verification results
+
+## 5. Authentication Data Structures
+
+### Request DTOs
+
+```typescript
+export class SignUpDto {
+  @IsString()
+  @IsNotEmpty()
+  brand_name: string;
+}
+
+export class SignInDto {
+  @IsEmail()
+  email: string;
   
-  **Parameters:**
+  @IsString()
+  @MinLength(8)
+  password: string;
+}
+
+export class PermissionDto {
+  @IsUUID()
+  id: string;
   
-  - `req`: The request object containing the authorization token.
-  - `brand_name`: The name of the brand.
+  @IsIn(['write_permission', 'delete_permission'])
+  column: string;
   
-  **Returns:** The registered brand details.
+  @IsBoolean()
+  action: boolean;
+}
+```
 
-- `signin(req)`: Authenticates a brand and returns an access token.
-  
-  **Parameters:**
-  
-  - `req`: The request object containing the authorization token.
-  
-  **Returns:** An access token for the authenticated brand.
+### Response Interfaces
 
-- `get_brands()`: Retrieves all brands.
-  
-  **Returns:** A list of all brands.
+```typescript
+export interface SignupResponse extends CoreApiResponse {
+  data: Brand;
+}
 
-- `change_permission(id, coloumn, action)`: Updates the permissions for a brand.
-  
-  **Parameters:**
-  
-  - `id`: The ID of the brand.
-  - `coloumn`: The permission column to update (`write_permission` or `delete_permission`).
-  - `action`: The new permission value (`true` or `false`).
-  
-  **Returns:** A success message.
+export interface SigninResponse extends CoreApiResponse {
+  data: {
+    access_token: string;
+  };
+}
 
-### 3. Auth Controller
+export interface BrandResponse extends CoreApiResponse {
+  data: Brand[];
+}
 
-The `AuthController` exposes endpoints for authentication and permission management.
+export interface PermissionResponse extends CoreApiResponse {
+  data: string; // Success message
+}
 
-#### Endpoints:
+export interface RequestWithUser extends Request {
+  user: Brand;
+  token: string;
+}
+```
 
-- `POST /auth/signup`: Registers a new brand.
-  
-  **Body:** `SignUpDto` containing `brand_name`.
-  
-  **Returns:** The registered brand details.
+## 6. Authentication Methods
 
-- `POST /auth/signin`: Authenticates a brand.
-  
-  **Body:** `SignInDto` containing `email` and `password`.
-  
-  **Returns:** An access token.
+The system supports multiple authentication methods:
 
-- `POST /auth/change_permission`: Updates the permissions for a brand.
-  
-  **Body:** `PermissionDto` containing `id`, `coloumn`, and `action`.
-  
-  **Returns:** A success message.
+1. **Email/Password**: Traditional username and password authentication
+2. **Magic Link**: Passwordless authentication via email links
+3. **Web3 Authentication**: Using blockchain wallets and signatures
 
-- `GET /auth/brands`: Retrieves all brands.
-  
-  **Returns:** A list of all brands.
+Each method follows a secure authentication flow with appropriate token generation and validation processes.
 
-### 4. Auth Guard
+## 7. Integration
 
-The `AuthGuard` is used to protect routes that require authentication. It verifies the JWT token or UCAN token and checks if the brand has the necessary permissions to perform the requested action.
+The Authentication system integrates with these core modules:
 
-#### Methods:
-
-- `canActivate(context)`: Verifies the token and checks permissions.
-  
-  **Checks:**
-  
-  - If the token is valid (JWT or UCAN).
-  - If the brand has the required permissions for the requested route (e.g., write or delete permissions).
-
-
-#### Imports:
-
-- `TypeOrmModule.forFeature([Brand])`: Registers the `Brand` entity with TypeORM.
-
-### 5. Auth DTOs
-
-The DTOs define the structure of the data required for authentication and permission management and the `types.ts` file defines the response structures for authentication related operations.
-
-#### DTOs:
-
-- `SignUpDto`: Contains `brand_name`.
-- `SignInDto`: Contains `email` and `password`.
-- `PermissionDto`: Contains `id`, `coloumn`, and `action`.
-
-#### Interfaces:
-
-- `SignupResponse`: Extends `CoreApiResponse` and includes the registered brand details.
-- `SigninResponse`: Extends `CoreApiResponse` and includes an access token.
-- `BrandResponse`: Extends `CoreApiResponse` and includes a list of brands.
-- `PermissionResponse`: Extends `CoreApiResponse` and includes a success message.
-- `RequestWithUser`: Extends `Request` and includes the authenticated brand and token details.
-
-### 6. Integration
-
-The authentication module integrates with the following modules:
-
-- `BrandModule`: Manages brand-related operations.
-- `JwtModule`: Handles JWT token generation and verification.
-- `Magic`: Handles Magic Link authentication.
+- **BrandModule**: Manages brand identity and profile information
+- **JwtModule**: Handles JSON Web Token generation and verification
+- **MagicModule**: Provides passwordless authentication capabilities
