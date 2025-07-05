@@ -15,10 +15,10 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'intro',
-    'bio-did-seq-architecture',
+    'bio-did-sequencer',
+    'system-architecture',
     'bioagents-architecture',
     'knowledge-graph-integration',
-    'system-integration',
     'gateways',
     'ipns',
     'pinning',

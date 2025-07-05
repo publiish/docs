@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Bio-DID-Seq Architecture
+# Bio-DID-Sequencer
 
 > Bio-DID-Seq is a GDPR compliant Decentralized Identifier (DID) system designed for research data, integrating with Dataverse and powered by AI agents.
 
@@ -34,7 +34,7 @@ Bio-DID-Seq implements a 5 layer architecture:
 - **GDPR Compliance**: Built-in privacy controls and user data ownership
 
 #### Application Layer
-- **Actix Web API**: High-performance web service endpoints
+- **Actix Web API**: High performance web service endpoints
 - **Async Processing**: Efficient handling of compute intensive operations
 - **Rate Limiting**: Protection against abuse and DoS attacks
 
@@ -125,66 +125,15 @@ Capability-based security tokens that provide decentralized authorization:
 
 ### 1. DID Creation and Registration
 
-```mermaid
-sequenceDiagram
-    participant R as Researcher
-    participant A as Bio-DID-Seq API
-    participant I as IPFS Network
-    participant D as Dataverse
-    
-    R->>A: Request DID Creation
-    A->>A: Generate DID
-    A->>I: Store DID Document
-    I-->>A: Return CID
-    A->>A: Store DID-CID Mapping
-    A-->>R: Return DID Document
-    R->>A: Link to Dataverse DOI
-    A->>D: Verify DOI
-    A->>I: Update DID Document
-    A-->>R: Confirmation
-```
+![DID Creation](../static/img/DIDCreation.svg)
 
 ### 2. BioAgents Processing
 
-```mermaid
-sequenceDiagram
-    participant R as Researcher
-    participant A as Bio-DID-Seq API
-    participant B as BioAgents
-    participant I as IPFS Network
-    
-    R->>A: Upload Research Paper
-    A->>I: Store Paper
-    I-->>A: Return CID
-    R->>A: Process Paper via BioAgents
-    A->>B: Send Paper CID
-    B->>I: Retrieve Paper
-    B->>B: Extract Metadata
-    B->>B: Identify Biological Entities
-    B->>B: Generate Knowledge Graph
-    B->>I: Store Results
-    B-->>A: Return Results CID
-    A-->>R: Return Results
-```
+![BioAgents Processing](../static/img/BioAgentsProcessing.svg)
 
 ### 3. UCAN Authorization Flow
 
-```mermaid
-sequenceDiagram
-    participant O as Owner
-    participant C as Collaborator
-    participant A as Bio-DID-Seq API
-    participant D as Dataset
-    
-    O->>A: Request UCAN Token Creation
-    A->>A: Generate Token with Capabilities
-    A-->>O: Return UCAN Token
-    O->>C: Share Token
-    C->>A: Request Dataset Access with Token
-    A->>A: Verify Token & Capabilities
-    A->>D: Grant Access
-    D-->>C: Return Requested Data
-```
+![UCAN Authorization Flow](../static/img/UCANAuthorizationFlow.svg)
 
 ## Technical Specifications
 
@@ -268,7 +217,7 @@ Unlike traditional centralized systems:
 
 - **No Single Point of Failure**: Distributed architecture
 - **Capability Based Security**: Fine grained access control with UCAN
-- **Tamper-Evident Storage**: Content addressing ensures data integrity
+- **Tamper Evident Storage**: Content addressing ensures data integrity
 - **Decentralized Identity**: No central authority for identity management
 
 ## Future Enhancements

@@ -102,61 +102,17 @@ BioAgents integrates with the Bio-DID-Seq system through several key pathways:
 
 ### 1. API Integration
 
-```mermaid
-sequenceDiagram
-    participant R as Researcher
-    participant D as Bio-DID-Seq API
-    participant B as BioAgents Service
-    participant K as Knowledge Graph
-    
-    R->>D: Upload Research Paper
-    D->>B: Process Paper Request
-    B->>B: Extract Knowledge
-    B->>B: Generate Knowledge Graph
-    B->>K: Store Knowledge
-    B-->>D: Return Results
-    D-->>R: Display Results
-```
+![API Integration](../static/img/APIIntegration.svg)
 
-### 2. DID-Based Authorization
+### 2. DID based metadata management
 
-BioAgents respects and enforces the DID-based authorization model:
+Bio-DID-Seq respects and enforces the DID based decentralised metadata management model:
 
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant D as Bio-DID-Seq
-    participant B as BioAgents
-    participant K as Knowledge Graph
-    
-    U->>D: Request with UCAN Token
-    D->>D: Verify UCAN Capabilities
-    D->>B: Forward Request
-    B->>K: Query Knowledge (with DID)
-    K-->>B: Return Authorized Data
-    B-->>D: Return Results
-    D-->>U: Display Results
-```
+![DID based metadata management](../static/img/DIDmetadata.svg)
 
 ### 3. Data Processing Flow
 
-```mermaid
-flowchart TD
-    A[Research Paper] -->|Upload| B[Bio-DID-Seq API]
-    B -->|Store| C[IPFS Storage]
-    B -->|Process| D[BioAgents]
-    D -->|Extract| E[Metadata]
-    D -->|Identify| F[Biological Entities]
-    D -->|Generate| G[Knowledge Graph]
-    E --> H[DID Document Metadata]
-    F --> I[Entity Database]
-    G --> J[RDF Triple Store]
-    H --> K[Bio-DID Registry]
-    I --> L[Search Index]
-    J --> M[SPARQL Endpoint]
-    L --> N[Discovery Interface]
-    M --> N
-```
+![Data Processing Flow](../static/img/DataProcessingFlow.svg)
 
 ## API Specifications
 
@@ -211,5 +167,5 @@ Planned enhancements for the BioAgents system include:
 1. **Multi-Modal Processing**: Support for images, figures, and tables extraction
 2. **Specialized Biological Models**: Domain specific AI models for different biological fields
 3. **Real-time Knowledge Updates**: Continuous learning from new research
-4. **Federated Learning**: Privacy-preserving distributed model training
+4. **Federated Learning**: Privacy preserving distributed model training
 5. **Hypothesis Generation**: AI assisted hypothesis formulation based on existing knowledge 

@@ -67,19 +67,7 @@ SELECT ?gene ?disease WHERE {
 
 ### 2. Integration Points
 
-```mermaid
-flowchart TD
-    A[Research Paper] -->|BioAgents Processing| B[Knowledge Extraction]
-    B -->|Entity Recognition| C[Biological Entities]
-    B -->|Relationship Detection| D[Entity Relationships]
-    C --> E[Knowledge Graph]
-    D --> E
-    E -->|DID Association| F[Bio-DID-Seq]
-    E -->|SPARQL Queries| G[Query Interface]
-    E -->|Decentralized Storage| H[IPFS/DKG]
-    F -->|Ownership & Permissions| I[UCAN Authorization]
-    I --> G
-```
+![Integration Points](../static/img/IntegrationPoints.svg)
 
 ## Knowledge Extraction Process
 
@@ -123,21 +111,7 @@ interface BiologicalRelationship {
 
 Extracted knowledge is integrated into the knowledge graph:
 
-```mermaid
-sequenceDiagram
-    participant BP as BioAgents Processor
-    participant KE as Knowledge Extractor
-    participant KG as Knowledge Graph
-    participant DS as Decentralized Storage
-    
-    BP->>KE: Process Document
-    KE->>KE: Extract Entities
-    KE->>KE: Identify Relationships
-    KE->>KG: Generate RDF Triples
-    KG->>DS: Store Knowledge
-    DS-->>KG: Return Storage CID
-    KG-->>BP: Return Knowledge Graph Metadata
-```
+![Knowledge Graph Integration](../static/img/KnowledgeGraphIntegration.svg)
 
 ## BioAgents Knowledge Graph Features
 
@@ -259,20 +233,9 @@ Example query: "What genes are associated with Alzheimer's disease that also int
 
 ### 1. Knowledge Discovery
 
-Researchers can discover hidden connections between biological entities:
+Researchers can discover hidden connections between biological entities and can enable delegation for specific Collaborators:
 
-```mermaid
-graph TD
-    A[Gene A] -->|regulates| B[Protein X]
-    C[Gene B] -->|produces| B
-    B -->|activates| D[Pathway Y]
-    D -->|influences| E[Disease Z]
-    F[Drug M] -->|inhibits| B
-    G[Gene C] -->|associated with| E
-    H[Environmental Factor] -->|increases risk of| E
-    B -->|interacts with| G
-    F -->|has side effect| I[Symptom Q]
-```
+![Knowledge Discovery](../static/img/KnowledgeDiscovery.svg)
 
 ### 2. Hypothesis Generation
 

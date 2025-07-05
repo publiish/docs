@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# System Integration Architecture
+# System Architecture
 
 > The Bio-DID-Seq ecosystem integrates multiple components including decentralized identifiers, AI powered processing, knowledge graphs, and secure data management to create a comprehensive platform for research data.
 
@@ -10,7 +10,7 @@ sidebar_position: 5
 
 The system integrates several key components to provide a seamless experience for researchers working with research data:
 
-1. **Bio-DID-Seq Core**: The foundation providing decentralized identifiers and GDPR-compliant data management
+1. **Bio-DID-Seq Core**: The foundation providing decentralized identifiers and GDPR compliant data management
 2. **BioAgents**: AI powered agents for research data processing and knowledge extraction
 3. **Knowledge Graph**: Semantic representation of biological entities and relationships
 4. **IPFS Storage Layer**: Decentralized and content-addressed storage
@@ -18,39 +18,13 @@ The system integrates several key components to provide a seamless experience fo
 
 This integration creates a powerful ecosystem that enhances data discoverability, ensures data sovereignty, and enables advanced biological insights.
 
-![System Integration Architecture](../static/img/system-integration.svg)
+![System Architecture](../static/img/system-integration.svg)
 
 ## Core Component Interactions
 
 ### Integration Architecture
 
-```mermaid
-flowchart TD
-    U[Researcher/User] <-->|Interacts with| A[Web/API Interface]
-    A <-->|DID Operations| B[Bio-DID-Seq Core]
-    A <-->|Data Processing| C[BioAgents]
-    A <-->|Knowledge Queries| D[Knowledge Graph]
-    
-    B <-->|Metadata Storage| E[IPFS Storage]
-    B -->|Authentication| F[UCAN Service]
-    B -->|Data Association| G[Dataverse]
-    
-    C -->|Knowledge Extraction| D
-    C <-->|Document Processing| E
-    C -->|Authorized Access| F
-    
-    D <-->|Semantic Storage| H[RDF Triple Store]
-    D <-->|Decentralized Storage| I[DKG]
-    
-    subgraph Security Layer
-    F -->|Capability Validation| J[Authorization Check]
-    end
-    
-    J -->|Access Control| B
-    J -->|Access Control| C
-    J -->|Access Control| D
-    J -->|Access Control| E
-```
+![System Integration](../static/img/integration.svg)
 
 ### Component Responsibilities
 
@@ -66,75 +40,15 @@ flowchart TD
 
 ### 1. Research Paper Processing Workflow
 
-```mermaid
-sequenceDiagram
-    participant R as Researcher
-    participant B as Bio-DID-Seq API
-    participant I as IPFS Storage
-    participant A as BioAgents
-    participant K as Knowledge Graph
-    participant D as Dataverse
-    
-    R->>B: Upload Research Paper
-    B->>B: Authenticate & Authorize
-    B->>I: Store Paper
-    I-->>B: Return Content ID (CID)
-    B->>A: Process Paper (CID)
-    A->>I: Retrieve Paper
-    A->>A: Extract Knowledge
-    A->>K: Store Extracted Knowledge
-    A->>K: Generate Knowledge Graph
-    K-->>A: Return Knowledge Graph ID
-    A-->>B: Return Processing Results
-    B->>B: Update DID Document
-    B->>D: Publish to Dataverse (Optional)
-    D-->>B: Return DOI
-    B-->>R: Return Complete Results
-```
+![Sequence Diagram](../static/img/sequenceDiagram.svg)
 
 ### 2. Knowledge Query Workflow
 
-```mermaid
-sequenceDiagram
-    participant R as Researcher
-    participant B as Bio-DID-Seq API
-    participant U as UCAN Service
-    participant K as Knowledge Graph
-    
-    R->>B: Knowledge Query + Token
-    B->>U: Validate UCAN Token
-    U-->>B: Authorization Result
-    alt Authorized
-        B->>K: Forward Query
-        K->>K: Process Query
-        K-->>B: Return Results
-        B-->>R: Return Results
-    else Unauthorized
-        B-->>R: Access Denied
-    end
-```
+![Knowledge Query Workflow](../static/img/KnowledgeQuery.svg)
 
 ### 3. UCAN Delegation Workflow
 
-```mermaid
-sequenceDiagram
-    participant O as Data Owner
-    participant B as Bio-DID-Seq
-    participant C as Collaborator
-    participant U as UCAN Service
-    participant D as Data Resource
-    
-    O->>B: Request UCAN for Collaborator
-    B->>U: Generate UCAN Token
-    U-->>B: Return Token
-    B-->>O: Return UCAN Token
-    O->>C: Share Token
-    C->>B: Request Data Access
-    B->>U: Validate Token
-    U-->>B: Validation Result
-    B->>D: Grant Access
-    D-->>C: Provide Data
-```
+![UCAN Delegation](../static/img/UCANDelegation.svg)
 
 ## Technical Integration Details
 
@@ -188,24 +102,7 @@ Security is integrated across all system components:
 
 ### 1. Authentication Flow
 
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant A as Auth Service
-    participant B as Bio-DID-Seq API
-    participant D as DID Service
-    
-    U->>A: Login Request
-    A->>D: Verify DID
-    D-->>A: DID Verification
-    A->>A: Generate Auth Token
-    A-->>U: Return Auth Token
-    U->>B: API Request + Auth Token
-    B->>A: Validate Token
-    A-->>B: Validation Result
-    B->>B: Process Request
-    B-->>U: Response
-```
+![Authentication Flow](../static/img/AuthenticationFlow.svg)
 
 ### 2. UCAN Authorization
 

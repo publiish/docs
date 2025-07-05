@@ -23,7 +23,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Decentralized Resilience / Kademlia Backed Storage',
+    title: 'Content Addressing / Kademlia Backed Storage',
     imgSrc: require('@site/static/img/dec_resilience.png').default,
     description: (
       <>
@@ -40,7 +40,7 @@ const FeatureList: FeatureItem[] = [
       <>
          Verify files with CIDs while keeping access restricted. Share data only with 
          authorized nodes in a closed cluster. Unlike traditional auth systems, 
-         UCAN uses cryptographic keys and tokens to verify who you are and what you can access no central 
+         UCAN uses cryptographic keys and tokens to verify who you are and what you can access, no central 
          server needed.
       </>
     ),

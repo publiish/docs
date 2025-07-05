@@ -34,14 +34,7 @@ Let's explore how UCAN reimagines these concepts for a decentralized world:
 
 ### Identity Through Cryptography
 
-```mermaid
-graph LR
-    A[User] -->|Generates| B[Key Pair]
-    B -->|Public Key| C[DID - Decentralized ID]
-    B -->|Private Key| D[Signatures]
-    C -->|Identifies| A
-    D -->|Proves Ownership| C
-```
+![Identity Graph](../../static/img/IdentityGraph.svg)
 
 With UCAN:
 
@@ -60,17 +53,23 @@ UCANs are encoded as JSON Web Tokens (JWTs) containing:
 
 ```json
 {
-  "iss": "did:key:user123", // Who issued this token
-  "aud": "did:key:service456", // Who can use this token
-  "nbf": 1618099138, // Not valid before (timestamp)
-  "exp": 1618185538, // Expiration (timestamp)
+  // Who issued this token
+  "iss": "did:key:user123",
+  // Who can use this token
+  "aud": "did:key:service456",
+  // Not valid before (timestamp)
+  "nbf": 1618099138,
+  // Expiration (timestamp)
+  "exp": 1618185538,
   "att": [
     {
       "with": "storage://did:key:user123",
       "can": "upload/*"
     }
-  ], // Capabilities (what you can do)
-  "prf": [] // Proof chain (where did these permissions come from)
+  ],
+  // Capabilities (what you can do)
+  // Proof chain (where did these permissions come from)
+  "prf": [] 
 }
 ```
 
@@ -115,13 +114,17 @@ const myKeypair = await KeyPair.create()
 
 // Create a UCAN token
 const token = await build({
-  issuer: myKeypair,              // Who's issuing this token
-  audience: serviceDid,           // Who the token is for
-  capabilities: [{                // What permissions to grant
+  // Who's issuing this token
+  issuer: myKeypair,
+  // Who the token is for
+  audience: serviceDid,
+  // What permissions to grant
+  capabilities: [{
     with: 'storage://did:key:user123',
     can: 'upload/*'
   }],
-  lifetimeInSeconds: 60 * 60 * 24 // Valid for 24 hours
+  // Valid for 24 hours
+  lifetimeInSeconds: 60 * 60 * 24
 })
 
 // Use the token in API requests
@@ -188,10 +191,13 @@ const childToken = await build({
   audience: collaboratorDid,
   capabilities: [{
     with: 'storage://did:key:user123/project1',
-    can: 'upload/jpeg'  // Limited to uploading JPEG files
+    // Limited to uploading JPEG files
+    can: 'upload/jpeg'
   }],
-  proofs: [parentToken],  // Link to the parent token
-  lifetimeInSeconds: 3600  // Only valid for 1 hour
+   // Link to the parent token
+  proofs: [parentToken],
+  // Only valid for 1 hour
+  lifetimeInSeconds: 3600
 })
 ```
 
