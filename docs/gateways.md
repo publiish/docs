@@ -33,8 +33,8 @@ Each account receives the following gateway URLs:
 
 | Gateway Type | URL Format | Example |
 |--------------|------------|---------|
-| Default | `https://gateway.publiish.io/ipfs/{CID}` | `https://gateway.publiish.io/ipfs/QmExampleCID123` |
-| Subdomain | `https://{CID}.ipfs.gateway.publiish.io` | `https://QmExampleCID123.ipfs.gateway.publiish.io` |
+| Default | `https://gateway.publiish.xyz/ipfs/{CID}` | `https://gateway.publiish.xyz/ipfs/QmExampleCID123` |
+| Subdomain | `https://{CID}.ipfs.gateway.publiish.xyz` | `https://QmExampleCID123.ipfs.gateway.publiish.xyz` |
 | Custom Domain | `https://{your-domain}/ipfs/{CID}` | `https://assets.example.com/ipfs/QmExampleCID123` |
 
 ### Setting Up a Custom Domain
@@ -51,7 +51,7 @@ Example DNS configuration:
 ```
 Type: CNAME
 Host: gateway.example.com
-Value: custom-gw.publiish.io
+Value: custom-gw.publiish.xyz
 TTL: 3600
 ```
 
@@ -69,7 +69,7 @@ For content that requires access control, you can set up private gateways:
 
 ```javascript
 // In a browser environment with fetch
-const response = await fetch('https://private.gateway.publiish.io/ipfs/QmExampleCID123', {
+const response = await fetch('https://private.gateway.publiish.xyz/ipfs/QmExampleCID123', {
   headers: {
     'Authorization': 'Bearer YOUR_API_KEY'
   }
@@ -81,7 +81,7 @@ const data = await response.blob();
 ```bash
 # With curl
 curl -H "Authorization: Bearer YOUR_API_KEY" \
-  https://private.gateway.publiish.io/ipfs/QmExampleCID123
+  https://private.gateway.publiish.xyz/ipfs/QmExampleCID123
 ```
 
 ## Gateway Performance Optimization

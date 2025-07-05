@@ -173,7 +173,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="Powering decentralized apps with IPFS pinning, dedicated gateways, and IPNS."
+      description="Powering decentralized apps with BioAI DIDs, IPFS pinning, dedicated gateways, and IPNS."
       wrapperClassName="homepage">
       <HomepageHeader />
       <main>

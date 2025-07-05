@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Welcome to Publiish
 
-> Publiish IPFS Network is a decentralized storage solution with privacy controls built on IPFS technology, giving you full ownership of your data with enhanced security, accessibility, and censorship resistance.
+> Publiish IPFS Network is a decentralized storage solution and a GDPR compliant Decentralized Identifier (DID) system designed with privacy controls built on IPFS technology, giving you full ownership of your data with enhanced security, accessibility, and censorship resistance.
 
 ## Getting Started
 
@@ -25,7 +25,7 @@ Publiish is a privacy focused decentralized storage network built on IPFS techno
 
 To get started with Publiish, follow these simple steps:
 
-1. **Create an account** on the [Publiish platform](https://publiish.io)
+1. **Create an account** on the [Publiish platform](https://publiish.xyz)
 2. **Generate your API key** from the dashboard
 3. **Install the SDK** for your preferred language
 4. **Start uploading content** using our API

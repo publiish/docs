@@ -13,32 +13,35 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Decentralized Resilience',
-    imgSrc: require('@site/static/img/dec_resilience.png').default,
+    title: 'BioAI DIDs Sequencer (BioAgents with Dataverse)',
+    imgSrc: require('@site/static/img/data_sovereignt_10.png').default,
     description: (
-      <>
-        Store data across a trustless network, free from centralized control or censorship.
-        Retain control over your files, unlike editable S3 buckets.
+      <>Bio-DID-Seq is a GDPR compliant Decentralized Identifier (DID) system designed for research data, 
+        integrating with Dataverse and powered by AI agents. Define access policies for a truly sovereign experience. 
+        Avoid single points of failure unlike traditional cloud providers.
       </>
     ),
   },
   {
-    title: 'Content Addressing with UCAN Authorization',
+    title: 'Decentralized Resilience / Kademlia Backed Storage',
+    imgSrc: require('@site/static/img/dec_resilience.png').default,
+    description: (
+      <>
+        Store data across a trustless network, free from centralized control.Retain control over your files, 
+        unlike editable S3 buckets. Publiish offers reliable pinning services, dedicated IPFS gateways with flexible 
+        options for different content types and storage durations.
+      </>
+    ),
+  },
+  {
+    title: 'User Controlled Authorization Network (UCAN) tokens',
     imgSrc: require('@site/static/img/content_addressing_tree.png').default,
     description: (
       <>
          Verify files with CIDs while keeping access restricted. Share data only with 
-         authorized nodes in a closed cluster.
-      </>
-    ),
-  },
-  {
-    title: 'Beyond Centralization/ Immutable Privacy',
-    imgSrc: require('@site/static/img/data_sovereignt_10.png').default,
-    description: (
-      <>
-        Define access policies for a truly sovereign experience. Avoid single points 
-        of failure unlike traditional cloud providers.
+         authorized nodes in a closed cluster. Unlike traditional auth systems, 
+         UCAN uses cryptographic keys and tokens to verify who you are and what you can access no central 
+         server needed.
       </>
     ),
   },

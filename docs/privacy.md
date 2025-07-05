@@ -119,7 +119,7 @@ console.log('Access token:', token.jwt);
 
 ```javascript
 // In a browser environment
-const response = await fetch(`https://gateway.publiish.io/ipfs/${cid}`, {
+const response = await fetch(`https://gateway.publiish.xyz/ipfs/${cid}`, {
   headers: {
     'Authorization': `Bearer ${token.jwt}`
   }
@@ -142,8 +142,8 @@ Access logs through the API:
 // Get access logs for specific content
 const logs = await client.logs.getAccessLogs({
   cid: result.cid,
-  startTime: '2023-06-01T00:00:00Z',
-  endTime: '2023-06-30T23:59:59Z'
+  startTime: '2025-06-01T00:00:00Z',
+  endTime: '2025-06-30T23:59:59Z'
 });
 
 console.log('Access logs:', logs);

@@ -15,40 +15,32 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'intro',
+    'bio-did-seq-architecture',
+    'bioagents-architecture',
+    'knowledge-graph-integration',
+    'system-integration',
+    'gateways',
+    'ipns',
+    'pinning',
+    'privacy',
     {
       type: 'category',
-      label: 'Getting Started',
-      items: [
-        'pinning',
-        'gateways',
-        'ipns',
-        'privacy',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Core API Reference',
+      label: 'Tutorial',
       items: [
         'tutorial-basics/auth',
         'tutorial-basics/apikey',
+        'tutorial-basics/dids',
         'tutorial-basics/file',
         'tutorial-basics/ipns',
         'tutorial-basics/utilities',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'UCAN Guide',
-      items: [      
         'tutorial-basics/create-a-page',
-        'tutorial-basics/dids',
         'tutorial-basics/deploy-your-site',
       ],
     },
     {
       type: 'category',
-      label: 'Tutorials Extras',
-      items: [      
+      label: 'Advanced',
+      items: [
         'tutorial-extras/manage-docs-versions',
       ],
     },

@@ -117,7 +117,7 @@ For enhanced usability, you can combine IPNS with DNSLink to use domain names:
 
 2. Access via gateway:
    ```
-   https://gateway.publiish.io/ipns/example.com
+   https://gateway.publiish.xyz/ipns/example.com
    ```
 
 ## Performance Considerations

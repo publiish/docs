@@ -6,7 +6,7 @@ sidebar_position: 5
 
 This package defines a specification for delegated authorization of decentralized storage services using User Controlled Authorization Networks [UCAN].
 
-publiish.ucan was designed to be used with [Node Publiish Storage](https://publiish.io/), which provides storage services backed by the [Filecoin](https://filecoin.io) network, with content retrieval via the [InterPlanetary File System (IPFS)](https://ipfs.io).
+publiish.ucan was designed to be used with [Node Publiish Storage](https://publiish.xyz/), which provides storage services backed by the [Filecoin](https://filecoin.io) network, with content retrieval via the [InterPlanetary File System (IPFS)](https://ipfs.io).
 
 Please find the reference implementation of the spec, in the form of a JavaScript package called `publiish-ucan`. See the [Use cases](#use-cases) section below to see how it can be used, along with some example code for each use case.
 
@@ -14,7 +14,7 @@ Please find the reference implementation of the spec, in the form of a JavaScrip
 
 Authorization using UCANs works differently than many other authorization schemes, so it's worth taking a moment to understand the terms and concepts involved.
 
-First, we have a **storage service**, for example, [Node Publiish Storage](https://publiish.io/). Normally (without UCAN), when a user signs up for an account at Node Publiish, the service will give them an API token to authenticate and authorize uploads. This is standard Web 2 auth, and it works great, but it has some limitations, especially if you want to use Node Publiish to provide services for your own end users.
+First, we have a **storage service**, for example, [Node Publiish Storage](https://publiish.xyz/). Normally (without UCAN), when a user signs up for an account at Node Publiish, the service will give them an API token to authenticate and authorize uploads. This is standard Web 2 auth, and it works great, but it has some limitations, especially if you want to use Node Publiish to provide services for your own end users.
 
 For example, if you're building an NFT marketplace and want users to upload art to Node Publiish before minting, you can't put your API token into the source code for your web application without exposing it to the world. Since your API token includes more permissions than just uploading, like deleting uploads from your account, this isn't a great solution. You could work around this by running a proxy server that hides your token from your users and attaches it to storage requests, but this means you need to relay all traffic through your server and pay for bandwidth costs.
 
@@ -430,7 +430,7 @@ Proofs: [
 
 ## Using UCANs with Node Publiish
 
-[Publiish Web3 Storage](https://publiish.io/) is a free service for storing datas on the decentralized [Filecoin](https://filecoin.io) storage network, with content retrieval via [IPFS](https://ipfs.io).
+[Publiish Web3 Storage](https://publiish.xyz/) is a free service for storing datas on the decentralized [Filecoin](https://filecoin.io) storage network, with content retrieval via [IPFS](https://ipfs.io).
 
 Node Publiish is the first service to support UCAN-based authorization using the `publiish-ucan` library.
 
@@ -438,7 +438,7 @@ For the platforms need storage, adopting UCAN auth can allow you to integrate fr
 
 The Node Publiish API includes endpoints for registering your DID with your Node Publiish account and obtaining "root tokens" that can be used to delegate storage permissions to other users, whether they have an Node Publiish account or not.
 
-To use the UCAN API endpoints, create an API token at your Node Publiish [account management page](https://publiish.io/).
+To use the UCAN API endpoints, create an API token at your Node Publiish [account management page](https://publiish.xyz/).
 
 ### Registering your DID
 

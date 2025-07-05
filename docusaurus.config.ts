@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Publiish IPFS Network',
-  tagline: 'Powering decentralized apps with IPFS pinning, dedicated gateways, and IPNS.',
+  tagline: 'Powering decentralized apps with BioAI DIDs, IPFS pinning, dedicated gateways, and IPNS.',
   favicon: 'img/favicon.ico',
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
