@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .node rect, .node circle, .node ellipse, .node polygon, .node path {
+      fill: #f9f9f9;
+      stroke: #8b5cf6;
+      stroke-width: 2px;
+    }
+    .edgePath path {
+      stroke: #3b82f6;
+      stroke-width: 2px;
+      fill: none;
+    }
+    .cluster rect {
+      fill: #f0f0f0;
+      stroke: #3b82f6;
+      stroke-width: 1px;
+      rx: 5px;
+      ry: 5px;
+    }
+    .cluster text {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      fill: #333;
+    }
+    .node text {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      fill: #333;
+    }
+    .edgeLabel text {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      fill: #666;
+    }
+    .method {
+      font-weight: bold;
+      fill: #8b5cf6;
+    }
+  </style>
+  
+  <!-- Frontend Cluster -->
+  <g class="cluster" transform="translate(400, 50)">
+    <rect width="180" height="80" rx="5" ry="5" />
+    <text x="90" y="20" text-anchor="middle">Frontend</text>
+    
+    <!-- UI Node -->
+    <g class="node" transform="translate(90, 50)">
+      <rect width="120" height="40" rx="5" ry="5" />
+      <text x="60" y="25" text-anchor="middle">API Testing Interface</text>
+    </g>
+  </g>
+  
+  <!-- API Gateway Node -->
+  <g class="node" transform="translate(400, 150)">
+    <rect width="120" height="40" rx="5" ry="5" />
+    <text x="60" y="25" text-anchor="middle">API Gateway</text>
+  </g>
+  
+  <!-- Edge from UI to API -->
+  <g class="edgePath">
+    <path d="M400,90 L400,150" />
+    <text x="410" y="120" text-anchor="start">Sends requests</text>
+  </g>
+  
+  <!-- Bio-DID-Seq API Cluster -->
+  <g class="cluster" transform="translate(400, 200)">
+    <rect width="700" height="300" rx="5" ry="5" />
+    <text x="350" y="20" text-anchor="middle">Bio-DID-Seq API</text>
+    
+    <!-- DID Management Cluster -->
+    <g class="cluster" transform="translate(100, 50)">
+      <rect width="200" height="220" rx="5" ry="5" />
+      <text x="100" y="20" text-anchor="middle">DID Management</text>
+      
+      <!-- DID Node -->
+      <g class="node" transform="translate(100, 40)">
+        <rect width="120" height="30" rx="5" ry="5" />
+        <text x="60" y="20" text-anchor="middle">DID Management</text>
+      </g>
+      
+      <!-- DID Endpoints -->
+      <g class="node" transform="translate(100, 90)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">POST</text>
+        <text x="50" y="15" text-anchor="start">/api/did</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 120)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">GET</text>
+        <text x="50" y="15" text-anchor="start">/api/did/{id}</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 150)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">PUT</text>
+        <text x="50" y="15" text-anchor="start">/api/did/{id}</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 180)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">GET</text>
+        <text x="50" y="15" text-anchor="start">/api/did/resolve/{id}</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 210)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">POST</text>
+        <text x="50" y="15" text-anchor="start">/api/did/dataverse/link</text>
+      </g>
+    </g>
+    
+    <!-- BioAgents Cluster -->
+    <g class="cluster" transform="translate(350, 50)">
+      <rect width="200" height="220" rx="5" ry="5" />
+      <text x="100" y="20" text-anchor="middle">BioAgents</text>
+      
+      <!-- BioAgents Node -->
+      <g class="node" transform="translate(100, 40)">
+        <rect width="120" height="30" rx="5" ry="5" />
+        <text x="60" y="20" text-anchor="middle">BioAgents</text>
+      </g>
+      
+      <!-- BioAgents Endpoints -->
+      <g class="node" transform="translate(100, 90)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">POST</text>
+        <text x="50" y="15" text-anchor="start">/api/bioagents/process</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 120)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">GET</text>
+        <text x="50" y="15" text-anchor="start">/api/bioagents/status/{id}</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 150)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">GET</text>
+        <text x="50" y="15" text-anchor="start">/api/bioagents/metadata/{id}</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 180)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">GET</text>
+        <text x="50" y="15" text-anchor="start">/api/bioagents/search</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 210)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">POST</text>
+        <text x="50" y="15" text-anchor="start">/api/bioagents/knowledge-graph</text>
+      </g>
+    </g>
+    
+    <!-- Dataverse Cluster -->
+    <g class="cluster" transform="translate(600, 50)">
+      <rect width="200" height="160" rx="5" ry="5" />
+      <text x="100" y="20" text-anchor="middle">Dataverse</text>
+      
+      <!-- Dataverse Node -->
+      <g class="node" transform="translate(100, 40)">
+        <rect width="120" height="30" rx="5" ry="5" />
+        <text x="60" y="20" text-anchor="middle">Dataverse</text>
+      </g>
+      
+      <!-- Dataverse Endpoints -->
+      <g class="node" transform="translate(100, 90)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">POST</text>
+        <text x="50" y="15" text-anchor="start">/api/dataverse/dataset</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 120)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">POST</text>
+        <text x="50" y="15" text-anchor="start">/api/dataverse/dataset/file</text>
+      </g>
+      
+      <g class="node" transform="translate(100, 150)">
+        <rect width="180" height="20" rx="5" ry="5" />
+        <text x="10" y="15" text-anchor="start" class="method">POST</text>
+        <text x="50" y="15" text-anchor="start">/api/dataverse/dataset/publish</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Edges from API to Services -->
+  <g class="edgePath">
+    <path d="M400,170 L200,250" />
+  </g>
+  
+  <g class="edgePath">
+    <path d="M400,170 L400,250" />
+  </g>
+  
+  <g class="edgePath">
+    <path d="M400,170 L600,250" />
+  </g>
+  
+  <!-- Storage Cluster -->
+  <g class="cluster" transform="translate(200, 520)">
+    <rect width="180" height="80" rx="5" ry="5" />
+    <text x="90" y="20" text-anchor="middle">Storage</text>
+    
+    <!-- IPFS Node -->
+    <g class="node" transform="translate(90, 50)">
+      <rect width="120" height="40" rx="5" ry="5" />
+      <text x="60" y="25" text-anchor="middle">IPFS Cluster</text>
+    </g>
+  </g>
+  
+  <!-- External Services Cluster -->
+  <g class="cluster" transform="translate(600, 520)">
+    <rect width="180" height="80" rx="5" ry="5" />
+    <text x="90" y="20" text-anchor="middle">External Services</text>
+    
+    <!-- Dataverse API Node -->
+    <g class="node" transform="translate(90, 50)">
+      <rect width="120" height="40" rx="5" ry="5" />
+      <text x="60" y="25" text-anchor="middle">Harvard Dataverse API</text>
+    </g>
+  </g>
+  
+  <!-- Edge from API to IPFS -->
+  <g class="edgePath">
+    <path d="M400,170 L200,520" />
+  </g>
+  
+  <!-- Edge from Dataverse to Harvard Dataverse API -->
+  <g class="edgePath">
+    <path d="M600,250 L600,520" />
+  </g>
+</svg> 

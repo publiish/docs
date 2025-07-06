@@ -71,6 +71,26 @@ const buttonVariants = {
   }
 };
 
+const cardVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { 
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  },
+  hover: {
+    y: -10,
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    transition: { 
+      duration: 0.3,
+      ease: "easeOut"
+    }
+  }
+};
+
 // Decorative floating elements
 const FloatingElement = ({ children, initialX = 0, initialY = 0, delay = 0, duration = 8, scale = 1 }) => {
   return (
@@ -168,6 +188,95 @@ function HomepageHeader() {
   );
 }
 
+function ApiTestingSection() {
+  const controls = useAnimation();
+  
+  useEffect(() => {
+    controls.start('visible');
+  }, [controls]);
+
+  return (
+    <section className={styles.apiTestingSection}>
+      <div className="container">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={controls}
+          className={styles.apiTestingContainer}
+        >
+          <motion.div variants={titleVariants} className={styles.apiTestingHeader}>
+            <Heading as="h2">API Testing Tools</Heading>
+            <p>Test and explore the Bio-DID-Seq API endpoints with our interactive tools</p>
+          </motion.div>
+          
+          <div className={styles.apiCardContainer}>
+            <motion.div 
+              variants={cardVariants}
+              whileHover="hover"
+              className={styles.apiCard}
+            >
+              <div className={styles.apiCardContent}>
+                <Heading as="h3">DID Management</Heading>
+                <p>Create, retrieve, update and manage Decentralized Identifiers (DIDs) for research data</p>
+                <Link
+                  className="button button--primary"
+                  to="/did-management">
+                  Test DID API
+                </Link>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              variants={cardVariants}
+              whileHover="hover"
+              className={styles.apiCard}
+            >
+              <div className={styles.apiCardContent}>
+                <Heading as="h3">BioAgents</Heading>
+                <p>Process research papers with AI-powered BioAgents for metadata extraction and knowledge graphs</p>
+                <Link
+                  className="button button--primary"
+                  to="/bioagents">
+                  Test BioAgents API
+                </Link>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              variants={cardVariants}
+              whileHover="hover"
+              className={styles.apiCard}
+            >
+              <div className={styles.apiCardContent}>
+                <Heading as="h3">Dataverse</Heading>
+                <p>Create, publish, and manage datasets in Harvard Dataverse repository</p>
+                <Link
+                  className="button button--primary"
+                  to="/dataverse">
+                  Test Dataverse API
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+          
+          <motion.div 
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            className={styles.apiTestingCta}
+          >
+            <Link
+              className="button button--secondary button--lg"
+              to="/api-tester">
+              Open Full API Tester
+            </Link>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -178,6 +287,7 @@ export default function Home(): ReactNode {
       <HomepageHeader />
       <main>
         <HomepageFeatures />
+        <ApiTestingSection />
       </main>
     </Layout>
   );

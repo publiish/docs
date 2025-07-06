@@ -25,6 +25,32 @@ const sidebars: SidebarsConfig = {
     'privacy',
     {
       type: 'category',
+      label: 'API Testing',
+      items: [
+        {
+          type: 'link',
+          label: 'API Tester',
+          href: '/api-tester',
+        },
+        {
+          type: 'link',
+          label: 'DID Management API',
+          href: '/did-management',
+        },
+        {
+          type: 'link',
+          label: 'BioAgents API',
+          href: '/bioagents',
+        },
+        {
+          type: 'link',
+          label: 'Dataverse API',
+          href: '/dataverse',
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Tutorial',
       items: [
         'tutorial-basics/auth',

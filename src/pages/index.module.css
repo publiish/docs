@@ -207,3 +207,124 @@
 .relative {
   position: relative;
 }
+
+/* API Testing Section */
+.apiTestingSection {
+  padding: 4rem 0;
+  background-color: var(--ifm-background-surface-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.apiTestingSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(139, 92, 246, 0), 
+    rgba(139, 92, 246, 0.5), 
+    rgba(139, 92, 246, 0));
+}
+
+.apiTestingContainer {
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.apiTestingHeader {
+  margin-bottom: 3rem;
+}
+
+.apiTestingHeader h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, var(--ifm-color-primary), var(--ifm-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.apiTestingHeader p {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.apiCardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.apiCard {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 100%;
+}
+
+[data-theme='dark'] .apiCard {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.apiCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.apiCard:hover::before {
+  transform: scaleX(1);
+}
+
+.apiCardContent {
+  padding: 2rem;
+}
+
+.apiCardContent h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-primary);
+}
+
+.apiCardContent p {
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.apiTestingCta {
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .apiCardContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .apiTestingHeader h2 {
+    font-size: 2rem;
+  }
+  
+  .apiTestingHeader p {
+    font-size: 1rem;
+  }
+}
