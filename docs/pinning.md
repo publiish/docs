@@ -56,7 +56,7 @@ When pinning content, you can specify various options:
 
 | Option | Description |
 |--------|-------------|
-| `name` | A human-readable name for the pin |
+| `name` | A human readable name for the pin |
 | `expires` | When the pin should expire (e.g., '30d', '1y') |
 | `replicas` | Number of nodes to replicate content across |
 | `metadata` | Custom metadata to associate with the pin |
@@ -66,8 +66,10 @@ When pinning content, you can specify various options:
 ```javascript
 const pinOptions = {
   name: 'Project Logo',
-  expires: '365d', // Pin for one year
-  replicas: 3,     // Store on at least 3 nodes
+  // Pin for one year
+  expires: '365d',
+  // Store on at least 3 nodes
+  replicas: 3,
   metadata: {
     project: 'My App',
     version: '1.0'

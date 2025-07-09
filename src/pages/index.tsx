@@ -57,9 +57,9 @@ const buttonVariants = {
   },
   hover: { 
     scale: 1.05,
-    boxShadow: "0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
+    y: -5,
     transition: { 
-      duration: 0.3,
+      duration: 0.4,
       ease: "easeOut"
     }
   },
@@ -72,21 +72,20 @@ const buttonVariants = {
 };
 
 const cardVariants = {
-  hidden: { y: 20, opacity: 0 },
+  hidden: { y: 30, opacity: 0 },
   visible: { 
     y: 0, 
     opacity: 1,
     transition: { 
-      duration: 0.5,
+      duration: 0.6,
       ease: "easeOut"
     }
   },
   hover: {
     y: -10,
-    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
     transition: { 
-      duration: 0.3,
-      ease: "easeOut"
+      duration: 0.4,
+      ease: [0.25, 1, 0.5, 1]
     }
   }
 };
@@ -197,16 +196,15 @@ function ApiTestingSection() {
 
   return (
     <section className={styles.apiTestingSection}>
-      <div className="container">
+      <div className={styles.apiTestingContainer}>
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className={styles.apiTestingContainer}
         >
           <motion.div variants={titleVariants} className={styles.apiTestingHeader}>
-            <Heading as="h2">API Testing Tools</Heading>
-            <p>Test and explore the Bio-DID-Seq API endpoints with our interactive tools</p>
+            <Heading as="h2">API Testing Suite</Heading>
+            <p>Explore and test our Bio-DID-Seq API endpoints and sdk designed for developers</p>
           </motion.div>
           
           <div className={styles.apiCardContainer}>
@@ -217,7 +215,7 @@ function ApiTestingSection() {
             >
               <div className={styles.apiCardContent}>
                 <Heading as="h3">DID Management</Heading>
-                <p>Create, retrieve, update and manage Decentralized Identifiers (DIDs) for research data</p>
+                <p>Create, retrieve, update and manage Decentralized Identifiers (DIDs) for research data.</p>
                 <Link
                   className="button button--primary"
                   to="/did-management">
@@ -233,7 +231,7 @@ function ApiTestingSection() {
             >
               <div className={styles.apiCardContent}>
                 <Heading as="h3">BioAgents</Heading>
-                <p>Process research papers with AI-powered BioAgents for metadata extraction and knowledge graphs</p>
+                <p>Process research papers with AI powered BioAgents for metadata extraction and knowledge graphs with advanced natural language processing</p>
                 <Link
                   className="button button--primary"
                   to="/bioagents">
@@ -249,7 +247,7 @@ function ApiTestingSection() {
             >
               <div className={styles.apiCardContent}>
                 <Heading as="h3">Dataverse</Heading>
-                <p>Create, publish, and manage datasets in Harvard Dataverse repository</p>
+                <p>Create, publish, and manage datasets in Harvard Dataverse repository with seamless integration and powerful data management capabilities</p>
                 <Link
                   className="button button--primary"
                   to="/dataverse">
@@ -266,9 +264,13 @@ function ApiTestingSection() {
             className={styles.apiTestingCta}
           >
             <Link
-              className="button button--secondary button--lg"
+              className={styles.apiTesterButton}
               to="/api-tester">
               Open Full API Tester
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </Link>
           </motion.div>
         </motion.div>

@@ -8,7 +8,7 @@ sidebar_position: 4
 
 ## Understanding IPNS
 
-IPFS is content-addressed, meaning that each piece of content has a unique identifier (CID) based on its hash. This creates immutability, but presents a challenge when you need to update content.
+IPFS is content addressed, meaning that each piece of content has a unique identifier (CID) based on its hash. This creates immutability, but presents a challenge when you need to update content.
 
 **InterPlanetary Name System (IPNS)** solves this by providing a way to create a persistent, mutable pointer to changing content.
 
@@ -21,7 +21,7 @@ Think of IPNS as a changeable signpost that can point to different IPFS content 
 - **Stable References**: Keep the same link even as content changes
 - **Content Versioning**: Update content without breaking existing links
 - **Simplified Updates**: No need to update references across multiple systems
-- **DNS Integration**: Can be combined with DNSLink for human-readable names
+- **DNS Integration**: Can be combined with DNSLink for human readable names
 
 ## Using IPNS with Publiish
 

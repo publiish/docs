@@ -75,7 +75,7 @@ SELECT ?gene ?disease WHERE {
 
 BioAgents processes research papers to extract structured knowledge:
 
-1. **Text Extraction**: Convert PDF documents to machine-readable text
+1. **Text Extraction**: Convert PDF documents to machine readable text
 2. **Section Identification**: Identify abstract, methods, results, etc.
 3. **Entity Recognition**: Identify genes, proteins, diseases, etc.
 4. **Relationship Extraction**: Determine connections between entities
@@ -119,9 +119,9 @@ Extracted knowledge is integrated into the knowledge graph:
 
 BioAgents enhances the knowledge graph through:
 
-- **Context-aware entity disambiguation**: Resolving ambiguous entity references
+- **Context aware entity disambiguation**: Resolving ambiguous entity references
 - **Missing relationship inference**: Inferring implicit connections
-- **Cross-reference resolution**: Linking to external knowledge bases
+- **Cross Cross Platform DID Resolutionreference resolution**: Linking to external knowledge bases
 
 ### 2. Decentralized Knowledge Graph (DKG)
 

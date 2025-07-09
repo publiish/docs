@@ -31,7 +31,7 @@ Bio-DID-Seq implements a 5 layer architecture:
 #### Authorization Layer
 - **UCAN Integration**: User Controlled Authorization Network for capability based security
 - **Delegated Permissions**: Allows controlled sharing of data access
-- **GDPR Compliance**: Built-in privacy controls and user data ownership
+- **GDPR Compliance**: Built in privacy controls and user data ownership
 
 #### Application Layer
 - **Actix Web API**: High performance web service endpoints
@@ -223,7 +223,7 @@ Unlike traditional centralized systems:
 ## Future Enhancements
 
 1. **Enhanced AI Capabilities**: Expand BioAgents functionality with specialized models for different biological domains
-2. **Federated UCAN Network**: Establish cross-institutional trust networks for research collaboration
+2. **Federated UCAN Network**: Establish cross institutional trust networks for research collaboration
 3. **Blockchain Anchoring**: Timestamp DID operations for non repudiation and audit trails
 4. **Verifiable Credentials**: Implement W3C VCs for attesting research data properties
 5. **Smart Contract Integration**: Programmatic data access control and licensing 

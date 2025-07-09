@@ -21,7 +21,7 @@ BioAgents is built on the Eliza OS agent framework which provides:
 - **Agent Runtime**: Core execution environment for AI agents
 - **Plugin System**: Extensible architecture for specialized capabilities
 - **Memory Management**: Persistent storage of agent knowledge and states
-- **Task Workers**: Async processing of compute-intensive tasks
+- **Task Workers**: Async processing of compute intensive tasks
 
 ### 2. Knowledge Processing Pipeline
 
@@ -166,6 +166,6 @@ Planned enhancements for the BioAgents system include:
 
 1. **Multi-Modal Processing**: Support for images, figures, and tables extraction
 2. **Specialized Biological Models**: Domain specific AI models for different biological fields
-3. **Real-time Knowledge Updates**: Continuous learning from new research
+3. **Real time Knowledge Updates**: Continuous learning from new research
 4. **Federated Learning**: Privacy preserving distributed model training
 5. **Hypothesis Generation**: AI assisted hypothesis formulation based on existing knowledge 

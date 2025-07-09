@@ -210,8 +210,8 @@
 
 /* API Testing Section */
 .apiTestingSection {
-  padding: 4rem 0;
-  background-color: var(--ifm-background-surface-color);
+  padding: 8rem 0;
+  background: linear-gradient(180deg, var(--ifm-background-surface-color) 0%, rgba(30, 41, 59, 0.05) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -221,110 +221,222 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    rgba(139, 92, 246, 0), 
-    rgba(139, 92, 246, 0.5), 
-    rgba(139, 92, 246, 0));
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.8;
+  z-index: 0;
 }
 
 .apiTestingContainer {
-  text-align: center;
-  max-width: 1200px;
+  position: relative;
+  z-index: 1;
+  max-width: 1300px;
   margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .apiTestingHeader {
-  margin-bottom: 3rem;
+  text-align: center;
+  margin-bottom: 5rem;
+  position: relative;
+}
+
+.apiTestingHeader::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  border-radius: 2px;
 }
 
 .apiTestingHeader h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 3.2rem;
+  margin-bottom: 1.5rem;
   background: linear-gradient(to right, var(--ifm-color-primary), var(--ifm-color-secondary));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  letter-spacing: -0.02em;
+  font-weight: 800;
 }
 
 .apiTestingHeader p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   opacity: 0.8;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
 .apiCardContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-bottom: 5rem;
 }
 
 .apiCard {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   height: 100%;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
 }
 
 [data-theme='dark'] .apiCard {
-  background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(139, 92, 246, 0.2);
+  background: rgba(30, 41, 59, 0.4);
+  border-color: rgba(139, 92, 246, 0.1);
 }
 
 .apiCard::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(130deg, var(--ifm-color-primary), var(--ifm-color-secondary), transparent, transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.apiCard:hover {
+  transform: translateY(-10px);
 }
 
 .apiCard:hover::before {
-  transform: scaleX(1);
+  opacity: 1;
 }
 
 .apiCardContent {
-  padding: 2rem;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .apiCardContent h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
   color: var(--ifm-color-primary);
+  letter-spacing: -0.01em;
+  font-weight: 700;
 }
 
 .apiCardContent p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
   opacity: 0.8;
-  line-height: 1.6;
+  line-height: 1.7;
+  flex-grow: 1;
 }
 
 .apiTestingCta {
-  margin-top: 2rem;
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.apiTesterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  box-shadow: 0 10px 20px -10px rgba(var(--ifm-color-primary-rgb), 0.5);
+}
+
+.apiTesterButton:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 30px -15px rgba(var(--ifm-color-primary-rgb), 0.6);
+  color: white;
+  text-decoration: none;
+}
+
+.apiTesterButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.apiTesterButton:hover::before {
+  transform: translateX(100%);
+}
+
+.apiTesterButton svg {
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+
+.apiTesterButton:hover svg {
+  transform: translateX(5px);
+}
+
+@media (max-width: 996px) {
+  .apiCardContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .apiTestingHeader h2 {
+    font-size: 2.8rem;
+  }
+  
+  .apiTestingSection {
+    padding: 6rem 0;
+  }
 }
 
 @media (max-width: 768px) {
   .apiCardContainer {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
   .apiTestingHeader h2 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   
   .apiTestingHeader p {
-    font-size: 1rem;
+    font-size: 1.1rem;
+  }
+  
+  .apiTestingSection {
+    padding: 4rem 0;
+  }
+  
+  .apiCardContent {
+    padding: 2.5rem 2rem;
+  }
+  
+  .apiCardContent h3 {
+    font-size: 1.6rem;
   }
 }

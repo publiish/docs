@@ -281,7 +281,7 @@ export default function BioAgentsAPI() {
             BioAgents API
           </Heading>
           <p className={styles.subtitle}>
-            Process research papers with AI-powered BioAgents for metadata extraction, entity recognition, and knowledge graph generation
+            Process research papers with AI powered BioAgents for metadata extraction, entity recognition, and knowledge graph generation
           </p>
         </motion.div>
 

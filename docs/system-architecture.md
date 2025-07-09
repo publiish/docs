@@ -13,7 +13,7 @@ The system integrates several key components to provide a seamless experience fo
 1. **Bio-DID-Seq Core**: The foundation providing decentralized identifiers and GDPR compliant data management
 2. **BioAgents**: AI powered agents for research data processing and knowledge extraction
 3. **Knowledge Graph**: Semantic representation of biological entities and relationships
-4. **IPFS Storage Layer**: Decentralized and content-addressed storage
+4. **IPFS Storage Layer**: Decentralized and content addressed storage
 5. **UCAN Authorization**: Capability based security model
 
 This integration creates a powerful ecosystem that enhances data discoverability, ensures data sovereignty, and enables advanced biological insights.
@@ -83,8 +83,8 @@ Services communicate using a combination of:
 
 - **REST APIs**: For synchronous operations
 - **Event Bus**: For asynchronous workflows
-- **WebSockets**: For real-time updates
-- **gRPC**: For high-performance internal service communication
+- **WebSockets**: For real time updates
+- **gRPC**: For high performance internal service communication
 
 ### 3. Data Format Standards
 
@@ -242,7 +242,7 @@ The integration architecture supports future enhancements:
 1. **Federated Knowledge Graphs**: Connect with external biological knowledge sources
 2. **Advanced AI Integration**: Specialized biological AI models
 3. **Blockchain Anchoring**: Timestamp proofs for research data provenance
-4. **Cross-Platform DID Resolution**: Broader DID method support
+4. **Cross Platform DID Resolution**: Broader DID method support
 5. **Multi Modal Data Processing**: Support for images, molecular structures, etc.
 
 ## Integration Benefits
