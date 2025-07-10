@@ -43,6 +43,8 @@ Bio-DID-Seq implements a 5 layer architecture:
 - **Dataverse Adapter**: Seamless connection with Harvard Dataverse
 - **DOI & Handle Bridge**: Interoperability with existing identifier systems
 
+![Layered Architecture](../static/img/LayeredArchitecture.svg)
+
 ### 2. Key System Entities
 
 #### DID Document
